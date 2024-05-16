@@ -5,7 +5,7 @@ using UnityEngine;
 public class GunScript : MonoBehaviour
 {
 	public GameObject qurol1;
-	public GameObject qurol2;
+	
 	public bool twogun;
 	private int currentGunIndex = 0;
 	

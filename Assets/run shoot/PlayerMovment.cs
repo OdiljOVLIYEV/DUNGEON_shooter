@@ -100,28 +100,25 @@ public class PlayerMovment : MonoBehaviour
 			
 			
 			
-			if(crouch==false){
-				
+				CameraShake shake=FindObjectOfType<CameraShake>();
+			shake.bobbingSpeed=20;
+			
 				speed = 15;
 				
-			}
+			
 			
 			
 	
 		} else
 		{
-			if(crouch==false){
-				
+			
+				CameraShake shake=FindObjectOfType<CameraShake>();
+				shake.bobbingSpeed=10.5f;
+			
 				speed = 10;
 				
-			}
-			if(crouchtwo==true){
-				speed=3f;
-				
-			}else{
-				
-				speed = 10;
-			}
+			
+			
 			//isGrounded=true;
 			//wallrun=false;
 			
@@ -130,22 +127,6 @@ public class PlayerMovment : MonoBehaviour
 		
 		}
 		
-		if (Input.GetKey("left shift")&&Input.GetKey(KeyCode.C)){
-			
-		
-			controller.height = 0.8f;
-			Debug.Log("kamayish");
-			crouch=true;
-			StartCoroutine("kamayish");
-		
-			
-	
-			
-			
-		}else{
-			
-			crouch=false;
-		}
 		
 		
 		
