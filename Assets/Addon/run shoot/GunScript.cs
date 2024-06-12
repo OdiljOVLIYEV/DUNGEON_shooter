@@ -17,7 +17,7 @@ public class GunScript : MonoBehaviour
 	public Animator anim;
 	
 	
-	public ParticleSystem guns;
+	//public ParticleSystem guns;
 	public AudioSource sound;
 	public GameObject Blood;
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
@@ -25,6 +25,11 @@ public class GunScript : MonoBehaviour
 	{
 		//twogun=false;
 	}
+	public void Use()
+    {
+        Debug.Log("Gun is used");
+        // Gun'ni ishlatish logikasi shu yerda.
+    }
 	//public GameObject bulletPrefab;
 	// Update is called every frame, if the MonoBehaviour is enabled.
 	private void Update()
@@ -53,17 +58,10 @@ public class GunScript : MonoBehaviour
 		if(gun.gun_ammo>0){
 		if(Input.GetButtonDown("Fire1"))
 		{
-			if(twogun==false){
 			
-				shoot();
-				anim.SetBool("shoot",true);
-				guns.Play();
-				sound.Play();
-				
-			}else{
 				
 				ShootGun();
-			}
+			
 		  }
 		}
 		
@@ -92,19 +90,24 @@ public class GunScript : MonoBehaviour
 		if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range)){
 			
 
-			if(hit.transform.tag=="Enemy"){
+		
 				Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
-				Target target	= hit.transform.GetComponent<Target>();
+				IDamageable damageable=hit.transform.GetComponent<IDamageable>();
+				if (damageable != null)
+				{
+					damageable.TakeDamage(damage);
+				}
+				/*Target target	= hit.transform.GetComponent<Target>();
 				if(target!=null)
 				target.TakeDamage(damage);
 				if(target!=null){
 					
 				
 				
-				}
+				}*/
 				
 				
-			}
+			
 			
 		 		
 		  }
@@ -124,7 +127,7 @@ public class GunScript : MonoBehaviour
 		shoot();
 		anim.SetBool("shoot",true);
 		Debug.Log("1 qurol");
-		guns.Play();
+		//guns.Play();
 		sound.Play();
 	
 		
