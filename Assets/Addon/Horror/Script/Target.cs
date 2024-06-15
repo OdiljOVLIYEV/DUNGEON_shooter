@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class Target : MonoBehaviour,IDamageable
 {
+	public ParticleSystem bloodParticle;
+	
+
+	public ParticleType particleType;
 	//public GameObject game;
 	public float healt=50f;
 	
@@ -25,9 +29,24 @@ public class Target : MonoBehaviour,IDamageable
 		
 	}
 	
-	public void TakeDamage (float amount){
+	public void TakeDamage (float amount,Vector3 hitPoint,Vector3 hitNormal){
 		
 		healt-=amount;
+		ParticleSystem particleToSpawn = null;
+
+		switch (particleType)
+		{
+			case ParticleType.Blood:
+				particleToSpawn = bloodParticle;
+				break;
+			
+		}
+
+		if (particleToSpawn != null)
+		{
+			Instantiate(particleToSpawn, hitPoint, Quaternion.identity);
+		}
+		
 		if(healt<=0f){
 			Animator anim=GetComponent<Animator>();
 			anim.enabled=false;

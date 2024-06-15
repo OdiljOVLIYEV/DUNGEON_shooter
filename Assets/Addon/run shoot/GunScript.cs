@@ -91,11 +91,12 @@ public class GunScript : MonoBehaviour
 			
 
 		
-				Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
+				
 				IDamageable damageable=hit.transform.GetComponent<IDamageable>();
 				if (damageable != null)
 				{
-					damageable.TakeDamage(damage);
+					//Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
+					damageable.TakeDamage(damage,hit.point,hit.normal);
 				}
 				/*Target target	= hit.transform.GetComponent<Target>();
 				if(target!=null)
