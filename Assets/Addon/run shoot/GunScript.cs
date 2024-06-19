@@ -1,29 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-	public GameObject qurol1;
 	
-	public bool twogun;
-	private int currentGunIndex = 0;
+	
+	
 	
 	
 	public float damage= 10f;
 	public float range =100f;
-
+	[SerializeField] private IntVariable ammo_UI;
+	[SerializeField] private int ammo;
+	
 	public Camera cam;
 	public Animator anim;
 	
 	
 	//public ParticleSystem guns;
 	public AudioSource sound;
-	public GameObject Blood;
+
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
-		//twogun=false;
+		
 	}
 	public void Use()
     {
@@ -34,7 +36,7 @@ public class GunScript : MonoBehaviour
 	// Update is called every frame, if the MonoBehaviour is enabled.
 	private void Update()
 	{
-		
+		ammo_UI.Value = ammo;
 		PlayerMovment mov=FindObjectOfType<PlayerMovment>();
 		
 		if(mov.x<0||mov.x>0||mov.z>-0||mov.z<0){
@@ -53,36 +55,45 @@ public class GunScript : MonoBehaviour
 			
 			StartCoroutine(pistol());
 		}*/
-		Weapon_AMMO gun=FindObjectOfType<Weapon_AMMO>();
 		
-		if(gun.gun_ammo>0){
+		
+		if(ammo>0){
 		if(Input.GetButtonDown("Fire1"))
 		{
 			
 				
-				ShootGun();
+			  shoot();
 			
 		  }
+		
 		}
+		
 		
 		if (Input.GetKey("left shift"))
 		{
 			
-			anim.SetBool("walk",false);	
 				
-
+				
+			anim.SetBool("Run",true);	
 			
+			
+		}
+		else
+		{
+			anim.SetBool("Run",false);
 			
 		} 
 	}
 	
 	private void shoot(){
 		
-		Weapon_AMMO gun=FindObjectOfType<Weapon_AMMO>();
-		gun.gun_ammo--;
+		anim.SetBool("shoot",true);
+		sound.Play();
+		StartCoroutine(gunanim());
+		ammo--;
 			
 		
-		StartCoroutine(pistol());
+		
 		
 		
 		
@@ -119,30 +130,17 @@ public class GunScript : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawLine(cam.transform.position,cam.transform.forward * range);
 		
-	}		
+	}
 
-
-	private void ShootGun()
+	IEnumerator gunanim()
 	{
-		
-		shoot();
-		anim.SetBool("shoot",true);
-		Debug.Log("1 qurol");
-		//guns.Play();
-		sound.Play();
-	
-		
-		
+		yield return new WaitForSeconds(0.01f);
+		anim.SetBool("shoot",false);
 	}
+	
 
 	
 	
-	IEnumerator pistol(){
-		
-		yield return new WaitForSeconds(0.1f);
-		anim.SetBool("reload",false);
-		
-		anim.SetBool("shoot",false);
-		
-	}
+	
 }
+

@@ -4,6 +4,8 @@ using UnityEngine;
 public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // Qurollarning ro'yxati
+    public int maxUnlockedWeaponIndex = 2; // Maksimal ochiq qurol indeksi (boshlang'ich qiymati 2, ya'ni 1, 2, va 3 qurollar ochiq)
+
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
 
     void Start()
@@ -16,7 +18,7 @@ public class WeaponSwitcher : MonoBehaviour
         // Foydalanuvchining klaviaturada 1 dan 9 gacha bosilgan har bir kalitini tekshirish
         for (int i = 0; i < weapons.Count; i++)
         {
-            if (Input.GetKeyDown((i + 1).ToString()))
+            if (Input.GetKeyDown((i + 1).ToString()) && i <= maxUnlockedWeaponIndex)
             {
                 SetActiveWeapon(i);
             }
@@ -41,10 +43,24 @@ public class WeaponSwitcher : MonoBehaviour
         {
             weapon.SetActive(false);
         }
-        
-        if (weapons.Count > 0)
+
+        // O'yin boshlanganda birinchi ochiq qurolni topish va faollashtirish
+        for (int i = 0; i <= maxUnlockedWeaponIndex && i < weapons.Count; i++)
         {
-            SetActiveWeapon(0); // O'yin boshlanganda birinchi qurolni faollashtirish
+            if (i == 0 || !weapons[i].activeSelf) // Agar birinchi qurol yoki hali ochiq bo'lmagan qurol bo'lsa
+            {
+                SetActiveWeapon(i);
+                break;
+            }
+        }
+    }
+
+    // Qurolni ochish
+    public void UnlockWeaponsUpTo(int index)
+    {
+        if (index >= 0 && index < weapons.Count)
+        {
+            maxUnlockedWeaponIndex = index;
         }
     }
 }

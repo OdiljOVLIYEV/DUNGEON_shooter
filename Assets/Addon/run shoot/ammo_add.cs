@@ -24,12 +24,12 @@ public class ammo_add : MonoBehaviour
 	{
 		if(other.gameObject.tag=="Player"){
 			
-			Weapon_AMMO gun=FindObjectOfType<Weapon_AMMO>();
+			/*Weapon_AMMO gun=FindObjectOfType<Weapon_AMMO>();
 			gun.gun_ammo+=gun_ammo_add;
 			gun.shotgun_ammo+=shotgun_ammo_add;
 			gun.rifle_ammo+=rifle_ammo_add;
 			
-			Destroy(gameObject);
+			Destroy(gameObject);*/
 		}
 	}
 }
