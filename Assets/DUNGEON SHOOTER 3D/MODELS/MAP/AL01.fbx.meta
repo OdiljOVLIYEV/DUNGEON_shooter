@@ -1,9 +1,34 @@
 fileFormatVersion: 2
-guid: 14038d504d359a44e8c857b64edc7be6
+guid: 16e82ccd36f4d1e4bb53e16e3897a414
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: CLYLABCOMP02d
+    second: {fileID: 2800000, guid: d5eab36b3ed62874aaad45e1fb51c5aa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: CLYLABCOMP02e
+    second: {fileID: 2800000, guid: 6194f335d5c093d4eb3283ccdb6af48a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: CLYLABMETAL01a
+    second: {fileID: 2800000, guid: ca332628e8dff464c86e5a9f1c3fde69, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: I2ROCK1C
+    second: {fileID: 2800000, guid: e430796fa06052b44abac3c9f7261794, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PRXDOOR9A
+    second: {fileID: 2800000, guid: f0c7992c4d0a37646a724122a45aec6b, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -37,7 +62,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1

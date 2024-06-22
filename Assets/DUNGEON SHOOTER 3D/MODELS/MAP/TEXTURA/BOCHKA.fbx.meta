@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 14038d504d359a44e8c857b64edc7be6
+guid: 333b678d0cc50eb47ba9b9cf31630b4f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: _600
+    second: {fileID: 2800000, guid: e0174a7f0c6d80f43a7823e651b37b08, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -37,7 +42,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
