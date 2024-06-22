@@ -1,29 +1,26 @@
 using System;
 using Obvious.Soap;
-using Obvious.Soap.Example;
 using UnityEngine;
 
 public class UnlockWeapon : MonoBehaviour
 {
     [SerializeField] private IntVariable UnlockedWeapon;
-    [SerializeField] private int unlockWeapon;
-   
+    [SerializeField] private int unlockWeaponIndex; // Yangi qurol indeksini ochish
+    private WeaponSwitcher weaponSwitcher;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
-       
+        weaponSwitcher = FindObjectOfType<WeaponSwitcher>(); 
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("unlock");
-            UnlockedWeapon.Value += unlockWeapon;
+            Debug.Log("Unlock weapon at index: " + unlockWeaponIndex);
+            UnlockedWeapon.Value = unlockWeaponIndex;
+            weaponSwitcher.CheckAndSetActiveWeapon(unlockWeaponIndex); // Qurolni almashtirishni chaqirish
             Destroy(gameObject);
-            
         }
     }
 }

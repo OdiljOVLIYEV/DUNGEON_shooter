@@ -40,10 +40,13 @@ public class Barrel : MonoBehaviour, IDamageable
         {
             GameObject debris = Instantiate(debrisPrefab, transform.position, Random.rotation);
             Rigidbody rb = debris.GetComponent<Rigidbody>();
+           
             if (rb != null)
             {
                 Vector3 explosionDir = (debris.transform.position - transform.position).normalized;
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                MeshCollider collider = debris.GetComponent<MeshCollider>();
+                collider.convex = true;
             }
         }
         // Yaqin atrofdagi obyektlarga ta'sir qilish
@@ -51,6 +54,7 @@ public class Barrel : MonoBehaviour, IDamageable
         foreach (Collider nearbyObject in colliders)
         {
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+              
             if (rb != null)
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);

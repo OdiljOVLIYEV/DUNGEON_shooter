@@ -5,6 +5,36 @@ ModelImporter:
   internalIDToNameTable: []
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01.0
+    second: {fileID: 2100000, guid: 417dc9ee357da6943af4b6b49ac0e570, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01.1
+    second: {fileID: 2100000, guid: 0e30e1c7f33cb9b499000c817eac5a54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01.2
+    second: {fileID: 2100000, guid: 68cfff68b56e73a42adc656e6f16da1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01.3
+    second: {fileID: 2100000, guid: 7c564f68311558a458a3626dd8c6ad0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: k01
+    second: {fileID: 2100000, guid: 30696f34501d57146945b720e84b8420, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: start door
+    second: {fileID: 2100000, guid: 6d3a67a19e48ad7458e9c992c20ee8fc, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: CLYLABCOMP02d

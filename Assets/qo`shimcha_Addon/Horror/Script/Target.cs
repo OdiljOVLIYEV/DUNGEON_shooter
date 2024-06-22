@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,9 +13,8 @@ public class Target : MonoBehaviour,IDamageable
 	public GameObject BloodSprite;
 	//public GameObject game;
 	public float healt=50f;
-	
-	public bool dead;
-	
+
+	[SerializeField] private BoolVariable stopAgent;
 	
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
@@ -49,7 +49,9 @@ public class Target : MonoBehaviour,IDamageable
 			Instantiate(particleToSpawn, hitPoint, Quaternion.identity);
 		}
 		
-		if(healt<=0f){
+		if(healt<=0f)
+		{
+			stopAgent.Value = true;
 			Animator anim=GetComponent<Animator>();
 			anim.enabled=false;
 			//anim.SetBool("dead",true);
@@ -57,6 +59,7 @@ public class Target : MonoBehaviour,IDamageable
 			capsuleCollider.enabled=false;
 			NavMeshAgent agent=GetComponent<NavMeshAgent>();
 			agent.speed=0f;
+			
 			//	if(anim.agent.speed!=null)
 			//anim.agent.speed=0f;
 			//Debug.Log("DEAD");
