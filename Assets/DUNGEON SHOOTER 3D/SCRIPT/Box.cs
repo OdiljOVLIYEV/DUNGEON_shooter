@@ -28,7 +28,8 @@ public class Box : MonoBehaviour,IDamageable
 	
 	public void TakeDamage (float amount,Vector3 hitPoint,Vector3 hitNormal){
 		
-		healt-=amount;
+		healt -= Mathf.RoundToInt(amount);
+		//healt-=amount;
 		Vector3 spawnPosition = hitPoint + hitNormal * offset;
 		switch (particleType)
 		{

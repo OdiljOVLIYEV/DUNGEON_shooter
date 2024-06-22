@@ -5,7 +5,9 @@ public enum ParticleType
 {
     Blood,
     Smoke,
+    ExplosiveEffect,
     BulletHole
+    
 }
 
 

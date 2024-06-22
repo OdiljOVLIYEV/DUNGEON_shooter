@@ -1,0 +1,150 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using Obvious.Soap;
+using UnityEngine;
+
+public class GunScript : MonoBehaviour
+{
+	
+	
+	
+	
+	
+	public float damage= 10f;
+	public float range =100f;
+	[SerializeField] private IntVariable ammo_UI;
+	[SerializeField] private IntVariable gun_ammo_add;
+
+	public Camera cam;
+	public Animator anim;
+	
+	
+	//public ParticleSystem guns;
+	public AudioSource sound;
+
+	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
+	protected void Start()
+	{
+		
+	}
+	public void Use()
+    {
+        Debug.Log("Gun is used");
+        // Gun'ni ishlatish logikasi shu yerda.
+    }
+	//public GameObject bulletPrefab;
+	// Update is called every frame, if the MonoBehaviour is enabled.
+	private void Update()
+	{  
+		
+		ammo_UI.Value = gun_ammo_add.Value;
+	
+		
+		
+		PlayerMovment mov=FindObjectOfType<PlayerMovment>();
+		
+		if(mov.x<0||mov.x>0||mov.z>-0||mov.z<0){
+			anim.SetBool("walk",true);
+			
+		}else if(mov.x>-1||mov.x<1||mov.z>-1||mov.z<1){
+			
+			anim.SetBool("walk",false);	
+			
+			
+		}
+	
+		/*if(Input.GetKeyDown(KeyCode.R)){
+			
+			anim.SetBool("reload",true);
+			
+			StartCoroutine(pistol());
+		}*/
+		
+		
+		if(gun_ammo_add.Value>0){
+		if(Input.GetButtonDown("Fire1"))
+		{
+			
+				
+			  shoot();
+			
+		  }
+		
+		}
+		
+		
+		if (Input.GetKey("left shift"))
+		{
+			
+				
+				
+			anim.SetBool("Run",true);	
+			
+			
+		}
+		else
+		{
+			anim.SetBool("Run",false);
+			
+		} 
+	}
+	
+	private void shoot(){
+		
+		anim.SetBool("shoot",true);
+		sound.Play();
+		StartCoroutine(gunanim());
+		gun_ammo_add.Value--;
+			
+		
+		
+		
+		
+		
+		RaycastHit hit;
+		if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range)){
+			
+
+		
+				
+				IDamageable damageable=hit.transform.GetComponent<IDamageable>();
+				if (damageable != null)
+				{
+					//Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
+					damageable.TakeDamage(damage,hit.point,hit.normal);
+				}
+				/*Target target	= hit.transform.GetComponent<Target>();
+				if(target!=null)
+				target.TakeDamage(damage);
+				if(target!=null){
+					
+				
+				
+				}*/
+				
+				
+			
+			
+		 		
+		  }
+		}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawLine(cam.transform.position,cam.transform.forward * range);
+		
+	}
+
+	IEnumerator gunanim()
+	{
+		yield return new WaitForSeconds(0.01f);
+		anim.SetBool("shoot",false);
+	}
+	
+
+	
+	
+	
+}
+

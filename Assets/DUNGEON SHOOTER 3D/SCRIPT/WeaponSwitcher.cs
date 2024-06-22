@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 
 public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // Qurollarning ro'yxati
-    public int maxUnlockedWeaponIndex = 2; // Maksimal ochiq qurol indeksi (boshlang'ich qiymati 2, ya'ni 1, 2, va 3 qurollar ochiq)
+    public int maxUnlockedWeaponIndex; // Maksimal ochiq qurol indeksi (boshlang'ich qiymati 2, ya'ni 1, 2, va 3 qurollar ochiq)
+    [SerializeField] private IntVariable UnlockedWeapon;
 
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
 
     void Start()
     {
         InitializeWeapons();
+        
     }
 
     void Update()
     {
+        maxUnlockedWeaponIndex=UnlockedWeapon.Value;
         // Foydalanuvchining klaviaturada 1 dan 9 gacha bosilgan har bir kalitini tekshirish
         for (int i = 0; i < weapons.Count; i++)
         {
