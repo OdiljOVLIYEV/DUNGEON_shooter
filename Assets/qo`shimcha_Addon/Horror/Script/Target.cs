@@ -13,14 +13,15 @@ public class Target : MonoBehaviour,IDamageable
 	public GameObject BloodSprite;
 	//public GameObject game;
 	public float healt=50f;
-
+	private NavMeshAgent navMeshAgent;
 	[SerializeField] private BoolVariable stopAgent;
+
 	
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
 		
-		
+		navMeshAgent = GetComponent<NavMeshAgent>();
 		
 	}
 	
@@ -51,14 +52,22 @@ public class Target : MonoBehaviour,IDamageable
 		
 		if(healt<=0f)
 		{
-			stopAgent.Value = true;
+			
 			Animator anim=GetComponent<Animator>();
+			anim.SetBool("Walk", false);
 			anim.enabled=false;
-			//anim.SetBool("dead",true);
-			CapsuleCollider capsuleCollider=GetComponent<CapsuleCollider>(); 
-			capsuleCollider.enabled=false;
-			NavMeshAgent agent=GetComponent<NavMeshAgent>();
-			agent.speed=0f;
+			
+			if (navMeshAgent.isOnNavMesh)
+			{
+				stopAgent.Value = true;
+				navMeshAgent.enabled = false;
+			}
+
+			GetComponent<Collider>().enabled = false;
+		
+			//agent.speed=0f;
+			//agent.enabled = false;
+			
 			
 			//	if(anim.agent.speed!=null)
 			//anim.agent.speed=0f;

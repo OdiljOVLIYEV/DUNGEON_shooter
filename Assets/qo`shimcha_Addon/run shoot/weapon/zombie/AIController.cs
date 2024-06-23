@@ -17,74 +17,114 @@ public class AIController : MonoBehaviour
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
     private NavMeshAgent navMeshAgent;
-
+    private Animator anim;
+    
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent.Value = false;
     }
 
     void Update()
     {
-        if (stopAgent.Value != null && stopAgent.Value)
+        if (stopAgent != null && stopAgent.Value)
         {
-            navMeshAgent.isStopped = true;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = true;
+            }
             return;
         }
         else
         {
-            navMeshAgent.isStopped = false;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = false;
+            }
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (navMeshAgent.isOnNavMesh)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (canChase && distanceToPlayer < chaseDistance)
-        {
-            ChasePlayer();
-        }
-        else if (canPatrol && (distanceToPlayer > lostDistance || !canChase))
-        {
-            Patrol();
-        }
-        else if (canWander)
-        {
-            Wander();
+            if (canChase && distanceToPlayer < chaseDistance)
+            {
+                ChasePlayer();
+            }
+            else if (canPatrol && (distanceToPlayer > lostDistance || !canChase))
+            {
+                Patrol();
+             
+                
+            }
+            else if (canWander)
+            {
+                Wander();
+            }
         }
     }
 
     void ChasePlayer()
     {
-        navMeshAgent.speed = chaseSpeed;
-        navMeshAgent.SetDestination(player.position);
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.speed = chaseSpeed;
+            navMeshAgent.SetDestination(player.position);
+            anim.SetBool("Walk", true);
+        }
     }
 
     void Patrol()
     {
+        
         if (patrolPoints.Length == 0)
             return;
+       
+        int nextPatrolPointIndex = (currentPatrolPoint + 1) % patrolPoints.Length;
+        Vector3 nextDestination = patrolPoints[nextPatrolPointIndex].position;
 
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+        if (navMeshAgent.remainingDistance < 0.5f)
         {
-            currentPatrolPoint = (currentPatrolPoint + 1) % patrolPoints.Length;
+            currentPatrolPoint = nextPatrolPointIndex;
+            if (currentPatrolPoint == 0)
+            {
+                Debug.Log("Returned to the first patrol point.");
+                // Qo'shimcha harakatlar yoki logikani bu erda amalga oshirishingiz mumkin
+            }
+            nextPatrolPointIndex = (currentPatrolPoint + 1) % patrolPoints.Length;
+            nextDestination = patrolPoints[nextPatrolPointIndex].position;
         }
 
+        navMeshAgent.SetDestination(nextDestination);
         navMeshAgent.speed = patrolSpeed;
-        navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].position);
+        anim.SetBool("Walk", true);
     }
 
     void Wander()
     {
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+        if (navMeshAgent.isOnNavMesh)
         {
-            Vector3 randomDirection = Random.insideUnitSphere * 10;
-            randomDirection += transform.position;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(randomDirection, out hit, 10, 1);
-            Vector3 finalPosition = hit.position;
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * 10;
+                randomDirection += transform.position;
+                NavMeshHit hit;
+                NavMesh.SamplePosition(randomDirection, out hit, 10, 1);
+                Vector3 finalPosition = hit.position;
 
-            navMeshAgent.speed = patrolSpeed;
-            navMeshAgent.SetDestination(finalPosition);
+                navMeshAgent.speed = patrolSpeed;
+                navMeshAgent.SetDestination(finalPosition);
+                anim.SetBool("Walk", true);
+            }
         }
+    }
+
+    void AnimationWalk()
+    {
+        
+        anim.SetBool("Walk",true);
+        
     }
 }
