@@ -7,7 +7,8 @@ public class AIController : MonoBehaviour
     public bool canPatrol = true;
     public bool canChase = true;
     public bool canWander = true;
-    [SerializeField] private BoolVariable stopAgent;
+    public bool canHearSound = true;
+    public bool stopAgent;
 
     private Transform player;
     public float chaseDistance = 10f;
@@ -19,17 +20,18 @@ public class AIController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator anim;
     
+    private Vector3 lastHeardSoundPosition = Vector3.zero;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
-        stopAgent.Value = false;
+        stopAgent = false;
     }
 
     void Update()
     {
-        if (stopAgent != null && stopAgent.Value)
+        if (stopAgent != null && stopAgent)
         {
             if (navMeshAgent.isOnNavMesh)
             {
@@ -63,6 +65,13 @@ public class AIController : MonoBehaviour
             {
                 Wander();
             }
+           
+            if (canHearSound && lastHeardSoundPosition != Vector3.zero)
+            {
+                navMeshAgent.SetDestination(lastHeardSoundPosition);
+                lastHeardSoundPosition = Vector3.zero; // Ovozni eshitgan joyga harakatlangandan keyin pozitsiyani tozalash
+            }
+            
         }
     }
 
@@ -120,7 +129,15 @@ public class AIController : MonoBehaviour
             }
         }
     }
-
+    public void HeardSound(Vector3 soundPosition)
+    {
+        if (canHearSound  && navMeshAgent.isOnNavMesh) // canHearSound tekshiriladi
+        {
+            lastHeardSoundPosition = soundPosition;
+            navMeshAgent.SetDestination(lastHeardSoundPosition);
+        }
+    }
+    
     void AnimationWalk()
     {
         

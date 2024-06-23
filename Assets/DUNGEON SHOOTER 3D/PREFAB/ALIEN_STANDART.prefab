@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 6657803165855994366}
   - component: {fileID: 1152247064797128262}
   m_Layer: 0
-  m_Name: ALIEN_1
+  m_Name: ALIEN_STANDART
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -752,18 +752,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeec4430a83a05942adc180e19bd9100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canPatrol: 0
+  canPatrol: 1
   canChase: 1
   canWander: 1
-  stopAgent: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
+  stopAgent: 0
   chaseDistance: 10
   lostDistance: 15
   patrolSpeed: 2
   chaseSpeed: 4
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolPoints: []
 --- !u!195 &2578346818391703913
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -803,7 +800,6 @@ MonoBehaviour:
   BloodSprite: {fileID: 131695354495467891, guid: 35925fe8b9fb051478636b2ebcb917af,
     type: 3}
   healt: 40
-  stopAgent: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
 --- !u!95 &1152247064797128262
 Animator:
   serializedVersion: 5
@@ -878,7 +874,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.0005441728
   m_Height: 0.0021766913
@@ -909,7 +905,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!144 &902312045916414984
 CharacterJoint:
@@ -1870,7 +1866,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!144 &7968868536339429074
 CharacterJoint:

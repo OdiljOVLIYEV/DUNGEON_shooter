@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnlockedWeapon: {fileID: 11400000, guid: 1251618c4ee95c04abf5a9b4b38d0acf, type: 2}
-  unlockWeapon: 1
+  unlockWeaponIndex: 1
 --- !u!65 &8842077370918832109
 BoxCollider:
   m_ObjectHideFlags: 0

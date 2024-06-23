@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-	
-	
-	
-	
+
 	
 	public float damage= 10f;
 	public float range =100f;
+	public float shootRadius = 20f;
 	[SerializeField] private IntVariable ammo_UI;
 	[SerializeField] private IntVariable gun_ammo_add;
 
@@ -19,9 +17,11 @@ public class GunScript : MonoBehaviour
 	public Animator anim;
 	
 	
+	
 	//public ParticleSystem guns;
 	public AudioSource sound;
-
+	public LayerMask enemyLayer; 
+	
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
@@ -113,14 +113,16 @@ public class GunScript : MonoBehaviour
 					//Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
 					damageable.TakeDamage(damage,hit.point,hit.normal);
 				}
-				/*Target target	= hit.transform.GetComponent<Target>();
-				if(target!=null)
-				target.TakeDamage(damage);
-				if(target!=null){
-					
-				
-				
-				}*/
+				// O'q otish ovozini chiqarish
+				Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRadius, enemyLayer);
+				foreach (Collider hitCollider in hitColliders)
+				{
+					AIController aiController = hitCollider.GetComponent<AIController>();
+					if (aiController != null)
+					{
+						aiController.HeardSound(transform.position);
+					}
+				}
 				
 				
 			

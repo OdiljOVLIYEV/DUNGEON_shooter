@@ -14,7 +14,7 @@ public class Target : MonoBehaviour,IDamageable
 	//public GameObject game;
 	public float healt=50f;
 	private NavMeshAgent navMeshAgent;
-	[SerializeField] private BoolVariable stopAgent;
+	//[SerializeField] private BoolVariable stopAgent;
 
 	
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
@@ -53,17 +53,7 @@ public class Target : MonoBehaviour,IDamageable
 		if(healt<=0f)
 		{
 			
-			Animator anim=GetComponent<Animator>();
-			anim.SetBool("Walk", false);
-			anim.enabled=false;
 			
-			if (navMeshAgent.isOnNavMesh)
-			{
-				stopAgent.Value = true;
-				navMeshAgent.enabled = false;
-			}
-
-			GetComponent<Collider>().enabled = false;
 		
 			//agent.speed=0f;
 			//agent.enabled = false;
@@ -82,7 +72,19 @@ public class Target : MonoBehaviour,IDamageable
 	
 	private void Die(){
 		
-	
+		Animator anim=GetComponent<Animator>();
+		anim.SetBool("Walk", false);
+		anim.enabled=false;
+			
+		if (navMeshAgent.isOnNavMesh)
+		{
+		   GetComponent<AIController>().stopAgent=true;
+			
+			
+			navMeshAgent.enabled = false;
+		}
+
+		GetComponent<Collider>().enabled = false;
 	
 		
 			
