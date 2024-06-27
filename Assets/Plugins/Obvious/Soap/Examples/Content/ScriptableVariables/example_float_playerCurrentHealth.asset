@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: example_float_playerCurrentHealth
   m_EditorClassIdentifier: 
   CategoryIndex: 0
+  Description: 
   _guid: 4d77b00fc59b6c043aa93d4165cb1355
   _saveGuid: 0
   _value: 0

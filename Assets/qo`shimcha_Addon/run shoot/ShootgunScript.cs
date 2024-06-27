@@ -17,7 +17,7 @@ public class ShotgunScript : MonoBehaviour
     public Animator anim;
     [SerializeField] private IntVariable  ammo_UI;
     [SerializeField] private IntVariable shotgun_ammo_add;
-  
+    [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     void Start()
     {
         
@@ -26,6 +26,7 @@ public class ShotgunScript : MonoBehaviour
 
     private void Update()
     {
+        UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         ammo_UI.Value = shotgun_ammo_add.Value;
         PlayerMovment mov=FindObjectOfType<PlayerMovment>();
 		
@@ -39,13 +40,7 @@ public class ShotgunScript : MonoBehaviour
 			
         }
 
-        if ( shotgun_ammo_add.Value > 0)
-        {
-            if (Input.GetButtonDown("Fire1")) // Chap sichqoncha tugmasi bosilganda
-            {
-                Shoot();
-            }
-        }
+       
 
         if (Input.GetKey("left shift"))
         {
@@ -54,12 +49,31 @@ public class ShotgunScript : MonoBehaviour
 				
             anim.SetBool("Run",true);	
 			
+            if (Input.GetKey(KeyCode.S))
+            {
+                anim.SetBool("Run",false);
+                if(shotgun_ammo_add.Value>0){
+                    if(Input.GetButtonDown("Fire1"))
+                    {
+						
+
+                        Shoot();
 			
+                    }
+		
+                }
+            }
         }
         else
         {
             anim.SetBool("Run",false);
-			
+            if ( shotgun_ammo_add.Value > 0)
+            {
+                if (Input.GetButtonDown("Fire1")) // Chap sichqoncha tugmasi bosilganda
+                {
+                    Shoot();
+                }
+            }
         } 
         
     }
@@ -67,7 +81,7 @@ public class ShotgunScript : MonoBehaviour
     void Shoot()
     {
         shotgun_ammo_add.Value--;
-        
+        UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         RaycastHit hit1;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit1, range))
         {

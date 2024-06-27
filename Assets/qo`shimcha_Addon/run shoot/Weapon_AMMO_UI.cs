@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
@@ -9,22 +10,27 @@ public class Weapon_AMMO_UI : MonoBehaviour
 	public Text text;
 
 	[SerializeField] private IntVariable ammo_UI;
-	//[SerializeField] private IntVariable ammo_UI_shootgun;
+	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
 	//private int max;
 	//public int gun_ammo;
 	//public int shotgun_ammo;
 	//public int rifle_ammo;
 	
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
+	    UI_AMMO_UPDATE.OnRaised += UI_UPDATE;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-	   
-	    text.text=ammo_UI.Value.ToString();
+	    UI_AMMO_UPDATE.OnRaised -= UI_UPDATE;
+    }
+
+    void UI_UPDATE(int all_ammo_add)
+    {
+	    
+	    text.text=all_ammo_add.ToString();
+	    
     }
 }

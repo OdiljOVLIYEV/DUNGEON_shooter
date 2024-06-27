@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3594290462823011866}
   m_Layer: 0
   m_Name: shotgun_ammo (1)
-  m_TagString: ammo
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5783723370328682629}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49231762, y: 0.51202595, z: -0.4804106, w: 0.5144497}
-  m_LocalPosition: {x: 48.42, y: 0.54999995, z: 36.37}
-  m_LocalScale: {x: 34.72357, y: 34.535892, z: 20.62337}
+  m_LocalRotation: {x: 0.7071069, y: -1.5700923e-16, z: 1.5700922e-16, w: 0.7071067}
+  m_LocalPosition: {x: 48.274, y: 0.561, z: 34.923}
+  m_LocalScale: {x: 3.3145525, y: 3.3145525, z: 3.3145525}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -266.873, y: -80.40399, z: -169.583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1066611551464161290
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5783723370328682629}
-  m_Mesh: {fileID: 2534964839176971238, guid: 7418925aa21e415408a53922b1bb555c, type: 3}
+  m_Mesh: {fileID: -125435165217083709, guid: 8b0f01469747b3449b62733cfa2c8337, type: 3}
 --- !u!23 &3063969696567721784
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -699821524131868749, guid: 7418925aa21e415408a53922b1bb555c, type: 3}
+  - {fileID: 2100000, guid: c58bc5ced9aff76438786f24af42090d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,5 +120,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0100000035, y: 0.010000005, z: 0.014402528}
-  m_Center: {x: 6.684953e-11, y: 6.385578e-11, z: 0.00056519016}
+  m_Size: {x: 0.16169158, y: 0.1903083, z: 0.09034678}
+  m_Center: {x: -0.016226333, y: -0.005454714, z: 0.009198069}

@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 
 public class PlayerMovment : MonoBehaviour
 {
+	
+	
 	public CharacterController controller;
 	
 	public Transform groundCheck;
@@ -95,6 +98,8 @@ public class PlayerMovment : MonoBehaviour
 			controller.height = 2f;
 		}
 		
+		
+		
 		if (Input.GetKey("left shift"))
 		{
 			
@@ -109,13 +114,22 @@ public class PlayerMovment : MonoBehaviour
 			
 			
 	
-		} else
+		} 
+		else
+		{
+			CameraShake shake=FindObjectOfType<CameraShake>();
+			shake.bobbingSpeed=10.5f;
+			
+			speed = 10;
+			
+		}
+		if(Input.GetKey("left shift")&& Input.GetKey(KeyCode.S))
 		{
 			
-				CameraShake shake=FindObjectOfType<CameraShake>();
-				shake.bobbingSpeed=10.5f;
+			CameraShake shake=FindObjectOfType<CameraShake>();
+			shake.bobbingSpeed=10.5f;
 			
-				speed = 10;
+			speed = 10;
 				
 			
 			
@@ -129,7 +143,6 @@ public class PlayerMovment : MonoBehaviour
 		
 		
 		
-		
 	    
 		Vector3 move = transform.right * x + transform.forward * z;
 		controller.Move(move * speed * Time.deltaTime);
@@ -139,7 +152,7 @@ public class PlayerMovment : MonoBehaviour
 	
 	}
 	
-	
+    
 	
 	IEnumerator kamayish(){
 		

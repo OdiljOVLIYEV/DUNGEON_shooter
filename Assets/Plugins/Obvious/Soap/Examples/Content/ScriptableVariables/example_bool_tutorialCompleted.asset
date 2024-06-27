@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a11231538da9894d8dce88b47df6a36, type: 3}
   m_Name: example_bool_tutorialCompleted
   m_EditorClassIdentifier: 
+  CategoryIndex: 0
+  Description: 
   _guid: 1afe66c634254d647bce4ea62658436e
   _saveGuid: 0
-  _value: 0
+  _value: 1
   _debugLogEnabled: 0
   _saved: 1
   _defaultValue: 0

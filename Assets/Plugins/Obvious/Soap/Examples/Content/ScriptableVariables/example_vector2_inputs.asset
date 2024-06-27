@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33653d5fffc16644bb2d768701efbabf, type: 3}
   m_Name: example_vector2_inputs
   m_EditorClassIdentifier: 
+  CategoryIndex: 0
+  Description: 
   _guid: 4804568edeaeb5043b733966024848e8
+  _saveGuid: 0
   _value: {x: 0, y: 0}
   _debugLogEnabled: 0
   _saved: 0

@@ -16,12 +16,27 @@ public class crossshair : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    if(Input.GetKey(KeyCode.Mouse0)){
+	    if (Input.GetKey("left shift"))
+        {
+			
+				
+				
+           
+			
+			
+        }
+        else
+        {
+          
+	        if(Input.GetKey(KeyCode.Mouse0)){
 	    	
-	    	target.sizeDelta=new Vector2(dinamic,dinamic);
+		        target.sizeDelta=new Vector2(dinamic,dinamic);
 	    	
 	    	
-	    }
+	        }
+            
+        } 
+	   
 	    /*if(Input.GetKey(KeyCode.Mouse0)){
 	    	
 	    	target.sizeDelta=new Vector2(354.9984F,340.8728F);

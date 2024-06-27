@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
@@ -7,12 +8,14 @@ public class GunScript : MonoBehaviour
 {
 
 	
+	
 	public float damage= 10f;
 	public float range =100f;
 	public float shootRadius = 20f;
 	[SerializeField] private IntVariable ammo_UI;
 	[SerializeField] private IntVariable gun_ammo_add;
-
+	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
+	
 	public Camera cam;
 	public Animator anim;
 	
@@ -20,11 +23,14 @@ public class GunScript : MonoBehaviour
 	
 	//public ParticleSystem guns;
 	public AudioSource sound;
-	public LayerMask enemyLayer; 
+	public LayerMask enemyLayer;
+
 	
+
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
+	
 		
 	}
 	public void Use()
@@ -36,7 +42,7 @@ public class GunScript : MonoBehaviour
 	// Update is called every frame, if the MonoBehaviour is enabled.
 	private void Update()
 	{  
-		
+		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		ammo_UI.Value = gun_ammo_add.Value;
 	
 		
@@ -61,16 +67,7 @@ public class GunScript : MonoBehaviour
 		}*/
 		
 		
-		if(gun_ammo_add.Value>0){
-		if(Input.GetButtonDown("Fire1"))
-		{
-			
-				
-			  shoot();
-			
-		  }
-		
-		}
+	
 		
 		
 		if (Input.GetKey("left shift"))
@@ -78,24 +75,54 @@ public class GunScript : MonoBehaviour
 			
 				
 				
-			anim.SetBool("Run",true);	
+			anim.SetBool("Run",true);
 			
+			if (Input.GetKey(KeyCode.S))
+			{
+				anim.SetBool("Run",false);
+				if(gun_ammo_add.Value>0){
+					if(Input.GetButtonDown("Fire1"))
+					{
+						
+
+						shoot();
+			
+					}
+		
+				}
+			}
 			
 		}
 		else
 		{
 			anim.SetBool("Run",false);
+			if(gun_ammo_add.Value>0){
+				if(Input.GetButtonDown("Fire1"))
+				{
 			
-		} 
+				
+					shoot();
+			
+				}
+		
+			}
+			
+		}
+
+		
+			
+
 	}
+	
 	
 	private void shoot(){
 		
+	
 		anim.SetBool("shoot",true);
 		sound.Play();
 		StartCoroutine(gunanim());
 		gun_ammo_add.Value--;
-			
+		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		
 		
 		
@@ -112,6 +139,7 @@ public class GunScript : MonoBehaviour
 				{
 					//Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
 					damageable.TakeDamage(damage,hit.point,hit.normal);
+					Debug.Log(hit.transform.gameObject.name);
 				}
 				// O'q otish ovozini chiqarish
 				Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRadius, enemyLayer);

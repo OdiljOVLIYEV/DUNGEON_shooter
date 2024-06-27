@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
   m_Name: example_int_level
   m_EditorClassIdentifier: 
+  CategoryIndex: 0
+  Description: 
   _guid: b08cb27373ceb6145928118d45e09460
   _saveGuid: 0
-  _value: 0
+  _value: 7
   _debugLogEnabled: 0
   _saved: 1
   _defaultValue: 0

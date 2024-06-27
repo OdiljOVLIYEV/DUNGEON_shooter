@@ -7,6 +7,7 @@ public class ammo_add : MonoBehaviour
 {
 	[SerializeField] private IntVariable gun_ammo_add;
 	[SerializeField] private IntVariable shotgun_ammo_add;
+	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
 	//[SerializeField] private IntVariable rifle_ammo_add;
 	public int gun_ammo;
 	public int shotgun_ammo;
@@ -15,7 +16,7 @@ public class ammo_add : MonoBehaviour
     void Start()
 	{
 		
-        
+		
     }
 
     // Update is called once per frame
@@ -26,10 +27,12 @@ public class ammo_add : MonoBehaviour
 	{
 		if(other.gameObject.tag=="Player")
 		{
-
+			
 			gun_ammo_add.Value += gun_ammo;// + shotgun_ammo_add + rifle_ammo_add;
 			shotgun_ammo_add.Value += shotgun_ammo;
 			//rifle_ammo_add.Value += rifle_ammo;
+			UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
+			UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
 			Destroy(gameObject);
 		}
 	}

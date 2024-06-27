@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7703167046120005593}
   m_Layer: 0
   m_Name: gun_ammo
-  m_TagString: ammo
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5880859366090130733}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49231762, y: 0.51202595, z: -0.4804106, w: 0.5144497}
-  m_LocalPosition: {x: 48.42, y: 0.54999995, z: 34.22489}
-  m_LocalScale: {x: 20.623373, y: 20.62337, z: 20.62337}
+  m_LocalRotation: {x: -0.000000084293696, y: 0.70710677, z: 0.7071068, w: 0.000000022476454}
+  m_LocalPosition: {x: 48.442, y: 0.499, z: 34.264}
+  m_LocalScale: {x: 7.3397117, y: 12.176419, z: 7.305852}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -266.873, y: -80.40399, z: -169.583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3019148877758230100
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5880859366090130733}
-  m_Mesh: {fileID: 2534964839176971238, guid: 7418925aa21e415408a53922b1bb555c, type: 3}
+  m_Mesh: {fileID: -5495902117074765545, guid: e7b0501009cd68d4aa702d87740313e1, type: 3}
 --- !u!23 &485867971753737613
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -699821524131868749, guid: 7418925aa21e415408a53922b1bb555c, type: 3}
+  - {fileID: 2100000, guid: c26601fe33b167f40bf95deb4045e73f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,5 +120,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0100000035, y: 0.010000005, z: 0.014402528}
-  m_Center: {x: 6.684953e-11, y: 6.385578e-11, z: 0.00056519016}
+  m_Size: {x: 0.054818045, y: 0.036185518, z: 0.037156705}
+  m_Center: {x: 0.0058411923, y: -0.007715002, z: 0.008578359}

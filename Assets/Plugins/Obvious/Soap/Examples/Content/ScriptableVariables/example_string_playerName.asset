@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb51723e892a404a87b22018981eb5d, type: 3}
   m_Name: example_string_playerName
   m_EditorClassIdentifier: 
+  CategoryIndex: 0
+  Description: 
   _guid: bd90fbafdd38a5f4c8a2d12a493ad471
   _saveGuid: 0
-  _value: 
+  _value: DSD
   _debugLogEnabled: 0
   _saved: 1
   _defaultValue: 
