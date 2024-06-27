@@ -10,7 +10,7 @@ public class ShotgunScript : MonoBehaviour
     public float spreadAngle = 10f; // Sochilma burchagini belgilash
 
     public Camera fpsCam; // O'yinchining kamerasini belgilash
-   
+    public AudioSource sound;
 
     private Vector3[] directions; // Yo'nalishlar massivi
     private bool isShooting; // Raycast chizish uchun flag
@@ -81,6 +81,7 @@ public class ShotgunScript : MonoBehaviour
     void Shoot()
     {
         shotgun_ammo_add.Value--;
+        sound.Play();
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         RaycastHit hit1;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit1, range))
