@@ -129,7 +129,9 @@ public class GunScript : MonoBehaviour
 		
 		
 		RaycastHit hit;
-		if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range)){
+		int playerLayer = LayerMask.NameToLayer("Player");
+		int layerMask = ~(1 << playerLayer);
+		if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range, layerMask)){
 			
 
 		

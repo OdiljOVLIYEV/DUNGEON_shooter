@@ -84,7 +84,9 @@ public class ShotgunScript : MonoBehaviour
         sound.Play();
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         RaycastHit hit1;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit1, range))
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int layerMask = ~(1 << playerLayer);
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit1, range,layerMask))
         {
             IDamageable damageable=hit1.transform.GetComponent<IDamageable>();
             if (damageable != null)
@@ -109,7 +111,8 @@ public class ShotgunScript : MonoBehaviour
             directions[i] = direction; // Yo'nalishni saqlash
 
             RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, direction, out hit, range))
+            
+            if (Physics.Raycast(fpsCam.transform.position, direction, out hit, range,layerMask))
             {
                 IDamageable damageable=hit.transform.GetComponent<IDamageable>();
                 if (damageable != null)
