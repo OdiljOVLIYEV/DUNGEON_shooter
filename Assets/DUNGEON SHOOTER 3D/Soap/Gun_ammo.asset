@@ -16,7 +16,11 @@ MonoBehaviour:
   Description: 
   _guid: ad7889d2783a4644ab6b8a185f05f559
   _saveGuid: 0
+<<<<<<< HEAD
   _value: 140
+=======
+  _value: 98
+>>>>>>> 52f6bae9723f7a1c345f32510bc1ad144fb24c86
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
