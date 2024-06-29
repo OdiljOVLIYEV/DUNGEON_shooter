@@ -4417,6 +4417,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 17798950561795216, guid: eebe3e4bfbb502047b6150be12f4c8c3,
         type: 3}
+      propertyPath: gun_ammo_add
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647,
+        type: 2}
+    - target: {fileID: 17798950561795216, guid: eebe3e4bfbb502047b6150be12f4c8c3,
+        type: 3}
       propertyPath: UI_AMMO_UPDATE
       value: 
       objectReference: {fileID: 11400000, guid: 2da9c60fd26734943ab57292e0ea5a38,
@@ -4599,6 +4605,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: shotgun_ammo
       objectReference: {fileID: 0}
+    - target: {fileID: 8268575194724198105, guid: e8c635ef40cf08847acb3c31a5b66445,
+        type: 3}
+      propertyPath: gun_ammo_add
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647,
+        type: 2}
     - target: {fileID: 8268575194724198105, guid: e8c635ef40cf08847acb3c31a5b66445,
         type: 3}
       propertyPath: UI_AMMO_UPDATE
@@ -5178,6 +5190,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5712136370542225019, guid: e8236d83b628fb44b94e80953465e9fa,
+        type: 3}
+      propertyPath: gun_ammo_add
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647,
+        type: 2}
     - target: {fileID: 6402158000307469051, guid: e8236d83b628fb44b94e80953465e9fa,
         type: 3}
       propertyPath: m_Layer
