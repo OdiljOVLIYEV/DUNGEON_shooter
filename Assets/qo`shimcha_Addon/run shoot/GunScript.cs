@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-
-	
-	
 	public float damage= 10f;
 	public float range =100f;
 	public float shootRadius = 20f;
@@ -48,17 +45,27 @@ public class GunScript : MonoBehaviour
 		
 		
 		PlayerMovment mov=FindObjectOfType<PlayerMovment>();
-		
-		if(mov.x<0||mov.x>0||mov.z>-0||mov.z<0){
-			anim.SetBool("walk",true);
-			
-		}else if(mov.x>-1||mov.x<1||mov.z>-1||mov.z<1){
-			
-			anim.SetBool("walk",false);	
-			
-			
+
+		if (anim.GetBool("shoot") == false) // Shoot animatsiyasi ishlamayotganda harakat animatsiyalarini boshqarish
+		{
+			if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
+			{
+				anim.SetBool("walk", true);
+			}
+			else
+			{
+				anim.SetBool("walk", false);
+			}
+
+			if (Input.GetKey("left shift"))
+			{
+				anim.SetBool("Run", true);
+			}
+			else
+			{
+				anim.SetBool("Run", false);
+			}
 		}
-	
 		/*if(Input.GetKeyDown(KeyCode.R)){
 			
 			anim.SetBool("reload",true);
@@ -66,7 +73,16 @@ public class GunScript : MonoBehaviour
 			StartCoroutine(pistol());
 		}*/
 		
+		if(gun_ammo_add.Value>0){
+			if(Input.GetButtonDown("Fire1"))
+			{
+			
+				
+				shoot();
+			
+			}
 		
+		}
 	
 		
 		
@@ -77,35 +93,13 @@ public class GunScript : MonoBehaviour
 				
 			anim.SetBool("Run",true);
 			
-			if (Input.GetKey(KeyCode.S))
-			{
-				anim.SetBool("Run",false);
-				if(gun_ammo_add.Value>0){
-					if(Input.GetButtonDown("Fire1"))
-					{
-						
-
-						shoot();
 			
-					}
-		
-				}
-			}
 			
 		}
 		else
 		{
 			anim.SetBool("Run",false);
-			if(gun_ammo_add.Value>0){
-				if(Input.GetButtonDown("Fire1"))
-				{
-			
-				
-					shoot();
-			
-				}
 		
-			}
 			
 		}
 
@@ -119,6 +113,7 @@ public class GunScript : MonoBehaviour
 		
 	
 		anim.SetBool("shoot",true);
+		
 		sound.Play();
 		StartCoroutine(gunanim());
 		gun_ammo_add.Value--;
@@ -170,7 +165,7 @@ public class GunScript : MonoBehaviour
 
 	IEnumerator gunanim()
 	{
-		yield return new WaitForSeconds(0.01f);
+		yield return new WaitForSeconds(0.1f);
 		anim.SetBool("shoot",false);
 	}
 	

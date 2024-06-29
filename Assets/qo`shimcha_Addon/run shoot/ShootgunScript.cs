@@ -13,7 +13,8 @@ public class ShotgunScript : MonoBehaviour
     public AudioSource sound;
 
     private Vector3[] directions; // Yo'nalishlar massivi
-    private bool isShooting; // Raycast chizish uchun flag
+    private bool isShooting;
+    private bool isRunning=true;// Raycast chizish uchun flag
     public Animator anim;
     [SerializeField] private IntVariable  ammo_UI;
     [SerializeField] private IntVariable shotgun_ammo_add;
@@ -30,52 +31,55 @@ public class ShotgunScript : MonoBehaviour
         ammo_UI.Value = shotgun_ammo_add.Value;
         PlayerMovment mov=FindObjectOfType<PlayerMovment>();
 		
-        if(mov.x<0||mov.x>0||mov.z>-0||mov.z<0){
-            anim.SetBool("walk",true);
-			
-        }else if(mov.x>-1||mov.x<1||mov.z>-1||mov.z<1){
-			
-            anim.SetBool("walk",false);	
-			
-			
+        if (anim.GetBool("shoot") == false) // Shoot animatsiyasi ishlamayotganda harakat animatsiyalarini boshqarish
+        {
+            if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
+            {
+                anim.SetBool("walk", true);
+            }
+            else
+            {
+                anim.SetBool("walk", false);
+            }
+
+            if (Input.GetKey("left shift"))
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
 
-       
+        if ( shotgun_ammo_add.Value > 0)
+        {
+            if (Input.GetButtonDown("Fire1")) // Chap sichqoncha tugmasi bosilganda
+            {
+                Shoot();
+            }
+        }
 
         if (Input.GetKey("left shift"))
         {
-			
-				
-				
-            anim.SetBool("Run",true);	
-			
-            if (Input.GetKey(KeyCode.S))
-            {
-                anim.SetBool("Run",false);
-                if(shotgun_ammo_add.Value>0){
-                    if(Input.GetButtonDown("Fire1"))
-                    {
-						
 
-                        Shoot();
-			
-                    }
-		
-                }
-            }
-        }
-        else
-        {
-            anim.SetBool("Run",false);
-            if ( shotgun_ammo_add.Value > 0)
+            if (isRunning)
             {
-                if (Input.GetButtonDown("Fire1")) // Chap sichqoncha tugmasi bosilganda
-                {
-                    Shoot();
-                }
+                anim.SetBool("Run", true);
+                isRunning = false;
+
             }
-        } 
-        
+            else
+            {
+                anim.SetBool("Run", false);
+                isRunning = true;
+            }
+
+
+        }
+
+
+
     }
 
     void Shoot()
@@ -135,7 +139,7 @@ public class ShotgunScript : MonoBehaviour
 
     IEnumerator gunanim()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.5f);
         anim.SetBool("shoot",false);
     }
     void OnDrawGizmos()
