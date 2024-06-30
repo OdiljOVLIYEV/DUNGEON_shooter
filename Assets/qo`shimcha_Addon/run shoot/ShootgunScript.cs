@@ -11,7 +11,8 @@ public class ShotgunScript : MonoBehaviour
 
     public Camera fpsCam; // O'yinchining kamerasini belgilash
     public AudioSource sound;
-
+  
+    
     private Vector3[] directions; // Yo'nalishlar massivi
     private bool isShooting;
     private bool isRunning=true;// Raycast chizish uchun flag
@@ -19,6 +20,8 @@ public class ShotgunScript : MonoBehaviour
     [SerializeField] private IntVariable  ammo_UI;
     [SerializeField] private IntVariable shotgun_ammo_add;
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
+    
+    public LayerMask enemyLayer;
     void Start()
     {
         

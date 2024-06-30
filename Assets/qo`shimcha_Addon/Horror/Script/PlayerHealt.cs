@@ -2,57 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerHealt : MonoBehaviour
 {
-	public float Healt=10f;
-	public  TMP_Text text;
-	public GameObject HEALTFULL;
-	
-    // Start is called before the first frame update
-    void Start()
-    {
-	    
-    }
+	public float health = 100f;
 
-    // Update is called once per frame
-    void Update()
+	public void TakeDamage(float amount)
 	{
-		if(Healt<0){
-		
-			Healt=0f;
-			
-		}
-		text.text=Healt.ToString();
-
-
-		
-
-	}
-    
-    
-    
-    
-	public void damage(float amount){
-		Healt-=amount;
-		if(Healt<=0f){
-			
-			
-			Debug.Log("dead");
+		health -= amount;
+		if (health <= 0f)
+		{
+			Die();
 		}
 	}
 
-    
-	public void alarmOn()
+	void Die()
 	{
-		HEALTFULL.SetActive(true);
-		
+		Debug.Log("Player Died");
+		// Playerning o'lish logikasini shu yerda amalga oshiring
 	}
-    public void alarmOff()
-    {
-       
-        HEALTFULL.SetActive(false);
-
-    }
 }

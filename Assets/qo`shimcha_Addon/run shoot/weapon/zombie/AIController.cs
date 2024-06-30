@@ -8,25 +8,33 @@ public class AIController : MonoBehaviour
     public bool canChase = true;
     public bool canWander = true;
     public bool canHearSound = true;
+    public bool canAttack = true; // Yangi hujum qobiliyati o'zgaruvchisi
     public bool stopAgent;
 
     private Transform player;
     public float chaseDistance = 10f;
+    public float attackDistance = 2f; // Playerga zarar yetkazish masofasi
     public float lostDistance = 15f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
+    public float attackDamage = 10f; // Zarar miqdori
+    public float attackCooldown = 1f; // Harakatlanish vaqti o'rtasidagi kutish vaqti
+    private float lastAttackTime;
+
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
     private NavMeshAgent navMeshAgent;
     private Animator anim;
     
     private Vector3 lastHeardSoundPosition = Vector3.zero;
+    
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent = false;
+        lastAttackTime = -attackCooldown; // Dastlabki holatni belgilash
     }
 
     void Update()
@@ -54,12 +62,14 @@ public class AIController : MonoBehaviour
             if (canChase && distanceToPlayer < chaseDistance)
             {
                 ChasePlayer();
+                if (canAttack && distanceToPlayer < attackDistance)
+                {
+                    AttackPlayer();
+                }
             }
             else if (canPatrol && (distanceToPlayer > lostDistance || !canChase))
             {
                 Patrol();
-             
-                
             }
             else if (canWander)
             {
@@ -69,9 +79,8 @@ public class AIController : MonoBehaviour
             if (canHearSound && lastHeardSoundPosition != Vector3.zero)
             {
                 navMeshAgent.SetDestination(lastHeardSoundPosition);
-                lastHeardSoundPosition = Vector3.zero; // Ovozni eshitgan joyga harakatlangandan keyin pozitsiyani tozalash
+                lastHeardSoundPosition = Vector3.zero;
             }
-            
         }
     }
 
@@ -87,7 +96,6 @@ public class AIController : MonoBehaviour
 
     void Patrol()
     {
-        
         if (patrolPoints.Length == 0)
             return;
        
@@ -100,7 +108,6 @@ public class AIController : MonoBehaviour
             if (currentPatrolPoint == 0)
             {
                 Debug.Log("Returned to the first patrol point.");
-                // Qo'shimcha harakatlar yoki logikani bu erda amalga oshirishingiz mumkin
             }
             nextPatrolPointIndex = (currentPatrolPoint + 1) % patrolPoints.Length;
             nextDestination = patrolPoints[nextPatrolPointIndex].position;
@@ -129,19 +136,27 @@ public class AIController : MonoBehaviour
             }
         }
     }
+
+    void AttackPlayer()
+    {
+        if (Time.time >= lastAttackTime + attackCooldown)
+        {
+            lastAttackTime = Time.time;
+            PlayerHealt playerHealth = player.GetComponent<PlayerHealt>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(attackDamage);
+                Debug.Log("Player attacked!");
+            }
+        }
+    }
+
     public void HeardSound(Vector3 soundPosition)
     {
-        if (canHearSound  && navMeshAgent.isOnNavMesh) // canHearSound tekshiriladi
+        if (canHearSound && navMeshAgent.isOnNavMesh)
         {
             lastHeardSoundPosition = soundPosition;
             navMeshAgent.SetDestination(lastHeardSoundPosition);
         }
-    }
-    
-    void AnimationWalk()
-    {
-        
-        anim.SetBool("Walk",true);
-        
     }
 }
