@@ -22,6 +22,7 @@ public class ShotgunScript : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
+    private bool Reshoot=true;
     void Start()
     {
         
@@ -61,12 +62,24 @@ public class ShotgunScript : MonoBehaviour
 
         if ( shotgun_ammo_add.Value > 0)
         {
-            if (Input.GetButtonDown("Fire1")) // Chap sichqoncha tugmasi bosilganda
+            if (Input.GetButtonDown("Fire1")&&Reshoot==true) // Chap sichqoncha tugmasi bosilganda
             {
-                Shoot();
+                StartCoroutine(ReShootTime());
+               
+                
             }
         }
 
+        IEnumerator ReShootTime()
+        {
+            Reshoot = false;
+            Shoot();
+            yield return new WaitForSeconds(1.2f);
+            Reshoot = true;
+            
+        }
+        
+        
         if (Input.GetKey("left shift"))
         {
 
