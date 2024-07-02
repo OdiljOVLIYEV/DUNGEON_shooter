@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 1152247064797128262}
   m_Layer: 7
   m_Name: ALIEN_STANDART
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -756,11 +756,15 @@ MonoBehaviour:
   canChase: 1
   canWander: 0
   canHearSound: 0
+  canAttack: 1
   stopAgent: 0
   chaseDistance: 100
+  attackDistance: 2
   lostDistance: 15
   patrolSpeed: 2
   chaseSpeed: 4
+  attackDamage: 10
+  attackCooldown: 1
   patrolPoints: []
 --- !u!195 &2578346818391703913
 NavMeshAgent:

@@ -16,6 +16,8 @@ TagManager:
   - shootgun_one_ammo
   - wall
   - sakrash
+  - Floor
+  - Wall
   layers:
   - Default
   - TransparentFX

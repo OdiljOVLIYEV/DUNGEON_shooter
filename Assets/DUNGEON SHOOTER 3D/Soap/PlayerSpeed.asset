@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
-  m_Name: WeaponUnlock
+  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
+  m_Name: PlayerSpeed
   m_EditorClassIdentifier: 
   CategoryIndex: 0
   Description: 
-  _guid: 1251618c4ee95c04abf5a9b4b38d0acf
+  _guid: 4fdca89dae0b3f14bb2e52f48d15ebf4
   _saveGuid: 0
   _value: 0
   _debugLogEnabled: 0
@@ -22,4 +22,4 @@ MonoBehaviour:
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 0
-  _minMax: {x: 0, y: 0}
+  _minMax: {x: 0, y: 3.4028235e+38}

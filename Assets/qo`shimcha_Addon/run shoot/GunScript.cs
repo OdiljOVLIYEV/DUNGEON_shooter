@@ -12,7 +12,7 @@ public class GunScript : MonoBehaviour
 	[SerializeField] private IntVariable ammo_UI;
 	[SerializeField] private IntVariable gun_ammo_add;
 	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
-	
+	[SerializeField] private FloatVariable speed;
 	public Camera cam;
 	public Animator anim;
 	
@@ -21,8 +21,7 @@ public class GunScript : MonoBehaviour
 	//public ParticleSystem guns;
 	public AudioSource sound;
 	public LayerMask enemyLayer;
-
-	
+	public ParticleSystem bullet;
 
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
@@ -41,9 +40,6 @@ public class GunScript : MonoBehaviour
 	{  
 		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		ammo_UI.Value = gun_ammo_add.Value;
-	
-		
-		
 		PlayerMovment mov=FindObjectOfType<PlayerMovment>();
 
 		if (anim.GetBool("shoot") == false) // Shoot animatsiyasi ishlamayotganda harakat animatsiyalarini boshqarish
@@ -51,20 +47,31 @@ public class GunScript : MonoBehaviour
 			if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
 			{
 				anim.SetBool("walk", true);
+				
+
 			}
 			else
 			{
-				anim.SetBool("walk", false);
+				
+				speed.Value = 0;
+				
+				anim.SetBool("walk", false);	
+					
+				
 			}
-
-			if (Input.GetKey("left shift"))
+			
+			if (Input.GetKey("left shift")&&speed.Value>0)
 			{
-				anim.SetBool("Run", true);
+				
+			    anim.SetBool("Run", true);
+				
+
 			}
 			else
 			{
 				anim.SetBool("Run", false);
 			}
+			
 		}
 		/*if(Input.GetKeyDown(KeyCode.R)){
 			
@@ -81,12 +88,13 @@ public class GunScript : MonoBehaviour
 				shoot();
 			
 			}
+			
 		
 		}
 	
 		
 		
-		if (Input.GetKey("left shift"))
+		/*if (Input.GetKey("left shift"))
 		{
 			
 				
@@ -101,7 +109,7 @@ public class GunScript : MonoBehaviour
 			anim.SetBool("Run",false);
 		
 			
-		}
+		}*/
 
 		
 			
@@ -111,11 +119,10 @@ public class GunScript : MonoBehaviour
 	
 	private void shoot(){
 		
-	
 		anim.SetBool("shoot",true);
-		
-		sound.Play();
 		StartCoroutine(gunanim());
+		sound.Play();
+		bullet.Play();
 		gun_ammo_add.Value--;
 		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		

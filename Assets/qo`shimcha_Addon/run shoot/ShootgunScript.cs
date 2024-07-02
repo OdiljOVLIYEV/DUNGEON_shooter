@@ -15,13 +15,13 @@ public class ShotgunScript : MonoBehaviour
     
     private Vector3[] directions; // Yo'nalishlar massivi
     private bool isShooting;
-    private bool isRunning=true;// Raycast chizish uchun flag
     public Animator anim;
     [SerializeField] private IntVariable  ammo_UI;
     [SerializeField] private IntVariable shotgun_ammo_add;
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
-    
+    [SerializeField] private FloatVariable speed;
     public LayerMask enemyLayer;
+    public ParticleSystem bullet;
     void Start()
     {
         
@@ -39,13 +39,16 @@ public class ShotgunScript : MonoBehaviour
             if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
             {
                 anim.SetBool("walk", true);
+               
             }
             else
             {
+                speed.Value = 0;
                 anim.SetBool("walk", false);
+               
             }
 
-            if (Input.GetKey("left shift"))
+            if (Input.GetKey("left shift")&&speed.Value>0)
             {
                 anim.SetBool("Run", true);
             }
@@ -53,6 +56,7 @@ public class ShotgunScript : MonoBehaviour
             {
                 anim.SetBool("Run", false);
             }
+            
         }
 
         if ( shotgun_ammo_add.Value > 0)
@@ -66,19 +70,20 @@ public class ShotgunScript : MonoBehaviour
         if (Input.GetKey("left shift"))
         {
 
-            if (isRunning)
-            {
+          
                 anim.SetBool("Run", true);
-                isRunning = false;
+               
 
-            }
-            else
-            {
-                anim.SetBool("Run", false);
-                isRunning = true;
-            }
+            
+                
+            
 
 
+        }
+        else
+        {
+           
+            anim.SetBool("Run", false);
         }
 
 
@@ -87,9 +92,14 @@ public class ShotgunScript : MonoBehaviour
 
     void Shoot()
     {
-        shotgun_ammo_add.Value--;
+        anim.SetBool("shoot",true);
         sound.Play();
+        StartCoroutine(gunanim());
+        shotgun_ammo_add.Value--;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
+        isShooting = true;
+        bullet.Play();
+        
         RaycastHit hit1;
         int playerLayer = LayerMask.NameToLayer("Player");
         int layerMask = ~(1 << playerLayer);
@@ -104,9 +114,8 @@ public class ShotgunScript : MonoBehaviour
 
                
         }
-        anim.SetBool("shoot",true);
-        StartCoroutine(gunanim());
-        isShooting = true;
+       
+      
         for (int i = 0; i < pellets; i++)
         {
             // Oldinga yo'nalishni olamiz
@@ -142,7 +151,7 @@ public class ShotgunScript : MonoBehaviour
 
     IEnumerator gunanim()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         anim.SetBool("shoot",false);
     }
     void OnDrawGizmos()

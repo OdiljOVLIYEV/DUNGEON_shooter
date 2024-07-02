@@ -1,4 +1,5 @@
-﻿using Obvious.Soap;
+﻿using System.Collections;
+using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,17 +9,17 @@ public class AIController : MonoBehaviour
     public bool canChase = true;
     public bool canWander = true;
     public bool canHearSound = true;
-    public bool canAttack = true; // Yangi hujum qobiliyati o'zgaruvchisi
+    public bool canAttack = true; // New attack capability variable
     public bool stopAgent;
 
     private Transform player;
     public float chaseDistance = 10f;
-    public float attackDistance = 2f; // Playerga zarar yetkazish masofasi
+    public float attackDistance = 2f; // Distance to inflict damage on player
     public float lostDistance = 15f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
-    public float attackDamage = 10f; // Zarar miqdori
-    public float attackCooldown = 1f; // Harakatlanish vaqti o'rtasidagi kutish vaqti
+    public float attackDamage = 10f; // Amount of damage
+    public float attackCooldown = 1f; // Cooldown between actions
     private float lastAttackTime;
 
     public Transform[] patrolPoints;
@@ -34,12 +35,12 @@ public class AIController : MonoBehaviour
         anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent = false;
-        lastAttackTime = -attackCooldown; // Dastlabki holatni belgilash
+        lastAttackTime = -attackCooldown; // Initialize cooldown
     }
 
     void Update()
     {
-        if (stopAgent != null && stopAgent)
+        if (stopAgent)
         {
             if (navMeshAgent.isOnNavMesh)
             {
@@ -61,7 +62,17 @@ public class AIController : MonoBehaviour
 
             if (canChase && distanceToPlayer < chaseDistance)
             {
-                ChasePlayer();
+                if (player != null)
+                {
+                    
+
+                    // Player tomonga silliq aylantirish
+                    Vector3 direction = (player.position - transform.position).normalized;
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    navMeshAgent.transform.rotation = Quaternion.Slerp(navMeshAgent.transform.rotation, targetRotation, Time.deltaTime * 5f);
+                }
+            
+                StartCoroutine(ChaseWithAnimation());
                 if (canAttack && distanceToPlayer < attackDistance)
                 {
                     AttackPlayer();
@@ -78,10 +89,26 @@ public class AIController : MonoBehaviour
            
             if (canHearSound && lastHeardSoundPosition != Vector3.zero)
             {
+                
                 navMeshAgent.SetDestination(lastHeardSoundPosition);
                 lastHeardSoundPosition = Vector3.zero;
+                
             }
         }
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
+    }
+    
+    IEnumerator ChaseWithAnimation()
+    {
+        
+        anim.SetBool("Baqirish", true); // Play "Baqirish" animation
+        yield return new WaitForSeconds(1.5f); // Adjust this delay according to your animation length
+        anim.SetBool("Baqirish", false); // Stop "Baqirish" animation
+        ChasePlayer();
     }
 
     void ChasePlayer()
@@ -90,7 +117,7 @@ public class AIController : MonoBehaviour
         {
             navMeshAgent.speed = chaseSpeed;
             navMeshAgent.SetDestination(player.position);
-            anim.SetBool("Walk", true);
+            anim.SetBool("Walk", true); // Start walking animation
         }
     }
 
@@ -115,7 +142,7 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.SetDestination(nextDestination);
         navMeshAgent.speed = patrolSpeed;
-        anim.SetBool("Walk", true);
+        anim.SetBool("Walk", true); // Start walking animation
     }
 
     void Wander()
@@ -132,7 +159,7 @@ public class AIController : MonoBehaviour
 
                 navMeshAgent.speed = patrolSpeed;
                 navMeshAgent.SetDestination(finalPosition);
-                anim.SetBool("Walk", true);
+                anim.SetBool("Walk", true); // Start walking animation
             }
         }
     }
@@ -160,3 +187,5 @@ public class AIController : MonoBehaviour
         }
     }
 }
+
+

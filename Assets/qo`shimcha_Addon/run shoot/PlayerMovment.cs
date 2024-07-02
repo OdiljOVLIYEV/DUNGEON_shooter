@@ -17,8 +17,8 @@ public class PlayerMovment : MonoBehaviour
 
 	public LayerMask devor;
 
-
-	public  float speed;
+	[SerializeField] private FloatVariable speed;
+	//public  float speed;
 	public float gravity = -9.8f;
 	public float groundDistans = 0.4f;
 	
@@ -108,7 +108,7 @@ public class PlayerMovment : MonoBehaviour
 				CameraShake shake=FindObjectOfType<CameraShake>();
 			shake.bobbingSpeed=20;
 			
-				speed = 15;
+				speed.Value = 15;
 				
 			
 			
@@ -120,7 +120,7 @@ public class PlayerMovment : MonoBehaviour
 			CameraShake shake=FindObjectOfType<CameraShake>();
 			shake.bobbingSpeed=10.5f;
 			
-			speed = 10;
+			speed.Value = 10;
 			
 		}
 		if(Input.GetKey("left shift")&& Input.GetKey(KeyCode.S))
@@ -129,7 +129,7 @@ public class PlayerMovment : MonoBehaviour
 			CameraShake shake=FindObjectOfType<CameraShake>();
 			shake.bobbingSpeed=10.5f;
 			
-			speed = 10;
+			speed.Value = 10;
 				
 			
 			
@@ -159,8 +159,8 @@ public class PlayerMovment : MonoBehaviour
 	
 		while(speed>1){
 			yield return new WaitForSeconds(0.1f);
-			speed-=0.05f;
-			speed = Mathf.Max(speed, 0f);
+			speed.Value-=0.05f;
+			speed.Value = Mathf.Max(speed, 0f);
 			
 		}
 		
@@ -168,7 +168,7 @@ public class PlayerMovment : MonoBehaviour
 	
 	void kamaytirish(){
 		
-		speed -=1f;
+		speed.Value -=1f;
 	}
 	
 	void sakrash(){
