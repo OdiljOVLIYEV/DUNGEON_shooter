@@ -118,7 +118,8 @@ public class PlayerMovment : MonoBehaviour
 		else
 		{
 			CameraShake shake=FindObjectOfType<CameraShake>();
-			shake.bobbingSpeed=10.5f;
+			shake.bobbingSpeed=14f;
+			
 			
 			speed.Value = 10;
 			
@@ -127,7 +128,8 @@ public class PlayerMovment : MonoBehaviour
 		{
 			
 			CameraShake shake=FindObjectOfType<CameraShake>();
-			shake.bobbingSpeed=10.5f;
+			shake.bobbingSpeed=14f;
+			shake.bobbingAmount = 0.25f;
 			
 			speed.Value = 10;
 				
