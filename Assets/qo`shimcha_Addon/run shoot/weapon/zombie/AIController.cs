@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,18 +8,26 @@ public class AIController : MonoBehaviour
     public bool canChase = true;
     public bool canWander = true;
     public bool canHearSound = true;
-    public bool canAttack = true; // New attack capability variable
+    public bool canAttack = true;
+    public bool canShoot = true; // New shooting capability variable
     public bool stopAgent;
 
     private Transform player;
     public float chaseDistance = 10f;
     public float attackDistance = 2f; // Distance to inflict damage on player
+    public float shootDistance = 8f; // Distance to shoot at player
     public float lostDistance = 15f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
     public float attackDamage = 10f; // Amount of damage
-    public float attackCooldown = 1f; // Cooldown between actions
+    public float attackCooldown = 1f; // Cooldown between attacks
     private float lastAttackTime;
+
+    public GameObject projectilePrefab; // Prefab for the projectile
+    public Transform firePoint; // Point from where the projectile is fired
+    public float BulletSpeed = 2f;
+    public float shootCooldown = 2f; // Cooldown between shots
+    private float lastShootTime;
 
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
@@ -36,6 +43,7 @@ public class AIController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent = false;
         lastAttackTime = -attackCooldown; // Initialize cooldown
+        lastShootTime = -shootCooldown; // Initialize shoot cooldown
     }
 
     void Update()
@@ -64,8 +72,6 @@ public class AIController : MonoBehaviour
             {
                 if (player != null)
                 {
-                    
-
                     // Player tomonga silliq aylantirish
                     Vector3 direction = (player.position - transform.position).normalized;
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -73,10 +79,17 @@ public class AIController : MonoBehaviour
                 }
             
                 StartCoroutine(ChaseWithAnimation());
-                if (canAttack && distanceToPlayer < attackDistance)
+               
+                if (canShoot && distanceToPlayer < shootDistance)
+                {
+                 
+                    ShootPlayer();
+                }
+                else if (canAttack && distanceToPlayer < attackDistance)
                 {
                     AttackPlayer();
                 }
+              
             }
             else if (canPatrol && (distanceToPlayer > lostDistance || !canChase))
             {
@@ -89,13 +102,12 @@ public class AIController : MonoBehaviour
            
             if (canHearSound && lastHeardSoundPosition != Vector3.zero)
             {
-                
                 navMeshAgent.SetDestination(lastHeardSoundPosition);
                 lastHeardSoundPosition = Vector3.zero;
-                
             }
         }
     }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -104,7 +116,6 @@ public class AIController : MonoBehaviour
     
     IEnumerator ChaseWithAnimation()
     {
-        
         anim.SetBool("Baqirish", true); // Play "Baqirish" animation
         yield return new WaitForSeconds(1.5f); // Adjust this delay according to your animation length
         anim.SetBool("Baqirish", false); // Stop "Baqirish" animation
@@ -169,12 +180,51 @@ public class AIController : MonoBehaviour
         if (Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
-            PlayerHealt playerHealth = player.GetComponent<PlayerHealt>();
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(attackDamage);
                 Debug.Log("Player attacked!");
             }
+        }
+    }
+
+    void ShootPlayer()
+    {
+        if (Time.time >= lastShootTime + shootCooldown)
+        {
+            lastShootTime = Time.time;
+            
+            StartCoroutine(ShootSequence());
+        }
+    }
+
+    IEnumerator ShootSequence()
+    {
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.isStopped = true;
+        }
+        anim.SetBool("Shoot", true); // Start shooting animation
+        chaseSpeed = 0f;
+        // Otishni bajarish
+        Vector3 direction = (player.position - transform.position).normalized;
+        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(direction));
+        //projectile.GetComponent<Rigidbody>().velocity = firePoint.forward * BulletSpeed;
+        
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = direction * 10f; // Projectile speed
+        }
+
+        yield return new WaitForSeconds(0.5f); // Adjust this delay according to your shooting animation length
+        chaseSpeed = 4f;
+        anim.SetBool("Shoot", false); // Stop shooting animation
+    
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.isStopped = false;
         }
     }
 
@@ -187,5 +237,3 @@ public class AIController : MonoBehaviour
         }
     }
 }
-
-

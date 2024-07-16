@@ -6,7 +6,8 @@ public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // Qurollarning ro'yxati
     [SerializeField] private IntVariable UnlockedWeapon;
-     
+    [SerializeField] private BoolVariable canShoot;
+    
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
     private int previousWeaponIndex = -1; // Oldingi qurol indeksi
     private int lastWeaponIndex = -1; // Oxirgi tanlangan qurol indeksi
@@ -19,6 +20,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Update()
     {
+        
         // Foydalanuvchining klaviaturada 1 dan 9 gacha bosilgan har bir kalitini tekshirish
         for (int i = 0; i < weapons.Count; i++)
         {
@@ -39,7 +41,7 @@ public class WeaponSwitcher : MonoBehaviour
     public void SetActiveWeapon(int index)
     {
         
-        
+        canShoot.Value = true;
         if (index < 0 || index >= weapons.Count || index == currentWeaponIndex) 
             return; // Agar indeks noto'g'ri yoki allaqachon faol bo'lsa, chiqish
         

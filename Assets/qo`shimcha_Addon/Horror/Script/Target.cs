@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class Target : MonoBehaviour,IDamageable
 {
 	public ParticleSystem bloodParticle;
-	
+	//public ParticleSystem bloodEffect;  
 
 	public ParticleType particleType;
 	public GameObject BloodSprite;
@@ -40,7 +40,6 @@ public class Target : MonoBehaviour,IDamageable
 		{
 			case ParticleType.Blood:
 				particleToSpawn = bloodParticle;
-
 				break;
 			
 		}
@@ -88,7 +87,7 @@ public class Target : MonoBehaviour,IDamageable
 	
 		
 			
-		Destroy(gameObject,50f);
+		Destroy(gameObject,10f);
 			
 		
 	}

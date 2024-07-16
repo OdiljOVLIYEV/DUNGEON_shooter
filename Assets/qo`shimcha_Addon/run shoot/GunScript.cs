@@ -1,184 +1,147 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Obvious.Soap;
+﻿using System.Collections;
 using UnityEngine;
+using Obvious.Soap;
 
 public class GunScript : MonoBehaviour
 {
-	public float damage= 10f;
-	public float range =100f;
-	public float shootRadius = 20f;
-	[SerializeField] private IntVariable ammo_UI;
-	[SerializeField] private IntVariable gun_ammo_add;
-	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
-	[SerializeField] private FloatVariable speed;
-	public Camera cam;
-	public Animator anim;
-	
-	
-	
-	//public ParticleSystem guns;
-	public AudioSource sound;
-	public LayerMask enemyLayer;
-	public ParticleSystem bullet;
+    public float damage = 10f;
+    public float range = 100f;
+    public float shootRadius = 20f;
+    [SerializeField] private IntVariable ammo_UI;
+    [SerializeField] private IntVariable gun_ammo_add;
+    [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
+    [SerializeField] private FloatVariable speed;
+    public Camera cam;
+    public Animator anim;
 
-	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
-	protected void Start()
-	{
-	
-		
-	}
-	public void Use()
+    #region MyRegion
+
+    public GameObject bulletCasingPrefab; // Gilza prefabini joylashtiring
+    public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
+
+    public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
+
+    #endregion
+
+    public AudioSource sound;
+    public LayerMask enemyLayer;
+    public ParticleSystem bullet;
+
+    protected void Start()
+    {
+    }
+
+    public void Use()
     {
         Debug.Log("Gun is used");
-        // Gun'ni ishlatish logikasi shu yerda.
     }
-	//public GameObject bulletPrefab;
-	// Update is called every frame, if the MonoBehaviour is enabled.
-	private void Update()
-	{  
-		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
-		ammo_UI.Value = gun_ammo_add.Value;
-		PlayerMovment mov=FindObjectOfType<PlayerMovment>();
 
-		if (anim.GetBool("shoot") == false) // Shoot animatsiyasi ishlamayotganda harakat animatsiyalarini boshqarish
-		{
-			if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
-			{
-				anim.SetBool("walk", true);
-				
+    private void Update()
+    {
+        UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
+        ammo_UI.Value = gun_ammo_add.Value;
+        PlayerMovment mov = FindObjectOfType<PlayerMovment>();
 
-			}
-			else
-			{
-				
-				speed.Value = 0;
-				
-				anim.SetBool("walk", false);	
-					
-				
-			}
-			
-			if (Input.GetKey("left shift")&&speed.Value>0)
-			{
-				
-			    anim.SetBool("Run", true);
-				
+        if (anim.GetBool("shoot") == false)
+        {
+            if (mov.x != 0 || mov.z != 0)
+            {
+                anim.SetBool("walk", true);
+            }
+            else
+            {
+                speed.Value = 0;
+                anim.SetBool("walk", false);
+            }
 
-			}
-			else
-			{
-				anim.SetBool("Run", false);
-			}
-			
-		}
-		/*if(Input.GetKeyDown(KeyCode.R)){
-			
-			anim.SetBool("reload",true);
-			
-			StartCoroutine(pistol());
-		}*/
-		
-		if(gun_ammo_add.Value>0){
-			if(Input.GetButtonDown("Fire1"))
-			{
-			
-				
-				shoot();
-			
-			}
-			
-		
-		}
-	
-		
-		
-		/*if (Input.GetKey("left shift"))
-		{
-			
-				
-				
-			anim.SetBool("Run",true);
-			
-			
-			
-		}
-		else
-		{
-			anim.SetBool("Run",false);
-		
-			
-		}*/
+            if (Input.GetKey("left shift") && speed.Value > 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
+        }
 
-		
-			
+        if (gun_ammo_add.Value > 0)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                shoot();
+            }
+        }
+    }
 
-	}
-	
-	
-	private void shoot(){
-		
-		anim.SetBool("shoot",true);
-		StartCoroutine(gunanim());
-		sound.Play();
-		bullet.Play();
-		gun_ammo_add.Value--;
-		UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
-		
-		
-		
-		
-		
-		RaycastHit hit;
-		int playerLayer = LayerMask.NameToLayer("Player");
-		int layerMask = ~(1 << playerLayer);
-		if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range, layerMask)){
-			
+    private void shoot()
+    {
+        anim.SetBool("shoot", true);
+        StartCoroutine(gunanim());
+        sound.Play();
+        bullet.Play();
+        gun_ammo_add.Value--;
+        UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
+        EjectCasing();
 
-		
-				
-				IDamageable damageable=hit.transform.GetComponent<IDamageable>();
-				if (damageable != null)
-				{
-					//Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
-					damageable.TakeDamage(damage,hit.point,hit.normal);
-					Debug.Log(hit.transform.gameObject.name);
-				}
-				// O'q otish ovozini chiqarish
-				Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRadius, enemyLayer);
-				foreach (Collider hitCollider in hitColliders)
-				{
-					AIController aiController = hitCollider.GetComponent<AIController>();
-					if (aiController != null)
-					{
-						aiController.HeardSound(transform.position);
-					}
-				}
-				
-				
-			
-			
-		 		
-		  }
-		}
+        RaycastHit hit;
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int layerMask = ~(1 << playerLayer);
 
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawLine(cam.transform.position,cam.transform.forward * range);
-		
-	}
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, layerMask))
+        {
+            ProcessHit(hit);
 
-	IEnumerator gunanim()
-	{
-		yield return new WaitForSeconds(0.1f);
-		anim.SetBool("shoot",false);
-	}
-	
+            RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, cam.transform.forward, range, layerMask);
+            foreach (RaycastHit raycastHit in hits)
+            {
+                if (raycastHit.collider != hit.collider)
+                {
+                    ProcessHit(raycastHit);
+                }
+            }
+        }
+    }
 
-	
-	
-	
+    private void ProcessHit(RaycastHit hit)
+    {
+        IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage, hit.point, hit.normal);
+            Debug.Log(hit.transform.gameObject.name);
+        }
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRadius, enemyLayer);
+        foreach (Collider hitCollider in hitColliders)
+        {
+            AIController aiController = hitCollider.GetComponent<AIController>();
+            if (aiController != null)
+            {
+                aiController.HeardSound(transform.position);
+            }
+        }
+    }
+
+    void EjectCasing()
+    {
+        GameObject casing = Instantiate(bulletCasingPrefab, casingEjectionPoint.position, casingEjectionPoint.rotation);
+        Rigidbody rb = casing.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Vector3 ejectionDirection = casingEjectionPoint.right;
+            rb.AddForce(ejectionDirection * casingEjectionForce, ForceMode.Impulse);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(cam.transform.position, cam.transform.forward * range);
+    }
+
+    IEnumerator gunanim()
+    {
+        yield return new WaitForSeconds(0.1f);
+        anim.SetBool("shoot", false);
+    }
 }
-

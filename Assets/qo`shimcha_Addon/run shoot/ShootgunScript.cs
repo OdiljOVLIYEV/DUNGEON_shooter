@@ -11,21 +11,30 @@ public class ShotgunScript : MonoBehaviour
 
     public Camera fpsCam; // O'yinchining kamerasini belgilash
     public AudioSource sound;
-  
-    
+
     private Vector3[] directions; // Yo'nalishlar massivi
     private bool isShooting;
     public Animator anim;
-    [SerializeField] private IntVariable  ammo_UI;
+    [SerializeField] private IntVariable ammo_UI;
     [SerializeField] private IntVariable shotgun_ammo_add;
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
+    [SerializeField] private BoolVariable canShoot;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
-    private bool Reshoot=true;
+
+    #region MyRegion
+
+    public GameObject bulletCasingPrefab; // Gilza prefabini joylashtiring
+    public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
+
+    public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
+    //private bool canShoot = true;
+
+    #endregion
+
     void Start()
     {
-        
         directions = new Vector3[pellets]; // Yo'nalishlar massivini initsializatsiya qilish
     }
 
@@ -33,23 +42,21 @@ public class ShotgunScript : MonoBehaviour
     {
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         ammo_UI.Value = shotgun_ammo_add.Value;
-        PlayerMovment mov=FindObjectOfType<PlayerMovment>();
-		
-        if (anim.GetBool("shoot") == false) // Shoot animatsiyasi ishlamayotganda harakat animatsiyalarini boshqarish
+        PlayerMovment mov = FindObjectOfType<PlayerMovment>();
+
+        if (anim.GetBool("shoot") == false)
         {
-            if (mov.x < 0 || mov.x > 0 || mov.z > 0 || mov.z < 0)
+            if (mov.x != 0 || mov.z != 0)
             {
                 anim.SetBool("walk", true);
-               
             }
             else
             {
                 speed.Value = 0;
                 anim.SetBool("walk", false);
-               
             }
 
-            if (Input.GetKey("left shift")&&speed.Value>0)
+            if (Input.GetKey("left shift") && speed.Value > 0)
             {
                 anim.SetBool("Run", true);
             }
@@ -57,55 +64,35 @@ public class ShotgunScript : MonoBehaviour
             {
                 anim.SetBool("Run", false);
             }
-            
         }
 
-        if ( shotgun_ammo_add.Value > 0)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot)
         {
-            if (Input.GetButtonDown("Fire1")&&Reshoot==true) // Chap sichqoncha tugmasi bosilganda
-            {
-                StartCoroutine(ReShootTime());
-               
-                
-            }
+            StartCoroutine(ReShootTime());
         }
 
         IEnumerator ReShootTime()
         {
-            Reshoot = false;
+            canShoot.Value = false;
             Shoot();
-            yield return new WaitForSeconds(1.2f);
-            Reshoot = true;
-            
+            yield return new WaitForSeconds(0.8f);
+            EjectCasing();
+            canShoot.Value = true;
         }
-        
-        
+
         if (Input.GetKey("left shift"))
         {
-
-          
-                anim.SetBool("Run", true);
-               
-
-            
-                
-            
-
-
+            anim.SetBool("Run", true);
         }
         else
         {
-           
             anim.SetBool("Run", false);
         }
-
-
-
     }
 
     void Shoot()
     {
-        anim.SetBool("shoot",true);
+        anim.SetBool("shoot", true);
         sound.Play();
         StartCoroutine(gunanim());
         shotgun_ammo_add.Value--;
@@ -113,48 +100,56 @@ public class ShotgunScript : MonoBehaviour
         isShooting = true;
         bullet.Play();
         
-        RaycastHit hit1;
-        int playerLayer = LayerMask.NameToLayer("Player");
-        int layerMask = ~(1 << playerLayer);
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit1, range,layerMask))
-        {
-            IDamageable damageable=hit1.transform.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                //Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
-                damageable.TakeDamage(damage,hit1.point,hit1.normal);
-            }
 
-               
-        }
-       
-      
         for (int i = 0; i < pellets; i++)
         {
-            // Oldinga yo'nalishni olamiz
             Vector3 direction = fpsCam.transform.forward;
-
-            // Sochilma effektini yaratish uchun tasodifiy burchaklar qo'shamiz
             direction = Quaternion.Euler(Random.Range(-spreadAngle, spreadAngle), Random.Range(-spreadAngle, spreadAngle), 0) * direction;
-
-            directions[i] = direction; // Yo'nalishni saqlash
+            directions[i] = direction;
 
             RaycastHit hit;
-            
-            if (Physics.Raycast(fpsCam.transform.position, direction, out hit, range,layerMask))
+            if (Physics.Raycast(fpsCam.transform.position, direction, out hit, range, ~(1 << LayerMask.NameToLayer("Player"))))
             {
-                IDamageable damageable=hit.transform.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    //Instantiate(Blood,hit.point,Quaternion.FromToRotation(Vector3.right,hit.normal));
-                    damageable.TakeDamage(damage,hit.point,hit.normal);
-                }
-
-               
+                ProcessHit(hit, direction);
             }
         }
-        // Bir oz kutib, raycast chizish tugashidan keyin flagni o'chirish
+
         Invoke(nameof(ResetShootingFlag), 0.1f);
+    }
+
+    private void ProcessHit(RaycastHit hit, Vector3 direction)
+    {
+        IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage, hit.point, hit.normal);
+            Debug.Log(hit.transform.gameObject.name);
+        }
+
+        RaycastHit[] hits = Physics.RaycastAll(hit.point + direction * 0.1f, direction, range - hit.distance, ~(1 << LayerMask.NameToLayer("Player")));
+        foreach (RaycastHit raycastHit in hits)
+        {
+            if (raycastHit.collider != hit.collider)
+            {
+                IDamageable damageableBehind = raycastHit.transform.GetComponent<IDamageable>();
+                if (damageableBehind != null)
+                {
+                    damageableBehind.TakeDamage(damage, raycastHit.point, raycastHit.normal);
+                    Debug.Log(raycastHit.transform.gameObject.name);
+                }
+            }
+        }
+    }
+
+    void EjectCasing()
+    {
+        GameObject casing = Instantiate(bulletCasingPrefab, casingEjectionPoint.position, casingEjectionPoint.rotation);
+        Rigidbody rb = casing.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Vector3 ejectionDirection = casingEjectionPoint.right;
+            rb.AddForce(ejectionDirection * casingEjectionForce, ForceMode.Impulse);
+        }
     }
 
     void ResetShootingFlag()
@@ -164,21 +159,19 @@ public class ShotgunScript : MonoBehaviour
 
     IEnumerator gunanim()
     {
-        yield return new WaitForSeconds(1f);
-        anim.SetBool("shoot",false);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("shoot", false);
     }
+
     void OnDrawGizmos()
     {
         if (!isShooting || directions == null || fpsCam == null) return;
 
-        Gizmos.color = Color.red; // Gizmos rangini qizil qilib qo'yamiz
+        Gizmos.color = Color.red;
 
         for (int i = 0; i < directions.Length; i++)
         {
-            // Har bir raycast yo'nalishini kameradan boshlab tasvirlash
             Gizmos.DrawRay(fpsCam.transform.position, directions[i] * range);
         }
     }
-    
-    
 }
