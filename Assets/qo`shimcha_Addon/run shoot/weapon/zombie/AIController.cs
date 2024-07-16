@@ -210,13 +210,13 @@ public class AIController : MonoBehaviour
         // Otishni bajarish
         Vector3 direction = (player.position - transform.position).normalized;
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(direction));
-        //projectile.GetComponent<Rigidbody>().velocity = firePoint.forward * BulletSpeed;
+        projectile.GetComponent<Rigidbody>().velocity = direction * BulletSpeed;
         
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+       /* Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.velocity = direction * 10f; // Projectile speed
-        }
+        }*/
 
         yield return new WaitForSeconds(0.5f); // Adjust this delay according to your shooting animation length
         chaseSpeed = 4f;
