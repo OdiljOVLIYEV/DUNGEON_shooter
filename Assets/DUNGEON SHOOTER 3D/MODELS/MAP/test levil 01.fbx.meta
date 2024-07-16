@@ -1,54 +1,49 @@
 fileFormatVersion: 2
-guid: 71c9a380ebe4bd840a9ecf1f8f6b9f04
+guid: e8bf37feedc142543b7829aeddb48ef1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: CLYLABFLR01a
-    second: {fileID: 2100000, guid: 6075247a7f13c004284cae36e0a388de, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CLYLABMETAL01a
-    second: {fileID: 2100000, guid: 2f502725c41b8684d81f1201e59369d7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CLYLABWALL02b
-    second: {fileID: 2100000, guid: c2b4cf2f79f17a74d9263428b00b39d5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CLYLIGHT13
-    second: {fileID: 2100000, guid: fe30d8ebc77ea1b48817e9cf8d6cb854, type: 2}
+      name: BRICK2
+    second: {fileID: 2800000, guid: ab6839b32d823254ba4b0df4e1e6665c, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: -0crete2_flr04
-    second: {fileID: 2800000, guid: 6be484414051f274f88c691d975baba1, type: 3}
+      name: BRICK7
+    second: {fileID: 2800000, guid: 436ad558085366c4bbfdfbd161fdb109, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: CLYLABFLR01a
-    second: {fileID: 2800000, guid: a18de35815d31834a89da49097fe5b35, type: 3}
+      name: BSTONE2
+    second: {fileID: 2800000, guid: bf2d08d99933e22459fd65dd5fd7f694, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: CLYLABMETAL01a
-    second: {fileID: 2800000, guid: 0a77937314d33d54eab586451558191a, type: 3}
+      name: FLAT3
+    second: {fileID: 2800000, guid: 561cfa3b605cc5a40b1b85407ddb163a, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: CLYLABWALL02b
-    second: {fileID: 2800000, guid: d23d320b9e1f5d94e8ed01d7d368eb49, type: 3}
+      name: FLOOR0_5
+    second: {fileID: 2800000, guid: bfe0ff858a6db7c40adb5602e84980cc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FLOOR0_6
+    second: {fileID: 2800000, guid: cfaea2ed2135c784e84dbd1e88851f76, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FLOOR7_1
+    second: {fileID: 2800000, guid: fb2464a1607c64246b4daa15abf40b8d, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -75,7 +70,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.7
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 1
     useSRGBMaterialColor: 1
@@ -130,7 +125,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.7
+    globalScale: 0.015
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
