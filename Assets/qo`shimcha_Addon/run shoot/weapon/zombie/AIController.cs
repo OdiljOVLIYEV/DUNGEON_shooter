@@ -207,21 +207,25 @@ public class AIController : MonoBehaviour
         }
         anim.SetBool("Shoot", true); // Start shooting animation
         chaseSpeed = 0f;
-        // Otishni bajarish
-      //  Vector3 direction = (player.position - transform.position).normalized;
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position,  firePoint.rotation);
-        //projectile.GetComponent<Rigidbody>().velocity = direction * BulletSpeed;
-        
+
+        // Calculate direction towards the player
+        Vector3 direction = (player.position - firePoint.position).normalized;
+
+        // Instantiate projectile
+        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+        // Get the Rigidbody component and set its velocity
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.velocity = firePoint.forward * BulletSpeed; // Projectile speed
+            rb.velocity = direction * BulletSpeed; // Projectile speed
         }
 
         yield return new WaitForSeconds(0.5f); // Adjust this delay according to your shooting animation length
+
         chaseSpeed = 4f;
         anim.SetBool("Shoot", false); // Stop shooting animation
-    
+
         if (navMeshAgent.isOnNavMesh)
         {
             navMeshAgent.isStopped = false;

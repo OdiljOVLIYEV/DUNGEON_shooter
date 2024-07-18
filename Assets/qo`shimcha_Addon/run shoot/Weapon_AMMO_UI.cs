@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Weapon_AMMO_UI : MonoBehaviour
 {
-	public Text text;
+	public TextMeshProUGUI text;
 
 	[SerializeField] private IntVariable ammo_UI;
 	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
