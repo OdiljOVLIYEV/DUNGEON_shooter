@@ -80,14 +80,7 @@ public class ShotgunScript : MonoBehaviour
             canShoot.Value = true;
         }
 
-        if (Input.GetKey("left shift"))
-        {
-            anim.SetBool("Run", true);
-        }
-        else
-        {
-            anim.SetBool("Run", false);
-        }
+      
     }
 
     void Shoot()
@@ -159,7 +152,7 @@ public class ShotgunScript : MonoBehaviour
 
     IEnumerator gunanim()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         anim.SetBool("shoot", false);
     }
 
