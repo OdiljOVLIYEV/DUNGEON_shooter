@@ -1,0 +1,15 @@
+# MTL for ARENA.wad, map ARENA
+# Created by GZDoom Builder 2.3.0.2787
+
+newmtl STARTAN2
+Kd 1.0 1.0 1.0
+map_Kd E:\Unityproject\DUNGEON_shooter\Assets\DUNGEON SHOOTER 3D\map plane\arena\STARTAN2.PNG
+
+newmtl CEIL1_1
+Kd 1.0 1.0 1.0
+map_Kd E:\Unityproject\DUNGEON_shooter\Assets\DUNGEON SHOOTER 3D\map plane\arena\CEIL1_1.PNG
+
+newmtl FLOOR0_1
+Kd 1.0 1.0 1.0
+map_Kd E:\Unityproject\DUNGEON_shooter\Assets\DUNGEON SHOOTER 3D\map plane\arena\FLOOR0_1.PNG
+
