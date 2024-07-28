@@ -664,8 +664,8 @@ GameObject:
   - component: {fileID: 1188854281908261037}
   - component: {fileID: 527567262536688461}
   - component: {fileID: 2578346818391703913}
-  - component: {fileID: 6657803165855994366}
   - component: {fileID: 1152247064797128262}
+  - component: {fileID: 8837251537495853909}
   m_Layer: 7
   m_Name: ALIEN_STANDART
   m_TagString: Enemy
@@ -757,14 +757,20 @@ MonoBehaviour:
   canWander: 0
   canHearSound: 0
   canAttack: 1
+  canShoot: 1
   stopAgent: 0
   chaseDistance: 100
   attackDistance: 2
+  shootDistance: 8
   lostDistance: 15
   patrolSpeed: 2
   chaseSpeed: 4
   attackDamage: 10
   attackCooldown: 1
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  BulletSpeed: 2
+  shootCooldown: 2
   patrolPoints: []
 --- !u!195 &2578346818391703913
 NavMeshAgent:
@@ -788,23 +794,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6657803165855994366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3070859313435637479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d27802e0a6450ac479460dc136951019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
-  particleType: 0
-  BloodSprite: {fileID: 131695354495467891, guid: 35925fe8b9fb051478636b2ebcb917af,
-    type: 3}
-  healt: 40
 --- !u!95 &1152247064797128262
 Animator:
   serializedVersion: 5
@@ -826,6 +815,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8837251537495853909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3070859313435637479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef0e197d3cec1c479fb74e13c36926b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stopAgent: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
+  bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
+  particleType: 0
+  healt: 50
+  dead: 0
 --- !u!1 &4159963219432247345
 GameObject:
   m_ObjectHideFlags: 0

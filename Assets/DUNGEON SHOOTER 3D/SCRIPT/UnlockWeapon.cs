@@ -5,22 +5,28 @@ using UnityEngine;
 public class UnlockWeapon : MonoBehaviour
 {
     [SerializeField] private IntVariable UnlockedWeapon;
-    [SerializeField] private int unlockWeaponIndex; // Yangi qurol indeksini ochish
     private WeaponSwitcher weaponSwitcher;
-
-    private void Start()
+    [SerializeField] private int unlockweaponnumber;
+    //public WeaponSwitcher weaponSwitcher;
+    // Start is called before the first frame update
+    void Start()
     {
         weaponSwitcher = FindObjectOfType<WeaponSwitcher>(); 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Unlock weapon at index: " + unlockWeaponIndex);
-            UnlockedWeapon.Value = unlockWeaponIndex;
-            weaponSwitcher.CheckAndSetActiveWeapon(unlockWeaponIndex); // Qurolni almashtirishni chaqirish
-            Destroy(gameObject);
+            // UnlockedWeapons[2].Value = true;
+            // weaponSwitcher.UnlockWeapon(0);
+            // Debug.Log("Unlock weapon at index: " + unlockWeaponIndex);
+            //UnlockedWeapon.Value = unlockWeaponIndex;
+            // weaponSwitcher.CheckAndSetActiveWeapon(unlockWeaponIndex); // Qurolni almashtirishni chaqirish
+            UnlockedWeapon.Value = unlockweaponnumber;
+            weaponSwitcher.UnlockWeapon(UnlockedWeapon.Value);
+            weaponSwitcher.CheckAndSetActiveWeapon(UnlockedWeapon.Value);
+            
         }
     }
 }

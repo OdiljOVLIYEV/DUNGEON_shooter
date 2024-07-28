@@ -6,7 +6,8 @@ public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // Qurollarning ro'yxati
     public List<GameObject> weapons_icon; // Icon ro`yxati
-    [SerializeField] private IntVariable UnlockedWeapon;
+    [SerializeField] private List<BoolVariable> UnlockedWeapons;
+    [SerializeField] private IntVariable UnlockedWeapon;// List of BoolVariables representing unlocked weapons
     [SerializeField] private BoolVariable canShoot;
     
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
@@ -24,7 +25,7 @@ public class WeaponSwitcher : MonoBehaviour
         // Foydalanuvchining klaviaturada 1 dan 9 gacha bosilgan har bir kalitini tekshirish
         for (int i = 0; i < weapons.Count; i++)
         {
-            if (Input.GetKeyDown((i + 1).ToString()) && i <= UnlockedWeapon.Value)
+            if (Input.GetKeyDown((i + 1).ToString()) && UnlockedWeapons[i].Value)
             {
                 SetActiveWeapon(i);
             }
@@ -57,13 +58,15 @@ public class WeaponSwitcher : MonoBehaviour
 
     private void InitializeWeapons()
     {
-        foreach (GameObject weapon in weapons)
+        for (int i = 0; i < weapons.Count; i++)
         {
-            weapon.SetActive(false);
+            weapons[i].SetActive(false);
+            UnlockedWeapons[i].Value = false; // Initialize all weapons as locked
         }
 
         // O'yin boshlanganda birinchi ochiq qurolni topish va faollashtirish
         SetActiveWeapon(0); // Dastlab faqat birinchi qurol ochiq bo'ladi
+        UnlockedWeapons[0].Value = true; // Ensure the first weapon is unlocked
     }
 
     private void InitializeWeaponIcons()
@@ -81,19 +84,19 @@ public class WeaponSwitcher : MonoBehaviour
     }
 
     // Qurolni ochish
-    public void UnlockWeaponsUpTo(int index)
+    public void UnlockWeapon(int UnlockedWeapon)
     {
-        if (index >= 0 && index < weapons.Count)
+        if (UnlockedWeapon >= 0 && UnlockedWeapon < weapons.Count)
         {
-            UnlockedWeapon.Value = index;
+            UnlockedWeapons[UnlockedWeapon].Value = true;
         }
     }
 
-    public void CheckAndSetActiveWeapon(int index)
+    public void CheckAndSetActiveWeapon(int UnlockedWeapon)
     {
-        if (index <= UnlockedWeapon.Value)
+        if (UnlockedWeapon >= 0 && UnlockedWeapon < weapons.Count && UnlockedWeapons[UnlockedWeapon].Value)
         {
-            SetActiveWeapon(index);
+            SetActiveWeapon(UnlockedWeapon);
         }
     }
 }

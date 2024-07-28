@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,6 +7,7 @@ public class AIController : MonoBehaviour
 {
     public bool canPatrol = true;
     public bool canChase = true;
+    [SerializeField] private BoolVariable stopAgentchase;
     public bool canWander = true;
     public bool canHearSound = true;
     public bool canAttack = true;
@@ -32,14 +34,15 @@ public class AIController : MonoBehaviour
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
     private NavMeshAgent navMeshAgent;
-    private Animator anim;
+    public Animator anim;
     
     private Vector3 lastHeardSoundPosition = Vector3.zero;
     
     void Start()
     {
+        
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        anim = GetComponent<Animator>(); 
+       // anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent = false;
         lastAttackTime = -attackCooldown; // Initialize cooldown
@@ -48,6 +51,7 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
+        canChase = stopAgentchase;
         if (stopAgent)
         {
             if (navMeshAgent.isOnNavMesh)
@@ -77,8 +81,8 @@ public class AIController : MonoBehaviour
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
                     navMeshAgent.transform.rotation = Quaternion.Slerp(navMeshAgent.transform.rotation, targetRotation, Time.deltaTime * 5f);
                 }
-            
-                StartCoroutine(ChaseWithAnimation());
+                ChasePlayer();
+                //StartCoroutine(ChaseWithAnimation());
                
                 if (canShoot && distanceToPlayer < shootDistance)
                 {
@@ -114,13 +118,13 @@ public class AIController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, chaseDistance);
     }
     
-    IEnumerator ChaseWithAnimation()
+   /* IEnumerator ChaseWithAnimation()
     {
         anim.SetBool("Baqirish", true); // Play "Baqirish" animation
         yield return new WaitForSeconds(1.5f); // Adjust this delay according to your animation length
         anim.SetBool("Baqirish", false); // Stop "Baqirish" animation
         ChasePlayer();
-    }
+    }*/
 
     void ChasePlayer()
     {
@@ -180,15 +184,22 @@ public class AIController : MonoBehaviour
         if (Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
+            anim.SetBool("Attack",true);
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
+               
                 playerHealth.TakeDamage(attackDamage);
                 Debug.Log("Player attacked!");
+                StartCoroutine(ResetAttackAnimation());
             }
         }
     }
-
+    IEnumerator ResetAttackAnimation()
+    {
+        yield return new WaitForSeconds(0.3f); // 0.5 soniya kutish (kerakli vaqtni moslang)
+        anim.SetBool("Attack", false);
+    }
     void ShootPlayer()
     {
         if (Time.time >= lastShootTime + shootCooldown)

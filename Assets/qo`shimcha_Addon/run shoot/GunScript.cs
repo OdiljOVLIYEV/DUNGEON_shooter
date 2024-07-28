@@ -18,7 +18,6 @@ public class GunScript : MonoBehaviour
 
     public GameObject bulletCasingPrefab; // Gilza prefabini joylashtiring
     public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
-
     public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
 
     #endregion
@@ -26,6 +25,11 @@ public class GunScript : MonoBehaviour
     public AudioSource sound;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
+
+    // Tracer bullet properties
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPoint;
+    public float bulletSpeed = 1000f;
 
     protected void Start()
     {
@@ -68,12 +72,12 @@ public class GunScript : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                shoot();
+                Shoot();
             }
         }
     }
 
-    private void shoot()
+    private void Shoot()
     {
         anim.SetBool("shoot", true);
         StartCoroutine(gunanim());
@@ -87,18 +91,17 @@ public class GunScript : MonoBehaviour
         int playerLayer = LayerMask.NameToLayer("Player");
         int layerMask = ~(1 << playerLayer);
 
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, layerMask))
+        Vector3 shootDirection = cam.transform.forward;
+        Vector3 shootOrigin = cam.transform.position;
+
+        if (Physics.Raycast(shootOrigin, shootDirection, out hit, range, layerMask))
         {
             ProcessHit(hit);
-
-            RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, cam.transform.forward, range, layerMask);
-            foreach (RaycastHit raycastHit in hits)
-            {
-                if (raycastHit.collider != hit.collider)
-                {
-                    ProcessHit(raycastHit);
-                }
-            }
+            FireBullet(shootOrigin, hit.point);
+        }
+        else
+        {
+            FireBullet(shootOrigin, shootOrigin + shootDirection * range);
         }
     }
 
@@ -130,6 +133,17 @@ public class GunScript : MonoBehaviour
         {
             Vector3 ejectionDirection = casingEjectionPoint.right;
             rb.AddForce(ejectionDirection * casingEjectionForce, ForceMode.Impulse);
+        }
+    }
+
+    private void FireBullet(Vector3 start, Vector3 end)
+    {
+        GameObject bulletInstance = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Rigidbody rb = bulletInstance.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Vector3 direction = (end - start).normalized;
+            rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);
         }
     }
 
