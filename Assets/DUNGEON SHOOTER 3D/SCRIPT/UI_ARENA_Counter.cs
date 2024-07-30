@@ -1,91 +1,91 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
-using UnityEngine.UI; // Eğer bir UI Text elemanına sahipseniz
 using TMPro;
 
 public class UI_ARENA_Counter : MonoBehaviour
 {
-    public TextMeshProUGUI EnemyCountText; // UI Text elemanı sahnedeki düşman sayısını göstermek için
+    public TextMeshProUGUI EnemyCountText;
     public TextMeshProUGUI MoneyCountText;
     public TextMeshProUGUI WaveCountText;
+    public TextMeshProUGUI TimeCountText;
     public int NextWaveAddEnemyCounter;
     [SerializeField] private IntVariable moneyCount;
+    public static Action MusicManagerStart;
+    public static Action MusicManagerPause;
+    public static Action MusicManagerResume;
     private int Wave_number;
     public Transform[] spawnPoints;
-    public GameObject enemy;
+    public GameObject[] enemies;
     public float MaxEnemy;
-    private float SpawnEnemy;
+    private int SpawnEnemy;
+    public float SpawnTime;
     [SerializeField] private FloatVariable KillEnemy_UI;
-    //private float SpawnEnemy;
-    public float timespawn;
-   
+    public float timewave;
+
     private void Start()
     {
-       
-        Wave_number = 0;
-        UpdateWaveCount();
+        MusicManagerStart?.Invoke();
+        MusicManagerPause?.Invoke();   
+      
+        timewave = 4f;
+        StartCoroutine(TimeWave());
+        WaveCountText.enabled = false;
+        TimeCountText.enabled = true;
     }
 
     void Update()
     {
-    
-        //UpdateDestroyCount();
-        
         if (MoneyCountText != null)
         {
             MoneyCountText.text = moneyCount.ToString() + " $";
         }
 
-        // "Enemy" etiketi ile sahnedeki tüm nesneleri say
-          GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-         int enemyCount = enemies.Length;
-        
-        if (enemyCount == 0)
-        {               
-            
-            MaxEnemy += NextWaveAddEnemyCounter;
-            SpawnEnemy=MaxEnemy;
-            KillEnemy_UI.Value = MaxEnemy;
-            StartCoroutine(Enemydrop());
-            Wave_number++;
-            UpdateWaveCount();
+        if (timewave == 0)
+        {
             UpdateEnemyCount();
-          
-            // UI Text elemanına düşman sayısını yazdır
-
         }
-        UpdateEnemyCount();
-        
-       
-        
-      
-        
-        
     }
 
     public void spawn()
     {
-        Vector3 spawnPosition = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
-        Instantiate(enemy, spawnPosition, Quaternion.identity);
+        if (enemies.Length == 0 || spawnPoints.Length == 0)
+        {
+            Debug.LogError("Enemies or spawn points not set!");
+            return;
+        }
+
+        // Iterate over spawn points and spawn enemies
+        ShuffleSpawnPoints();
+
+        // Choose a random enemy from the array
+        GameObject enemyToSpawn = enemies[UnityEngine.Random.Range(0, enemies.Length)];
+
+        // Ensure SpawnEnemy does not exceed the bounds of spawnPoints
+        int spawnIndex = (SpawnEnemy - 1) % spawnPoints.Length;
+
+        // Choose the current spawn point
+        Transform spawnPoint = spawnPoints[spawnIndex];
+
+        // Instantiate the enemy at the spawn point position and rotation
+        Instantiate(enemyToSpawn, spawnPoint.position, spawnPoint.rotation);
     }
+
     private void UpdateEnemyCount()
     {
-        
         if (EnemyCountText != null)
         {
-            EnemyCountText.text =KillEnemy_UI.ToString();
+            EnemyCountText.text = KillEnemy_UI.ToString();
+        }
+        if (KillEnemy_UI == 0)
+        {   
+            MusicManagerPause?.Invoke();            
+            timewave = 4f;
+            StartCoroutine(TimeWave());
         }
     }
-   /* private void UpdateDestroyCount()
-    {
-        if (EnemyCountText != null)
-        {
-            EnemyCountText.text = "ENEMIES: " + enemyCount.ToString();
-        }
-    }*/
+
     private void UpdateWaveCount()
     {
         if (WaveCountText != null)
@@ -93,23 +93,53 @@ public class UI_ARENA_Counter : MonoBehaviour
             WaveCountText.text = "Wave " + Wave_number.ToString();
         }
     }
-    
+
+    IEnumerator TimeWave()
+    {
+        while (timewave > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            timewave -= 1;
+            TimeCountText.text = timewave.ToString();
+            WaveCountText.enabled = false;
+            TimeCountText.enabled = true;
+
+            if (timewave == 0)
+            {
+                WaveCountText.enabled = true;
+                TimeCountText.enabled = false;
+                
+                MaxEnemy += NextWaveAddEnemyCounter;
+                SpawnEnemy = (int)MaxEnemy;
+                KillEnemy_UI.Value = MaxEnemy;
+               
+                Wave_number++;
+                MusicManagerResume?.Invoke();
+                UpdateEnemyCount();
+                UpdateWaveCount();
+                StartCoroutine(Enemydrop());
+            }
+        }
+    }
+
     IEnumerator Enemydrop()
     {
-
         while (SpawnEnemy > 0)
         {
-
-            
             spawn();
-            yield return new WaitForSeconds(timespawn);
-            SpawnEnemy -= 1;
-            
+            yield return new WaitForSeconds(SpawnTime);
+            SpawnEnemy--;
         }
+    }
 
-        
-
-
-
+    void ShuffleSpawnPoints()
+    {
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            Transform temp = spawnPoints[i];
+            int randomIndex = UnityEngine.Random.Range(i, spawnPoints.Length);
+            spawnPoints[i] = spawnPoints[randomIndex];
+            spawnPoints[randomIndex] = temp;
+        }
     }
 }

@@ -7,7 +7,6 @@ public class AIController : MonoBehaviour
 {
     public bool canPatrol = true;
     public bool canChase = true;
-    [SerializeField] private BoolVariable stopAgentchase;
     public bool canWander = true;
     public bool canHearSound = true;
     public bool canAttack = true;
@@ -51,7 +50,7 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
-        canChase = stopAgentchase;
+        
         if (stopAgent)
         {
             if (navMeshAgent.isOnNavMesh)
@@ -221,8 +220,27 @@ public class AIController : MonoBehaviour
 
         // Calculate direction towards the player
         Vector3 direction = (player.position - firePoint.position).normalized;
+        float distanceToPlayer = Vector3.Distance(firePoint.position, player.position);
 
-        // Instantiate projectile
+        // Check for obstacles between the enemy and the player
+        if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, distanceToPlayer))
+        {
+            // If there is an obstacle and it's not the player, abort shooting
+            if (hit.transform != player)
+            {
+                chaseSpeed = 4f;
+                anim.SetBool("Shoot", false); // Stop shooting animation
+
+                if (navMeshAgent.isOnNavMesh)
+                {
+                    navMeshAgent.isStopped = false;
+                }
+
+                yield break; // Exit the coroutine early
+            }
+        }
+
+        // Instantiate projectile if no obstacles are detected
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
 
         // Get the Rigidbody component and set its velocity

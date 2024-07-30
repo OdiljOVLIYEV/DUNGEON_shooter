@@ -14,7 +14,7 @@ public class UnlockWeapon : MonoBehaviour
         weaponSwitcher = FindObjectOfType<WeaponSwitcher>(); 
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -26,7 +26,7 @@ public class UnlockWeapon : MonoBehaviour
             UnlockedWeapon.Value = unlockweaponnumber;
             weaponSwitcher.UnlockWeapon(UnlockedWeapon.Value);
             weaponSwitcher.CheckAndSetActiveWeapon(UnlockedWeapon.Value);
-            
+            Destroy(gameObject);
         }
     }
 }

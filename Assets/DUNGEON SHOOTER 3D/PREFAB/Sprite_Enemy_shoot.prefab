@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 2718935088892956489}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.097234555, z: -0, w: 0.9952615}
-  m_LocalPosition: {x: -0.10973199, y: 3.1782856, z: 0.017075159}
+  m_LocalPosition: {x: -0.10973199, y: 2.6382847, z: 0.017075159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,7 +180,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 1e07f458fa719ab46b93fe99ffc01369, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -249,7 +249,7 @@ Transform:
   m_GameObject: {fileID: 6974938633981299600}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.097234555, z: -0, w: 0.9952615}
-  m_LocalPosition: {x: -0.10973199, y: 3.1782856, z: 0.017075159}
+  m_LocalPosition: {x: -0.10973199, y: 2.6382847, z: 0.017075159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -295,7 +295,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: acb08c705b36e214a9f02e00c8e549d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 4758581411708580235}
   - component: {fileID: 5753847034825226011}
   m_Layer: 7
-  m_Name: Sprite_Enemy
+  m_Name: Sprite_Enemy_shoot
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,8 +337,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8382315657026375283}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.09723556, z: 0, w: 0.99526143}
-  m_LocalPosition: {x: -188.14903, y: -28.938286, z: 206.40448}
+  m_LocalRotation: {x: -0, y: 0.4137025, z: -0, w: 0.91041213}
+  m_LocalPosition: {x: -192.9, y: -28.938286, z: 211.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -346,7 +346,7 @@ Transform:
   - {fileID: 1505054894800206964}
   - {fileID: 8839151135612899727}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -11.16, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 48.875, z: 0}
 --- !u!114 &6628912750346477340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,12 +361,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canPatrol: 0
   canChase: 1
-  canWander: 1
+  canWander: 0
   canHearSound: 0
   canAttack: 0
   canShoot: 1
   stopAgent: 0
-  chaseDistance: 40
+  chaseDistance: 400
   attackDistance: 2
   shootDistance: 30
   lostDistance: 15
@@ -380,6 +380,7 @@ MonoBehaviour:
   BulletSpeed: 30
   shootCooldown: 1
   patrolPoints: []
+  anim: {fileID: 3199860790209992577}
 --- !u!195 &7823893955378956206
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -435,12 +436,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef0e197d3cec1c479fb74e13c36926b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopAgent: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
   bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
   particleType: 0
   money: {fileID: 1952802582266928029, guid: 9258a9eb31c80b749a4de1218fc5ccac, type: 3}
-  healt: 50
+  healt: 5
+  anim: {fileID: 3199860790209992577}
   dead: 0
+  KillEnemy_UI: {fileID: 11400000, guid: 4096c520c727b484cabfae72ad70483d, type: 2}
 --- !u!54 &4758581411708580235
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -488,4 +490,4 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 1
-  m_Center: {x: -0.14, y: 3.1, z: 0}
+  m_Center: {x: -0.14, y: 2.57, z: 0}

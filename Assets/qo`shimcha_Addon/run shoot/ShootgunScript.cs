@@ -29,9 +29,12 @@ public class ShotgunScript : MonoBehaviour
     public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
 
     public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
-    //private bool canShoot = true;
 
     #endregion
+
+    public GameObject bulletPrefab; // Tracer prefabini joylashtiring
+    public Transform bulletSpawnPoint; // Tracer uchun chiqish nuqtasi
+    public float bulletSpeed = 1000f; // Tracer tezligi
 
     void Start()
     {
@@ -79,8 +82,6 @@ public class ShotgunScript : MonoBehaviour
             EjectCasing();
             canShoot.Value = true;
         }
-
-      
     }
 
     void Shoot()
@@ -92,7 +93,6 @@ public class ShotgunScript : MonoBehaviour
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;
         bullet.Play();
-        
 
         for (int i = 0; i < pellets; i++)
         {
@@ -105,6 +105,8 @@ public class ShotgunScript : MonoBehaviour
             {
                 ProcessHit(hit, direction);
             }
+
+            FireBullet(fpsCam.transform.position, direction);
         }
 
         Invoke(nameof(ResetShootingFlag), 0.1f);
@@ -131,6 +133,16 @@ public class ShotgunScript : MonoBehaviour
                     Debug.Log(raycastHit.transform.gameObject.name);
                 }
             }
+        }
+    }
+
+    void FireBullet(Vector3 origin, Vector3 direction)
+    {
+        GameObject bulletInstance = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Rigidbody rb = bulletInstance.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);
         }
     }
 

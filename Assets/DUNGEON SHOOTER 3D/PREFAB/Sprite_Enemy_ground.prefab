@@ -52,13 +52,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canPatrol: 0
   canChase: 1
-  stopAgentchase: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
   canWander: 0
   canHearSound: 0
   canAttack: 1
   canShoot: 0
   stopAgent: 0
-  chaseDistance: 100
+  chaseDistance: 400
   attackDistance: 2
   shootDistance: 30
   lostDistance: 15
@@ -107,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef0e197d3cec1c479fb74e13c36926b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopAgentchase: {fileID: 11400000, guid: 05af030e2de9bc64e810a92e0c0b041b, type: 2}
   bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
   particleType: 0
   money: {fileID: 1952802582266928029, guid: 9258a9eb31c80b749a4de1218fc5ccac, type: 3}

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class Target : MonoBehaviour,IDamageable
 {
-	[SerializeField] private BoolVariable stopAgentchase;
+	
 	public ParticleSystem bloodParticle;
 
 	public ParticleType particleType;
@@ -22,9 +22,9 @@ public class Target : MonoBehaviour,IDamageable
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
-		stopAgentchase.Value = true;
 		
-		
+
+
 	}
 	
 	// Update is called every frame, if the MonoBehaviour is enabled.
@@ -55,7 +55,7 @@ public class Target : MonoBehaviour,IDamageable
 		if(healt<=0f)
 		{
 			anim.SetBool("Died",true);
-			stopAgentchase.Value = false;
+			GetComponent<AIController>().canChase = false;
 			GetComponent<NavMeshAgent>().speed=0f;
 			
 			

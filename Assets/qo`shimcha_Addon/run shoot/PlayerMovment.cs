@@ -79,9 +79,9 @@ public class PlayerMovment : MonoBehaviour
 			
 		
 	
-		if (Input.GetButtonDown("Jump") && isGrounded||Input.GetButtonDown("Jump") && devors)
+		if (Input.GetButtonDown("Jump") && isGrounded/*||Input.GetButtonDown("Jump") && devors*/)
 		{
-			velocity.y= Mathf.Sqrt(jumpHeight * -4 * gravity);
+			velocity.y= Mathf.Sqrt(jumpHeight * -4*gravity);
 			wallrun=true;
 		}else{
 			
