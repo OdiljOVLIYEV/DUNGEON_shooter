@@ -1,11 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
-
+using System.Collections;
 public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // Qurollarning ro'yxati
     public List<GameObject> weapons_icon; // Icon ro`yxati
+    public GameObject Katana;
+
+    public static Action SwordEffectCall;
+   // public GameObject Katana_icon;
     [SerializeField] private List<BoolVariable> UnlockedWeapons;
     [SerializeField] private IntVariable UnlockedWeapon;// List of BoolVariables representing unlocked weapons
     [SerializeField] private BoolVariable canShoot;
@@ -13,7 +18,7 @@ public class WeaponSwitcher : MonoBehaviour
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
     private int previousWeaponIndex = -1; // Oldingi qurol indeksi
     private int lastWeaponIndex = -1; // Oxirgi tanlangan qurol indeksi
-
+    private bool change = true;
     void Start()
     {
         InitializeWeapons();
@@ -36,6 +41,25 @@ public class WeaponSwitcher : MonoBehaviour
         {
             SetActiveWeapon(previousWeaponIndex);
         }
+
+        if (Input.GetKeyDown(KeyCode.F)&&change)
+        {
+            Katana.SetActive(true);
+            SwordEffectCall?.Invoke();
+            if (currentWeaponIndex != -1)
+            {
+                weapons[currentWeaponIndex].SetActive(false);
+                weapons_icon[currentWeaponIndex].SetActive(false);
+            }
+            canShoot.Value = false; // Disables shooting while 'F' is pressed
+        }
+
+        // 'F' tugmasi qo'yib yuborilganda joriy qurolni qayta yoqish
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+           Invoke("WeaponOn",0.3f);
+        }
+        
     }
 
     public void SetActiveWeapon(int index)
@@ -99,4 +123,25 @@ public class WeaponSwitcher : MonoBehaviour
             SetActiveWeapon(UnlockedWeapon);
         }
     }
+
+    void WeaponOn()
+    {
+        Katana.SetActive(false);
+        if (currentWeaponIndex != -1)
+        {
+            weapons[currentWeaponIndex].SetActive(true);
+            weapons_icon[currentWeaponIndex].SetActive(true);
+        }
+        canShoot.Value = true; // Re-enables shooting when 'F' is released
+        
+    }
+
+    IEnumerator  weaponhandchange()
+    {
+        change = false;
+        yield return new WaitForSeconds(0.5f);
+        change = true;
+        
+    }
 }
+

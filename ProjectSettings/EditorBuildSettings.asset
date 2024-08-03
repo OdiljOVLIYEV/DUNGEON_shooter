@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DUNGEON SHOOTER 3D/SCENE/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/DUNGEON SHOOTER 3D/SCENE/Arena.unity
+    guid: 1f0cf1dccdff8f34ca3d6e61e6f9afb2
   m_configObjects: {}

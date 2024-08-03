@@ -18,12 +18,13 @@ public class Target : MonoBehaviour,IDamageable
 	public Animator anim;
 	public bool dead;
 	[SerializeField] private FloatVariable KillEnemy_UI;
-	
+
+	public AudioSource killsound;
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
-		
 
+		killsound.GetComponent<AudioSource>();
 
 	}
 	
@@ -53,11 +54,14 @@ public class Target : MonoBehaviour,IDamageable
 		}
 		
 		if(healt<=0f)
-		{
-			anim.SetBool("Died",true);
+		{    
+			
+		
+			
 			GetComponent<AIController>().canChase = false;
 			GetComponent<NavMeshAgent>().speed=0f;
 			
+			anim.SetBool("Died",true);
 			
 			
 			//anim.SetBool("dead",true);
@@ -71,9 +75,9 @@ public class Target : MonoBehaviour,IDamageable
 			//anim.agent.speed=0f;
 			//Debug.Log("DEAD");
 			
+			killsound.Play();
 			
-			
-			Die();
+			Invoke("Die",0.1f);
 		}
 		
 	}
@@ -85,7 +89,7 @@ public class Target : MonoBehaviour,IDamageable
 
 		KillEnemy_UI.Value--;
 		Instantiate(money, transform.localPosition, Quaternion.identity);	
-		Destroy(gameObject,1f);
+		Destroy(gameObject,1.3f);
 			
 		
 	}

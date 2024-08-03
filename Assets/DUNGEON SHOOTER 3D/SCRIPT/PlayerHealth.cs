@@ -12,12 +12,30 @@ public class PlayerHealth : MonoBehaviour
     public float health = 100f;
     
     public Image image; // UI Image komponenti
-    public float fadeDuration = 1.0f; // Fade davomiyligi (soniyalarda)
+    public float fadeDuration = 1.0f;
+    
+    private string unlimitedSymbol = "∞";// Fade davomiyligi (soniyalarda)
     private void Start()
     {
-        text.text=health.ToString();
+	   
+	    
         GetComponent<Animator>().enabled = false;
-		
+        text.text=health.ToString();
+    }
+
+    private void Update()
+    {
+	    float largeNumber = 1e+30f;
+	    if (health==largeNumber)
+	    {
+		   
+		    text.text = unlimitedSymbol;
+
+	    }
+	    else
+	    {
+		    
+	    }
     }
 
     public void TakeDamage(float amount)
