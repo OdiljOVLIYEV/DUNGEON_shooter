@@ -11,22 +11,22 @@ public class ammo_add : MonoBehaviour
 	[SerializeField] private IntVariable gun_ammo_add;
 	[SerializeField] private IntVariable shotgun_ammo_add;
 	[SerializeField] private IntVariable rifle_ammo_add;
+	[SerializeField] private IntVariable HealthPackBig_add;
+	[SerializeField] private IntVariable HealthPackSmall_add;
 	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
 	//[SerializeField] private IntVariable rifle_ammo_add;
 	public int gun_ammo;
 	public int shotgun_ammo;
 	public int rifle_ammo;
+	public int HealthPackBig;
+	public int HealthPackSmall;
 	public Image white; 
 	public LayerMask groundLayer;
 
 	
 	
     // Start is called before the first frame update
-    void Start()
-	{
-		
-		
-    }
+ 
 
     // Update is called once per frame
     private void Update()
@@ -57,10 +57,13 @@ public class ammo_add : MonoBehaviour
 		    gun_ammo_add.Value += gun_ammo;// + shotgun_ammo_add + rifle_ammo_add;
 		    shotgun_ammo_add.Value += shotgun_ammo;
 		    rifle_ammo_add.Value += rifle_ammo;
+		    HealthPackBig_add.Value += HealthPackBig;
+		    HealthPackSmall_add.Value += HealthPackSmall;
 		    UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		    UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
 		    UI_AMMO_UPDATE.Raise(rifle_ammo_add.Value);
-			
+		    UI_AMMO_UPDATE.Raise(HealthPackBig_add.Value);
+		    UI_AMMO_UPDATE.Raise(HealthPackSmall_add.Value);
 	    }
 
 

@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 5880859366090130733}
   serializedVersion: 2
   m_LocalRotation: {x: 0.70209664, y: -0.004634791, z: -0.0026090671, w: -0.7120618}
-  m_LocalPosition: {x: -146.82, y: -23.19, z: 181.25}
+  m_LocalPosition: {x: -137.706, y: -23.037, z: 176.428}
   m_LocalScale: {x: 8.510705, y: 14.119068, z: 8.47144}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -225,10 +225,15 @@ MonoBehaviour:
   gun_ammo_add: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647, type: 2}
   shotgun_ammo_add: {fileID: 11400000, guid: 8caf29d9b1ccb9540bcfce8abeb34af1, type: 2}
   rifle_ammo_add: {fileID: 11400000, guid: ba6d50544f32ee745b6add2de2eb88b3, type: 2}
+  HealthPackBig_add: {fileID: 11400000, guid: aa8ebeaa817427a46865775abde5ac54, type: 2}
+  HealthPackSmall_add: {fileID: 11400000, guid: 5ccd545920b310e4681ebac23d27d42b,
+    type: 2}
   UI_AMMO_UPDATE: {fileID: 11400000, guid: 2da9c60fd26734943ab57292e0ea5a38, type: 2}
   gun_ammo: 20
   shotgun_ammo: 0
   rifle_ammo: 0
+  HealthPackBig: 0
+  HealthPackSmall: 0
   white: {fileID: 6437291412725823430}
   groundLayer:
     serializedVersion: 2

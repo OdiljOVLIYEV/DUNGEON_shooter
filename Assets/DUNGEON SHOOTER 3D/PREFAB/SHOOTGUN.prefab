@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8765808699751554336}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7044118, z: -0, w: 0.70979154}
-  m_LocalPosition: {x: -143.18948, y: -21.768835, z: 174.57732}
+  m_LocalPosition: {x: -137.732, y: -22.49, z: 179.435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnlockedWeapon: {fileID: 11400000, guid: 1251618c4ee95c04abf5a9b4b38d0acf, type: 2}
   unlockweaponnumber: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!65 &8842077370918832109
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95,7 +98,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1001 &8806398142393346311
 PrefabInstance:

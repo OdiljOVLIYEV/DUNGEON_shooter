@@ -3,7 +3,17 @@ guid: ad6575ca11d657b40925e36cd2160141
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: med kit
+    second: {fileID: 2100000, guid: 78e82e5ad39b81346a7be4e3ee7fbbcf, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Screenshot_13
+    second: {fileID: 2800000, guid: 6be0b751e0a4d244f882df2f9057b99e, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

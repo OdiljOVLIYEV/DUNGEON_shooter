@@ -16,7 +16,8 @@ public class AIController : MonoBehaviour
     private Transform player;
     public float chaseDistance = 10f;
     public float attackDistance = 2f; // Distance to inflict damage on player
-    public float shootDistance = 8f; // Distance to shoot at player
+    public float shootDistance = 8f;
+    public float hearSoundRadius = 20f;// Distance to shoot at player
     public float lostDistance = 15f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
@@ -36,7 +37,7 @@ public class AIController : MonoBehaviour
     public Animator anim;
     
     private Vector3 lastHeardSoundPosition = Vector3.zero;
-    
+  
     void Start()
     {
         
@@ -261,12 +262,19 @@ public class AIController : MonoBehaviour
         }
     }
 
+   
     public void HeardSound(Vector3 soundPosition)
     {
-        if (canHearSound && navMeshAgent.isOnNavMesh)
+        if (canHearSound && Vector3.Distance(transform.position, soundPosition) <= hearSoundRadius && navMeshAgent.isOnNavMesh)
         {
             lastHeardSoundPosition = soundPosition;
             navMeshAgent.SetDestination(lastHeardSoundPosition);
+            anim.SetBool("Walk", true);
         }
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearSoundRadius); // Ovoz tanib olish radiusini chizish
     }
 }

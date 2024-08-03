@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5175878384581341672}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.4137025, z: -0, w: 0.91041213}
+  m_LocalRotation: {x: 0, y: 0.41370034, z: 0, w: 0.91041315}
   m_LocalPosition: {x: -104, y: -25.5, z: 173.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54,13 +54,14 @@ MonoBehaviour:
   canPatrol: 0
   canChase: 1
   canWander: 0
-  canHearSound: 0
+  canHearSound: 1
   canAttack: 1
   canShoot: 0
   stopAgent: 0
-  chaseDistance: 400
+  chaseDistance: 15
   attackDistance: 2
   shootDistance: 30
+  hearSoundRadius: 400
   lostDistance: 15
   patrolSpeed: 2
   chaseSpeed: 4
