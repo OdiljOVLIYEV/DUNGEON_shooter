@@ -113,7 +113,7 @@ MonoBehaviour:
   bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
   particleType: 0
   money: {fileID: 1952802582266928029, guid: 9258a9eb31c80b749a4de1218fc5ccac, type: 3}
-  healt: 5
+  healt: 100
   anim: {fileID: 8477756147269714051}
   dead: 0
   KillEnemy_UI: {fileID: 11400000, guid: 4096c520c727b484cabfae72ad70483d, type: 2}
