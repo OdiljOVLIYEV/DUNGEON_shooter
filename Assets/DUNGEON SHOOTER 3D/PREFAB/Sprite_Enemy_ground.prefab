@@ -58,7 +58,7 @@ MonoBehaviour:
   canAttack: 1
   canShoot: 0
   stopAgent: 0
-  chaseDistance: 15
+  chaseDistance: 400
   attackDistance: 2
   shootDistance: 30
   hearSoundRadius: 400

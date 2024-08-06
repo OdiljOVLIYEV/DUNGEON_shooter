@@ -11,18 +11,14 @@ public class ammo_add : MonoBehaviour
 	[SerializeField] private IntVariable gun_ammo_add;
 	[SerializeField] private IntVariable shotgun_ammo_add;
 	[SerializeField] private IntVariable rifle_ammo_add;
-	[SerializeField] private IntVariable HealthPackBig_add;
-	[SerializeField] private IntVariable HealthPackSmall_add;
 	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
 	//[SerializeField] private IntVariable rifle_ammo_add;
 	public int gun_ammo;
 	public int shotgun_ammo;
 	public int rifle_ammo;
-	public int HealthPackBig;
-	public int HealthPackSmall;
 	public Image white; 
 	public LayerMask groundLayer;
-
+	private bool isCollected = false;
 	
 	
     // Start is called before the first frame update
@@ -33,7 +29,6 @@ public class ammo_add : MonoBehaviour
     {
 	    if (IsGrounded())
 	    {
-		    Debug.Log("yerda");
 		    GetComponent<Rigidbody>().useGravity = false;
 		    Invoke("triggerOn",0.3f);
 		 
@@ -43,27 +38,32 @@ public class ammo_add : MonoBehaviour
 		  GetComponent<Rigidbody>().useGravity = true;
 		  Invoke("triggeroff",0.3f);
 	    }
+
+	   
     }
 
     private void OnTriggerEnter(Collider other)
     
     {
 
-	    if(other.gameObject.tag=="Player")
+	    if(other.gameObject.tag=="Player"&& !isCollected)
 	    {
-		    //GetComponent<BoxCollider>().enabled = false;
+		    isCollected = true; 
 		    white.enabled = true;
 		    Invoke("whiteoff",0.2f);
 		    gun_ammo_add.Value += gun_ammo;// + shotgun_ammo_add + rifle_ammo_add;
 		    shotgun_ammo_add.Value += shotgun_ammo;
 		    rifle_ammo_add.Value += rifle_ammo;
-		    HealthPackBig_add.Value += HealthPackBig;
-		    HealthPackSmall_add.Value += HealthPackSmall;
+		    
+			   
+		  
+		    
+		    
+		   
 		    UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
 		    UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
 		    UI_AMMO_UPDATE.Raise(rifle_ammo_add.Value);
-		    UI_AMMO_UPDATE.Raise(HealthPackBig_add.Value);
-		    UI_AMMO_UPDATE.Raise(HealthPackSmall_add.Value);
+		 
 	    }
 
 
@@ -79,12 +79,12 @@ public class ammo_add : MonoBehaviour
 	{
 		// Trigger boxning pozitsiyasi
 		Vector3 position = transform.position;
-		Debug.Log("Trigger Box Position: " + position);
+		
 
 		// CheckSphere natijasi
 		bool grounded = Physics.CheckSphere(position, 0.5f, groundLayer);
 		
-		Debug.Log("CheckSphere Grounded: " + grounded);
+	
 
 		return grounded;
 		

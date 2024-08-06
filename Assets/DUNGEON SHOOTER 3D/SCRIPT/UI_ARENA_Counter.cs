@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using TMPro;
@@ -24,8 +25,14 @@ public class UI_ARENA_Counter : MonoBehaviour
     [SerializeField] private FloatVariable KillEnemy_UI;
     public float timewave;
 
+    public static Action<int> OnNewWaveStart;
     private void Start()
     {
+         
+
+        // Subscribe the method to execute at the start of each wave
+       
+        
         MusicManagerStart?.Invoke();
         MusicManagerPause?.Invoke();   
       
@@ -115,6 +122,7 @@ public class UI_ARENA_Counter : MonoBehaviour
                
                 Wave_number++;
                 MusicManagerResume?.Invoke();
+                OnNewWaveStart?.Invoke(Wave_number);
                 UpdateEnemyCount();
                 UpdateWaveCount();
                 StartCoroutine(Enemydrop());

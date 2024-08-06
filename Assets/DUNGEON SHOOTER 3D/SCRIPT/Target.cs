@@ -36,7 +36,9 @@ public class Target : MonoBehaviour,IDamageable
 	
 	public void TakeDamage (float amount,Vector3 hitPoint,Vector3 hitNormal){
 		
+		anim.SetBool("Impact", true);
 		healt-=amount;
+		
 		ParticleSystem particleToSpawn = null;
 		
 		switch (particleType)
@@ -52,6 +54,7 @@ public class Target : MonoBehaviour,IDamageable
 		{
 			Instantiate(particleToSpawn, hitPoint, Quaternion.identity);
 		}
+		Invoke("imapctOff", 0.1f);
 		
 		if(healt<=0f)
 		{    
@@ -94,7 +97,11 @@ public class Target : MonoBehaviour,IDamageable
 		
 	}
 		
+	public void imapctOff()
+	{
+		anim.SetBool("Impact", false);
 		
+	}
 	
 			
 		

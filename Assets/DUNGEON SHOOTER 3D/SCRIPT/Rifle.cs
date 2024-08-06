@@ -1,4 +1,5 @@
 using System.Collections;
+using Animancer;
 using UnityEngine;
 using Obvious.Soap;
 
@@ -15,26 +16,24 @@ public class Rifle : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     public Camera cam;
     public Animator anim;
+    
 
-    #region MyRegion
-
-    public GameObject bulletCasingPrefab; // Gilza prefabini joylashtiring
-    public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
-    public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
-
-    #endregion
+    public GameObject bulletCasingPrefab;
+    public Transform casingEjectionPoint;
+    public float casingEjectionForce = 2f;
 
     public AudioSource sound;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
 
-    // Tracer bullet properties
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     public float bulletSpeed = 1000f;
 
     protected void Start()
     {
+      
+      
     }
 
     public void Use()
@@ -69,43 +68,56 @@ public class Rifle : MonoBehaviour
                 anim.SetBool("Run", false);
             }
         }
+     
 
         if (rifle_ammo_add.Value > 0)
         {
-            if (Input.GetButton("Fire1")&& Time.time > nextFireTime)
+            if (Input.GetButton("Fire1") && Time.time > nextFireTime)
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
             }
+            else if(Input.GetButtonUp("Fire1"))
+            {
+                StartCoroutine(gunanim());
+            }
+            
         }
+        else
+        {
+            anim.SetBool("shoot", false);
+        }
+        
     }
 
     private void Shoot()
     {
-        anim.SetBool("shoot", true);
-        StartCoroutine(gunanim());
-        sound.Play();
-        bullet.Play();
-        rifle_ammo_add.Value--;
-        UI_AMMO_UPDATE.Raise(rifle_ammo_add.Value);
-        EjectCasing();
+           
+            
+            anim.SetBool("shoot", true);
+            sound.Play();
+            bullet.Play();
+            rifle_ammo_add.Value--;
+            UI_AMMO_UPDATE.Raise(rifle_ammo_add.Value);
+            EjectCasing();
 
-        RaycastHit hit;
-        int playerLayer = LayerMask.NameToLayer("Player");
-        int layerMask = ~(1 << playerLayer);
+            RaycastHit hit;
+            int playerLayer = LayerMask.NameToLayer("Player");
+            int layerMask = ~(1 << playerLayer);
 
-        Vector3 shootDirection = cam.transform.forward;
-        Vector3 shootOrigin = cam.transform.position;
+            Vector3 shootDirection = cam.transform.forward;
+            Vector3 shootOrigin = cam.transform.position;
 
-        if (Physics.Raycast(shootOrigin, shootDirection, out hit, range, layerMask))
-        {
-            ProcessHit(hit);
-            FireBullet(shootOrigin, hit.point);
-        }
-        else
-        {
-            FireBullet(shootOrigin, shootOrigin + shootDirection * range);
-        }
+            if (Physics.Raycast(shootOrigin, shootDirection, out hit, range, layerMask))
+            {
+                ProcessHit(hit);
+                FireBullet(shootOrigin, hit.point);
+            }
+            else
+            {
+                FireBullet(shootOrigin, shootOrigin + shootDirection * range);
+            }
+        //}
     }
 
     private void ProcessHit(RaycastHit hit)

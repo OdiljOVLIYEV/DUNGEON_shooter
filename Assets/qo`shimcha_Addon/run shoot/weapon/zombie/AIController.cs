@@ -265,11 +265,12 @@ public class AIController : MonoBehaviour
    
     public void HeardSound(Vector3 soundPosition)
     {
-        if (canHearSound && Vector3.Distance(transform.position, soundPosition) <= hearSoundRadius && navMeshAgent.isOnNavMesh)
+        if (canHearSound && Vector3.Distance(transform.position, soundPosition) <= hearSoundRadius)
         {
+
             lastHeardSoundPosition = soundPosition;
             navMeshAgent.SetDestination(lastHeardSoundPosition);
-            anim.SetBool("Walk", true);
+             anim.SetBool("Walk", true);
         }
     }
     void OnDrawGizmos()

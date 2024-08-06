@@ -149,10 +149,9 @@ MonoBehaviour:
   gun_ammo_add: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647, type: 2}
   shotgun_ammo_add: {fileID: 11400000, guid: 8caf29d9b1ccb9540bcfce8abeb34af1, type: 2}
   rifle_ammo_add: {fileID: 11400000, guid: ba6d50544f32ee745b6add2de2eb88b3, type: 2}
-  HealthPackBig_add: {fileID: 11400000, guid: aa8ebeaa817427a46865775abde5ac54, type: 2}
-  HealthPackSmall_add: {fileID: 11400000, guid: 5ccd545920b310e4681ebac23d27d42b,
-    type: 2}
+  HealthPlayer: {fileID: 11400000, guid: 5ccd545920b310e4681ebac23d27d42b, type: 2}
   UI_AMMO_UPDATE: {fileID: 11400000, guid: 2da9c60fd26734943ab57292e0ea5a38, type: 2}
+  UI_UPDATE: {fileID: 11400000, guid: 57dcde8f7cba6b44fa27d9a713f328e4, type: 2}
   gun_ammo: 0
   shotgun_ammo: 0
   rifle_ammo: 100

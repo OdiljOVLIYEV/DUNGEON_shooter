@@ -21,6 +21,7 @@ public class WeaponSwitcher : MonoBehaviour
     private bool change = true;
     void Start()
     {
+        canShoot.Value = true;
         InitializeWeapons();
         InitializeWeaponIcons();
     }

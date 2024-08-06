@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public float health = 100f;
-    
+    [SerializeField] private FloatVariable HealthPlayer;
+
     public Image image; // UI Image komponenti
     public float fadeDuration = 1.0f;
     
@@ -20,13 +20,13 @@ public class PlayerHealth : MonoBehaviour
 	   
 	    
         GetComponent<Animator>().enabled = false;
-        text.text=health.ToString();
+        text.text=HealthPlayer.Value.ToString();
     }
 
     private void Update()
     {
 	    float largeNumber = 1e+30f;
-	    if (health==largeNumber)
+	    if (HealthPlayer.Value==largeNumber)
 	    {
 		   
 		    text.text = unlimitedSymbol;
@@ -38,14 +38,30 @@ public class PlayerHealth : MonoBehaviour
 	    }
     }
 
+    private void OnEnable()
+    {
+	    HealtPacks.PlayerHealth += PlayerHealt_UI;
+    }
+
+    private void OnDisable()
+    {
+	    HealtPacks.PlayerHealth -= PlayerHealt_UI;
+    }
+
+    private void PlayerHealt_UI()
+    {
+	    
+	    text.text=HealthPlayer.Value.ToString();
+	    
+    }
     public void TakeDamage(float amount)
     {
 	    image.enabled = true;
 	    StartCoroutine(FadeOut());
-        health -= amount;
-        text.text=health.ToString();
+	    HealthPlayer.Value -= amount;
+	    text.text=HealthPlayer.Value.ToString();
         
-        if (health <= 0f)
+        if (HealthPlayer.Value <= 0f)
         {
 	        
             Die(); 
@@ -76,5 +92,7 @@ public class PlayerHealth : MonoBehaviour
 	    }
 	    
     }
-	
+
+    
+    
 }

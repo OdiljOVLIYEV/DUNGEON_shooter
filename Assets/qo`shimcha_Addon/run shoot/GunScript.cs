@@ -84,7 +84,7 @@ public class GunScript : MonoBehaviour
         sound.Play();
         bullet.Play();
         gun_ammo_add.Value--;
-        UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
+       // UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
         EjectCasing();
 
         RaycastHit hit;

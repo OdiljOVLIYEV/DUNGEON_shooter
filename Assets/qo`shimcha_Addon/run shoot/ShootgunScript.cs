@@ -8,7 +8,7 @@ public class ShotgunScript : MonoBehaviour
     public float range = 100f; // Raycastning masofasi
     public int pellets = 4; // Bir o'q bilan nechta raycast amalga oshirilishi
     public float spreadAngle = 10f; // Sochilma burchagini belgilash
-
+    public int bullets=2;
     public Camera fpsCam; // O'yinchining kamerasini belgilash
     public AudioSource sound;
 
@@ -69,7 +69,7 @@ public class ShotgunScript : MonoBehaviour
             }
         }
 
-        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true)
         {
             StartCoroutine(ReShootTime());
         }
@@ -89,7 +89,12 @@ public class ShotgunScript : MonoBehaviour
         anim.SetBool("shoot", true);
         sound.Play();
         StartCoroutine(gunanim());
-        shotgun_ammo_add.Value--;
+        /*int bullets = 2; // O'q sonini belgilaymiz
+        Debug.Log("Bullets: " + bullets); // Tekshiruv uchun bullets qiymatini chop qilamiz
+
+        shotgun_ammo_add.Value -= bullets; // shotgun_ammo_add.Value qiymatini bullets orqali kamaytiramiz
+        Debug.Log("Shotgun Ammo Value: " + shotgun_ammo_add.Value);*/
+        shotgun_ammo_add.Value -= bullets ;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;
         bullet.Play();
