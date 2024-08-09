@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
@@ -25,7 +26,7 @@ public class GunShop : MonoBehaviour
     private bool canBuy = true; // To handle cooldown
     private Dictionary<string, bool> purchasedItems;
     private ShopItem selectedItem;
-
+   
     private void Start()
     {
         KeyText.enabled = false;
@@ -70,13 +71,16 @@ public class GunShop : MonoBehaviour
                 {
                     if (!purchasedItems[selectedItem.itemName] || selectedItem.canBuyMultiple)
                     {
+                        
                         moneyCount.Value -= selectedItem.price;
                         Instantiate(selectedItem.itemPrefab, selectedItem.spawnPoint.position, selectedItem.spawnPoint.rotation);
-
+                       
+                        
                         if (!selectedItem.canBuyMultiple)
                         {
                             purchasedItems[selectedItem.itemName] = true;
                         }
+                       
 
                         StartCoroutine(Cooldown());
                     }

@@ -6,12 +6,14 @@ public enum ParticleType
     Blood,
     Smoke,
     ExplosiveEffect,
-    BulletHole
-    
+    BulletHole,
+    PlasmaEffect
 }
 
 
 public interface IDamageable
 {
-     void TakeDamage(float amount,Vector3 hitPoint,Vector3 hitNormal);
+      void TakeDamage(float amount,Vector3 hitPoint,Vector3 hitNormal);
+      
+     
 }

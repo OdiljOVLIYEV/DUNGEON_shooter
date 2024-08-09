@@ -11,8 +11,8 @@ public class Wave_scenarios : MonoBehaviour
         waveTasks = new Dictionary<int, Action>
         {
             { 1, TaskForWave1 },
-            { 2, TaskForWave2 },
-            { 6, TaskForWave6 },
+            { 2, TaskForWave1 },
+            { 3, TaskForWave1 },
             // Add more tasks for additional waves as needed
         };
 
@@ -46,6 +46,8 @@ public class Wave_scenarios : MonoBehaviour
 
     private void TaskForWave1()
     {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+       
         Debug.Log("Task for Wave 1 executed!");
         // Your specific logic for wave 1
     }

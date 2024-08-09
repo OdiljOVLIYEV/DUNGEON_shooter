@@ -8,33 +8,57 @@ public class UnlockWeapon : MonoBehaviour
     private WeaponSwitcher weaponSwitcher;
     [SerializeField] private int unlockweaponnumber;
     public LayerMask groundLayer;
+    public static Action KatanaUnlock;
+
+    public bool RotationObject;
+    [SerializeField] private float rotationSpeed = 90f;
     //public WeaponSwitcher weaponSwitcher;
     // Start is called before the first frame update
     void Start()
     {
         weaponSwitcher = FindObjectOfType<WeaponSwitcher>(); 
+        
     }
 
     private void Update()
     {
-        if (IsGrounded())
+        if (RotationObject)
         {
-            Debug.Log("yerda");
             GetComponent<Rigidbody>().useGravity = false;
-            Invoke("triggerOn",0.3f);
-		 
+            GetComponent<BoxCollider>().isTrigger = true;
+            RotateObject();
+            
         }
         else
         {
-            GetComponent<Rigidbody>().useGravity = true;
-            Invoke("triggeroff",0.3f);
+            if (IsGrounded())
+            {
+            
+                GetComponent<Rigidbody>().useGravity = false;
+                Invoke("triggerOn",0.3f);
+		 
+            }
+            else
+            {
+                GetComponent<Rigidbody>().useGravity = true;
+                Invoke("triggeroff",0.3f);
+            }
         }
+        
+        
+       
+      
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (gameObject.tag == "Katana")
+            {
+                KatanaUnlock?.Invoke();
+                
+            }
             // UnlockedWeapons[2].Value = true;
             // weaponSwitcher.UnlockWeapon(0);
             // Debug.Log("Unlock weapon at index: " + unlockWeaponIndex);
@@ -44,19 +68,21 @@ public class UnlockWeapon : MonoBehaviour
             weaponSwitcher.UnlockWeapon(UnlockedWeapon.Value);
             weaponSwitcher.CheckAndSetActiveWeapon(UnlockedWeapon.Value);
             Destroy(gameObject);
+           
         }
+      
     }
     
     bool IsGrounded()
     {
         // Trigger boxning pozitsiyasi
         Vector3 position = transform.position;
-        Debug.Log("Trigger Box Position: " + position);
+       
 
         // CheckSphere natijasi
         bool grounded = Physics.CheckSphere(position, 0.5f, groundLayer);
 		
-        Debug.Log("CheckSphere Grounded: " + grounded);
+        
 
         return grounded;
 		
@@ -75,5 +101,9 @@ public class UnlockWeapon : MonoBehaviour
         GetComponent<BoxCollider>().isTrigger = false;
 		
 		
+    }
+     private void RotateObject()
+    {
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime); // Obyektni yuqoriga qarab aylantirish
     }
 }

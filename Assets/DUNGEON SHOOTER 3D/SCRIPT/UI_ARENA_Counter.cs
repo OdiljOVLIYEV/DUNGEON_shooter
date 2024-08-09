@@ -23,7 +23,8 @@ public class UI_ARENA_Counter : MonoBehaviour
     private int SpawnEnemy;
     public float SpawnTime;
     [SerializeField] private FloatVariable KillEnemy_UI;
-    public float timewave;
+    private float timewave;
+    public float Wavetime;
 
     public static Action<int> OnNewWaveStart;
     private void Start()
@@ -36,7 +37,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         MusicManagerStart?.Invoke();
         MusicManagerPause?.Invoke();   
       
-        timewave = 4f;
+        timewave = Wavetime;
         StartCoroutine(TimeWave());
         WaveCountText.enabled = false;
         TimeCountText.enabled = true;
@@ -88,7 +89,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         if (KillEnemy_UI == 0)
         {   
             MusicManagerPause?.Invoke();            
-            timewave = 4f;
+            timewave = Wavetime;
             StartCoroutine(TimeWave());
         }
     }

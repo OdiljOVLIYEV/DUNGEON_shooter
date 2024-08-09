@@ -24,6 +24,7 @@ public class GunScript : MonoBehaviour
 
     public AudioSource sound;
     public LayerMask enemyLayer;
+ 
     public ParticleSystem bullet;
 
     // Tracer bullet properties

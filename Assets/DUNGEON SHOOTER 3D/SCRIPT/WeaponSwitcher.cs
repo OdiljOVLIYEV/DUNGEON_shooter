@@ -18,7 +18,7 @@ public class WeaponSwitcher : MonoBehaviour
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
     private int previousWeaponIndex = -1; // Oldingi qurol indeksi
     private int lastWeaponIndex = -1; // Oxirgi tanlangan qurol indeksi
-    private bool change = true;
+    private bool change = false;
     void Start()
     {
         canShoot.Value = true;
@@ -142,6 +142,25 @@ public class WeaponSwitcher : MonoBehaviour
         change = false;
         yield return new WaitForSeconds(0.5f);
         change = true;
+        
+    }
+
+    private void OnEnable()
+    {
+
+        global::UnlockWeapon.KatanaUnlock += Katana_unlock;
+
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
+    public void Katana_unlock()
+    {
+        change = true;
+      
         
     }
 }

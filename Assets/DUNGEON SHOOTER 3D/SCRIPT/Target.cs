@@ -9,7 +9,7 @@ public class Target : MonoBehaviour,IDamageable
 {
 	
 	public ParticleSystem bloodParticle;
-
+	//public ParticleSystem PlasmaEffect;
 	public ParticleType particleType;
 	
 	public GameObject money;
@@ -41,19 +41,23 @@ public class Target : MonoBehaviour,IDamageable
 		
 		ParticleSystem particleToSpawn = null;
 		
+		
 		switch (particleType)
 		{
 			case ParticleType.Blood:
 				particleToSpawn = bloodParticle;
 				
 				break;
-			
+			/*case ParticleType.PlasmaEffect:
+				particleToSpawn = PlasmaEffect;
+				break;*/
 		}
 
 		if (particleToSpawn != null)
 		{
 			Instantiate(particleToSpawn, hitPoint, Quaternion.identity);
 		}
+		
 		Invoke("imapctOff", 0.1f);
 		
 		if(healt<=0f)
@@ -84,6 +88,7 @@ public class Target : MonoBehaviour,IDamageable
 		}
 		
 	}
+	
 	
 	private void Die()
 	{
