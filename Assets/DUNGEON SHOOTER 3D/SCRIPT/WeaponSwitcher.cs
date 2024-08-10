@@ -8,7 +8,7 @@ public class WeaponSwitcher : MonoBehaviour
     public List<GameObject> weapons; // Qurollarning ro'yxati
     public List<GameObject> weapons_icon; // Icon ro`yxati
     public GameObject Katana;
-
+    public bool change = false;
     public static Action SwordEffectCall;
    // public GameObject Katana_icon;
     [SerializeField] private List<BoolVariable> UnlockedWeapons;
@@ -18,7 +18,7 @@ public class WeaponSwitcher : MonoBehaviour
     private int currentWeaponIndex = -1; // Joriy qurol indeksi
     private int previousWeaponIndex = -1; // Oldingi qurol indeksi
     private int lastWeaponIndex = -1; // Oxirgi tanlangan qurol indeksi
-    private bool change = false;
+
     void Start()
     {
         canShoot.Value = true;

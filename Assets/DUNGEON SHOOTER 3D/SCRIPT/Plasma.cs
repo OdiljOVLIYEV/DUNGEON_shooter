@@ -41,7 +41,24 @@ public class Plasma : MonoBehaviour
 
         if (anim.GetBool("shoot") == false)
         {
-            // Yurish va tezlashuv logikasi
+            if (mov.x != 0 || mov.z != 0)
+            {
+                anim.SetBool("walk", true);
+            }
+            else
+            {
+                speed.Value = 0;
+                anim.SetBool("walk", false);
+            }
+
+            if (Input.GetKey("left shift") && speed.Value > 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
 
         if (plasma_ammo_add.Value > 0)
@@ -51,10 +68,10 @@ public class Plasma : MonoBehaviour
                 nextFireTime = Time.time + fireRate;
                 Shoot();
             }
-            else if (Input.GetButtonUp("Fire1"))
+            /*else if (Input.GetButtonUp("Fire1"))
             {
-                StartCoroutine(GunAnim());
-            }
+               
+            }*/
         }
         else
         {
@@ -65,6 +82,7 @@ public class Plasma : MonoBehaviour
     private void Shoot()
     {
         anim.SetBool("shoot", true);
+        StartCoroutine(GunAnim());
         sound.Play();
         bullet.Play();
         plasma_ammo_add.Value--;

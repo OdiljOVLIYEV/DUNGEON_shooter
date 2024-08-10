@@ -41,30 +41,42 @@ public class Rocket_Launcher : MonoBehaviour
 
         if (anim.GetBool("shoot") == false)
         {
-            // Yurish va tezlashuv logikasi
+            if (mov.x != 0 || mov.z != 0)
+            {
+                anim.SetBool("walk", true);
+            }
+            else
+            {
+                speed.Value = 0;
+                anim.SetBool("walk", false);
+            }
+
+            if (Input.GetKey("left shift") && speed.Value > 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
 
         if (rocket_launcher_ammo_add.Value > 0)
         {
-            if (Input.GetButton("Fire1") && Time.time > nextFireTime)
+            if (Input.GetButtonDown("Fire1") && Time.time > nextFireTime)
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
             }
-            else if (Input.GetButtonUp("Fire1"))
-            {
-                StartCoroutine(GunAnim());
-            }
+            
         }
-        else
-        {
-            anim.SetBool("shoot", false);
-        }
+        
     }
 
     private void Shoot()
     {
         anim.SetBool("shoot", true);
+        StartCoroutine(GunAnim());
         sound.Play();
         bullet.Play();
         rocket_launcher_ammo_add.Value--;

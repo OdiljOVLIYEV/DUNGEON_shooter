@@ -9,6 +9,7 @@ public class ShotgunScript : MonoBehaviour
     public int pellets = 4; // Bir o'q bilan nechta raycast amalga oshirilishi
     public float spreadAngle = 10f; // Sochilma burchagini belgilash
     public int bullets=2;
+    public float reshoot_rate;
     public Camera fpsCam; // O'yinchining kamerasini belgilash
     public AudioSource sound;
 
@@ -78,7 +79,7 @@ public class ShotgunScript : MonoBehaviour
         {
             canShoot.Value = false;
             Shoot();
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(reshoot_rate);
             EjectCasing();
             canShoot.Value = true;
         }
