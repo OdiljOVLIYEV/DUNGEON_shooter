@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 272161796579540866}
   - component: {fileID: 4521083872415608670}
   m_Layer: 0
-  m_Name: ammo box plazma
+  m_Name: plasma_ammo box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

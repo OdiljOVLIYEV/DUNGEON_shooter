@@ -156,7 +156,7 @@ MonoBehaviour:
   UI_AMMO_UPDATE: {fileID: 11400000, guid: 2da9c60fd26734943ab57292e0ea5a38, type: 2}
   gun_ammo: 0
   shotgun_ammo: 0
-  rifle_ammo: 50
+  rifle_ammo: 100
   plasma_ammo: 0
   rocket_launcher_ammo: 0
   white: {fileID: 7743188846187252148}

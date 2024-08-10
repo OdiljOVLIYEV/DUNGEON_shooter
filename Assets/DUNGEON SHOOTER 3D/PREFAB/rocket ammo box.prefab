@@ -335,7 +335,7 @@ MonoBehaviour:
   shotgun_ammo: 0
   rifle_ammo: 0
   plasma_ammo: 0
-  rocket_launcher_ammo: 10
+  rocket_launcher_ammo: 5
   white: {fileID: 5427633272825204041}
   groundLayer:
     serializedVersion: 2

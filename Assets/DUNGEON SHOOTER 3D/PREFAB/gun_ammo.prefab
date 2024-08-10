@@ -229,7 +229,7 @@ MonoBehaviour:
   rocket_launcher_ammo_add: {fileID: 11400000, guid: ba6d50544f32ee745b6add2de2eb88b3,
     type: 2}
   UI_AMMO_UPDATE: {fileID: 11400000, guid: 2da9c60fd26734943ab57292e0ea5a38, type: 2}
-  gun_ammo: 20
+  gun_ammo: 40
   shotgun_ammo: 0
   rifle_ammo: 0
   plasma_ammo: 0

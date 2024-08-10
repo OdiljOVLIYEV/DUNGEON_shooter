@@ -84,7 +84,7 @@ public class ammo_add : MonoBehaviour
 			    ammoCollected = true;
 		    }
 		    
-		    if (plasma_ammo_add.Value<200 && plasma_ammo > 0 && !ammoCollected)
+		    if (plasma_ammo_add.Value<100 && plasma_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
@@ -94,7 +94,7 @@ public class ammo_add : MonoBehaviour
 			    ammoCollected = true;
 		    }
 		    
-		    if (rocket_launcher_ammo_add.Value<200 && rocket_launcher_ammo > 0 && !ammoCollected)
+		    if (rocket_launcher_ammo_add.Value<20 && rocket_launcher_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
