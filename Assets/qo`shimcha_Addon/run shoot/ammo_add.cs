@@ -64,12 +64,12 @@ public class ammo_add : MonoBehaviour
 			    ammoCollected = true;
 		    }
 
-		    if (shotgun_ammo_add.Value < 40 && shotgun_ammo > 0 && !ammoCollected)
+		    if (shotgun_ammo_add.Value < 50 && shotgun_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    shotgun_ammo_add.Value = Mathf.Clamp(shotgun_ammo_add.Value + shotgun_ammo, 0, 40);
+			    shotgun_ammo_add.Value = Mathf.Clamp(shotgun_ammo_add.Value + shotgun_ammo, 0, 50);
 			    UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
 			    ammoCollected = true;
 		    }
@@ -89,17 +89,17 @@ public class ammo_add : MonoBehaviour
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    plasma_ammo_add.Value = Mathf.Clamp(plasma_ammo_add.Value += plasma_ammo, 0, 200);
+			    plasma_ammo_add.Value = Mathf.Clamp(plasma_ammo_add.Value += plasma_ammo, 0, 100);
 			    UI_AMMO_UPDATE.Raise(plasma_ammo_add.Value);
 			    ammoCollected = true;
 		    }
 		    
-		    if (rocket_launcher_ammo_add.Value<20 && rocket_launcher_ammo > 0 && !ammoCollected)
+		    if (rocket_launcher_ammo_add.Value<10 && rocket_launcher_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    rocket_launcher_ammo_add.Value = Mathf.Clamp(rocket_launcher_ammo_add.Value += rocket_launcher_ammo, 0, 200);
+			    rocket_launcher_ammo_add.Value = Mathf.Clamp(rocket_launcher_ammo_add.Value += rocket_launcher_ammo, 0, 10);
 			    UI_AMMO_UPDATE.Raise(rocket_launcher_ammo_add.Value);
 			    ammoCollected = true;
 		    }

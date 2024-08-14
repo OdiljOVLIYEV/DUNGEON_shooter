@@ -103,7 +103,7 @@ SphereCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
-  m_ProvidesContacts: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
@@ -148,6 +148,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 10
+  explosionForce: 700
+  explosionRadius: 5
+  explosionEffect: {fileID: 2563427930938525268, guid: e6583a95ba7d5f04b967816f6cad6b94,
+    type: 3}
+  particleType: 0
+  maxDamage: 100
+  rc_l_for_radius: 0
+  gravityMultiplier: 2
 --- !u!96 &9095555421332296001
 TrailRenderer:
   serializedVersion: 3

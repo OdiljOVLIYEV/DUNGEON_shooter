@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,48 +9,49 @@ public class AIController : MonoBehaviour
     public bool canWander = true;
     public bool canHearSound = true;
     public bool canAttack = true;
-    public bool canShoot = true; // New shooting capability variable
+    public bool canShoot = true;
+    public bool uloqtirsin = false;
+    public bool canCharge = true; // New charging capability variable
     public bool stopAgent;
 
     private Transform player;
     public float chaseDistance = 10f;
-    public float attackDistance = 2f; // Distance to inflict damage on player
+    public float attackDistance = 2f;
     public float shootDistance = 8f;
-    public float hearSoundRadius = 20f;// Distance to shoot at player
+    public float chargeDistance = 5f; // Distance at which charging starts
+    public float hearSoundRadius = 20f;
     public float lostDistance = 15f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
-    public float attackDamage = 10f; // Amount of damage
-    public float attackCooldown = 1f; // Cooldown between attacks
+    public float chargeSpeed = 6f; // Speed when charging
+    public float attackDamage = 10f;
+    public float attackCooldown = 1f;
     private float lastAttackTime;
 
-    public GameObject projectilePrefab; // Prefab for the projectile
-    public Transform firePoint; // Point from where the projectile is fired
+    public GameObject projectilePrefab;
+    public Transform firePoint;
     public float BulletSpeed = 2f;
-    public float shootCooldown = 2f; // Cooldown between shots
+    public float shootCooldown = 2f;
     private float lastShootTime;
 
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
     private NavMeshAgent navMeshAgent;
     public Animator anim;
-    
+
     private Vector3 lastHeardSoundPosition = Vector3.zero;
-  
+
     void Start()
     {
-        
         player = GameObject.FindGameObjectWithTag("Player").transform;
-       // anim = GetComponent<Animator>(); 
         navMeshAgent = GetComponent<NavMeshAgent>();
         stopAgent = false;
-        lastAttackTime = -attackCooldown; // Initialize cooldown
-        lastShootTime = -shootCooldown; // Initialize shoot cooldown
+        lastAttackTime = -attackCooldown;
+        lastShootTime = -shootCooldown;
     }
 
     void Update()
     {
-        
         if (stopAgent)
         {
             if (navMeshAgent.isOnNavMesh)
@@ -74,26 +74,18 @@ public class AIController : MonoBehaviour
 
             if (canChase && distanceToPlayer < chaseDistance)
             {
-                if (player != null)
-                {
-                    // Player tomonga silliq aylantirish
-                    Vector3 direction = (player.position - transform.position).normalized;
-                    Quaternion targetRotation = Quaternion.LookRotation(direction);
-                    navMeshAgent.transform.rotation = Quaternion.Slerp(navMeshAgent.transform.rotation, targetRotation, Time.deltaTime * 5f);
-                }
                 ChasePlayer();
-                //StartCoroutine(ChaseWithAnimation());
-               
+
                 if (canShoot && distanceToPlayer < shootDistance)
                 {
-                 
                     ShootPlayer();
                 }
-                else if (canAttack && distanceToPlayer < attackDistance)
+
+                // Ensure that AttackPlayer is called when within attack distance, regardless of shooting
+                if (canAttack && distanceToPlayer < attackDistance)
                 {
                     AttackPlayer();
                 }
-              
             }
             else if (canPatrol && (distanceToPlayer > lostDistance || !canChase))
             {
@@ -103,36 +95,65 @@ public class AIController : MonoBehaviour
             {
                 Wander();
             }
-           
+
             if (canHearSound && lastHeardSoundPosition != Vector3.zero)
             {
                 navMeshAgent.SetDestination(lastHeardSoundPosition);
-                lastHeardSoundPosition = Vector3.zero;
+                anim.SetBool("Walk", true);
             }
         }
+
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, chaseDistance);
-    }
-    
-   /* IEnumerator ChaseWithAnimation()
-    {
-        anim.SetBool("Baqirish", true); // Play "Baqirish" animation
-        yield return new WaitForSeconds(1.5f); // Adjust this delay according to your animation length
-        anim.SetBool("Baqirish", false); // Stop "Baqirish" animation
-        ChasePlayer();
-    }*/
 
     void ChasePlayer()
     {
         if (navMeshAgent.isOnNavMesh)
         {
-            navMeshAgent.speed = chaseSpeed;
+            // Determine the speed based on whether the enemy should charge
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            float currentSpeed = canCharge && distanceToPlayer <= chargeDistance ? chargeSpeed : chaseSpeed;
+
+            navMeshAgent.speed = currentSpeed;
             navMeshAgent.SetDestination(player.position);
-            anim.SetBool("Walk", true); // Start walking animation
+            anim.SetBool("Walk", true);
+            
+            if (canCharge == true)
+            {
+                if (currentSpeed == chargeSpeed)
+                {
+                    anim.SetBool("Charge", true);
+                    
+                }
+                else
+                {
+                    anim.SetBool("Charge", false);
+                }
+                // Optionally trigger the charging animation if within charge range
+
+                // Set the walking animation
+              
+
+                // Check if the agent has a valid path
+            }
+        }
+    }
+
+    void PushPlayerAway()
+    {
+        if (Vector3.Distance(transform.position, player.position) <= chargeDistance)
+        {
+            // Calculate the direction away from the enemy
+            Vector3 pushDirection = (player.position - transform.position).normalized;
+
+            // Ensure you get the CharacterController component from the player
+            CharacterController playerController = player.GetComponent<CharacterController>();
+
+            if (playerController != null)
+            {
+                // Apply force to the player's position to push them away
+                playerController.Move(pushDirection * chargeSpeed * Time.deltaTime);
+            }
         }
     }
 
@@ -140,24 +161,20 @@ public class AIController : MonoBehaviour
     {
         if (patrolPoints.Length == 0)
             return;
-       
+
         int nextPatrolPointIndex = (currentPatrolPoint + 1) % patrolPoints.Length;
         Vector3 nextDestination = patrolPoints[nextPatrolPointIndex].position;
 
         if (navMeshAgent.remainingDistance < 0.5f)
         {
             currentPatrolPoint = nextPatrolPointIndex;
-            if (currentPatrolPoint == 0)
-            {
-                Debug.Log("Returned to the first patrol point.");
-            }
             nextPatrolPointIndex = (currentPatrolPoint + 1) % patrolPoints.Length;
             nextDestination = patrolPoints[nextPatrolPointIndex].position;
         }
 
         navMeshAgent.SetDestination(nextDestination);
         navMeshAgent.speed = patrolSpeed;
-        anim.SetBool("Walk", true); // Start walking animation
+        anim.SetBool("Walk", true);
     }
 
     void Wander()
@@ -174,38 +191,55 @@ public class AIController : MonoBehaviour
 
                 navMeshAgent.speed = patrolSpeed;
                 navMeshAgent.SetDestination(finalPosition);
-                anim.SetBool("Walk", true); // Start walking animation
+                anim.SetBool("Walk", true);
             }
         }
     }
 
     void AttackPlayer()
     {
-        if (Time.time >= lastAttackTime + attackCooldown)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // Ensure the player is within attack range
+        if (distanceToPlayer <= attackDistance)
         {
-            lastAttackTime = Time.time;
-            anim.SetBool("Attack",true);
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            // Check if the cooldown period has passed
+            if (Time.time >= lastAttackTime + attackCooldown)
             {
-               
-                playerHealth.TakeDamage(attackDamage);
-                Debug.Log("Player attacked!");
+                // Update the last attack time
+                lastAttackTime = Time.time;
+                anim.SetBool("Attack", true);
+
+                // Deal damage to the player
+                PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(attackDamage);
+                }
+
+                // Reset the attack animation after a short delay
                 StartCoroutine(ResetAttackAnimation());
             }
         }
     }
+
     IEnumerator ResetAttackAnimation()
     {
-        yield return new WaitForSeconds(0.3f); // 0.5 soniya kutish (kerakli vaqtni moslang)
+        PushPlayerAway();
+        yield return new WaitForSeconds(0.3f);
         anim.SetBool("Attack", false);
+        // Hujumdan keyin normal holatga qaytish
+        // Yoki harakatni davom ettirish
+        if (canChase)
+        {
+            ChasePlayer();
+        }
     }
     void ShootPlayer()
     {
         if (Time.time >= lastShootTime + shootCooldown)
         {
             lastShootTime = Time.time;
-            
             StartCoroutine(ShootSequence());
         }
     }
@@ -216,45 +250,64 @@ public class AIController : MonoBehaviour
         {
             navMeshAgent.isStopped = true;
         }
-        anim.SetBool("Shoot", true); // Start shooting animation
+        anim.SetBool("Shoot", true);
         chaseSpeed = 0f;
-
-        // Calculate direction towards the player
-        Vector3 direction = (player.position - firePoint.position).normalized;
-        float distanceToPlayer = Vector3.Distance(firePoint.position, player.position);
-
-        // Check for obstacles between the enemy and the player
-        if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, distanceToPlayer))
+        if (uloqtirsin == true)
         {
-            // If there is an obstacle and it's not the player, abort shooting
-            if (hit.transform != player)
+            // Dushman granatasini yaratish va pozitsiyasini belgilash
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+// Granataning RigidBody komponentini olish
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                chaseSpeed = 4f;
-                anim.SetBool("Shoot", false); // Stop shooting animation
+                // O'yinchiga nisbatan granata uloqtirish yo'nalishini hisoblash
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
-                if (navMeshAgent.isOnNavMesh)
+                // Tashlash burchagini sozlash uchun yuqori yo'nalishni qo'shish
+                float heightAdjustment = 2f; // Tashlash burchagini oshirish uchun
+                Vector3 throwDirection = directionToPlayer + Vector3.up * heightAdjustment;
+
+                // Granatani uloqtirish
+                rb.AddForce(throwDirection * BulletSpeed, ForceMode.VelocityChange);
+            }
+ 
+        }
+        else
+        {
+
+            Vector3 direction = (player.position - firePoint.position).normalized;
+            float distanceToPlayer = Vector3.Distance(firePoint.position, player.position);
+
+            if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, distanceToPlayer))
+            {
+                if (hit.transform != player)
                 {
-                    navMeshAgent.isStopped = false;
-                }
+                    chaseSpeed = 4f;
+                    anim.SetBool("Shoot", false);
 
-                yield break; // Exit the coroutine early
+                    if (navMeshAgent.isOnNavMesh)
+                    {
+                        navMeshAgent.isStopped = false;
+                    }
+
+                    yield break;
+                }
+            }
+
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = direction * BulletSpeed;
             }
         }
 
-        // Instantiate projectile if no obstacles are detected
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-
-        // Get the Rigidbody component and set its velocity
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = direction * BulletSpeed; // Projectile speed
-        }
-
-        yield return new WaitForSeconds(0.5f); // Adjust this delay according to your shooting animation length
+        yield return new WaitForSeconds(0.5f);
 
         chaseSpeed = 4f;
-        anim.SetBool("Shoot", false); // Stop shooting animation
+        anim.SetBool("Shoot", false);
 
         if (navMeshAgent.isOnNavMesh)
         {
@@ -262,20 +315,33 @@ public class AIController : MonoBehaviour
         }
     }
 
-   
     public void HeardSound(Vector3 soundPosition)
     {
         if (canHearSound && Vector3.Distance(transform.position, soundPosition) <= hearSoundRadius)
         {
-
             lastHeardSoundPosition = soundPosition;
             navMeshAgent.SetDestination(lastHeardSoundPosition);
-             anim.SetBool("Walk", true);
+            anim.SetBool("Walk", true);
         }
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, hearSoundRadius); // Ovoz tanib olish radiusini chizish
+        Gizmos.DrawWireSphere(transform.position, hearSoundRadius);
+
+        if (navMeshAgent != null && navMeshAgent.hasPath)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, navMeshAgent.destination);
+        }
     }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
+    }
+    
+   
 }

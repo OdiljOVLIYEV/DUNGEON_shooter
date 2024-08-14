@@ -170,7 +170,7 @@ public class ShotgunScript : MonoBehaviour
 
     IEnumerator gunanim()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.3f);
         anim.SetBool("shoot", false);
     }
 

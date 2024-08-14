@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -28,10 +29,12 @@ public class Bullet : MonoBehaviour
             {
                 damageable.TakeDamage(damage, transform.position, -transform.forward);
                 particalsystem();
-              
+                Destroy(gameObject);
             }
+           Destroy(gameObject);
             
         }
+        
     }
 
     void Explode()

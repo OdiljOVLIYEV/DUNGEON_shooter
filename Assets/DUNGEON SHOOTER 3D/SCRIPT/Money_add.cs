@@ -12,6 +12,7 @@ public class Money_add : MonoBehaviour
     public float moveSpeed = 5f; 
     private Rigidbody rb;
     public IntVariable moneyCount;
+    public int moneynumber;
     public AudioSource sound;
     public Image white;
     void Start()
@@ -49,7 +50,7 @@ public class Money_add : MonoBehaviour
             sound.Play();
             white.enabled = true;
             Invoke("whiteoff",0.1f);
-            moneyCount.Value ++;
+            moneyCount.Value+=moneynumber;
             
         }
     }

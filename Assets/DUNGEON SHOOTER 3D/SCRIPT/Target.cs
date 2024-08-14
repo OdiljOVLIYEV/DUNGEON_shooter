@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class Target : MonoBehaviour,IDamageable
 {
@@ -13,19 +13,27 @@ public class Target : MonoBehaviour,IDamageable
 	public ParticleType particleType;
 	
 	public GameObject money;
-	public float healt=50f;
-
+	public float maxHealth = 100f;
+	public float currentHealth;
 	public Animator anim;
 	public bool dead;
 	[SerializeField] private FloatVariable KillEnemy_UI;
 
-	public AudioSource killsound;
+	 public AudioSource killsound;
+	
+	 public Image healthBarImage;
+
+	 public bool UiHealthBar=false;
 	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 	protected void Start()
 	{
-
+		currentHealth = maxHealth;
 		killsound.GetComponent<AudioSource>();
-
+		if (UiHealthBar == true)
+		{
+			UpdateHealthBar();
+		}
+		
 	}
 	
 	// Update is called every frame, if the MonoBehaviour is enabled.
@@ -37,7 +45,14 @@ public class Target : MonoBehaviour,IDamageable
 	public void TakeDamage (float amount,Vector3 hitPoint,Vector3 hitNormal){
 		
 		anim.SetBool("Impact", true);
-		healt-=amount;
+		currentHealth -= amount;;
+		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+		if (UiHealthBar == true)
+		{
+			UpdateHealthBar();
+		}
+		
+		
 		
 		ParticleSystem particleToSpawn = null;
 		
@@ -60,11 +75,13 @@ public class Target : MonoBehaviour,IDamageable
 		
 		Invoke("imapctOff", 0.1f);
 		
-		if(healt<=0f)
-		{    
-			
-		
-			
+		if(currentHealth<=0f)
+		{
+			if (UiHealthBar == true)
+			{
+				healthBarImage.enabled = false;
+			}
+
 			GetComponent<AIController>().canChase = false;
 			GetComponent<NavMeshAgent>().speed=0f;
 			
@@ -89,12 +106,17 @@ public class Target : MonoBehaviour,IDamageable
 		
 	}
 	
+	private void UpdateHealthBar()
+	{
+		float healthPercentage = currentHealth / maxHealth;
+		healthBarImage.fillAmount = healthPercentage; // Health barni kamaytirish
+	}
 	
 	private void Die()
 	{
 
 
-
+		
 		KillEnemy_UI.Value--;
 		Instantiate(money, transform.localPosition, Quaternion.identity);	
 		Destroy(gameObject,1.3f);
