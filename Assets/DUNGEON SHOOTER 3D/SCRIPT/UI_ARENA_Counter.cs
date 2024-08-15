@@ -16,6 +16,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     public static Action MusicManagerStart;
     public static Action MusicManagerPause;
     public static Action MusicManagerResume;
+    public static Action<int> OnNewWaveStart;
     private int Wave_number;
     public Transform[] spawnPoints;
     public GameObject[] enemies;
@@ -25,7 +26,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     [SerializeField] private FloatVariable KillEnemy_UI;
     private float timewave;
     public float Roundtime;
-
+    
     private void Start()
     {
         MusicManagerStart?.Invoke();
@@ -50,7 +51,44 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
     }
 
-    public void spawn()
+    public void ReceiveWaveCommand(int[] manualIndices = null)
+    {
+        List<int> enemyIndicesToSpawn = new List<int>();
+
+        // If manual indices are provided, add them to the spawn list
+        if (manualIndices != null && manualIndices.Length > 0)
+        {
+            foreach (int index in manualIndices)
+            {
+                // Check if the index is within the valid range of the enemies array
+                if (index >= 0 && index < enemies.Length)
+                {
+                    enemyIndicesToSpawn.Add(index);
+                }
+                else
+                {
+                    Debug.LogError("Invalid enemy index: " + index);
+                }
+            }
+        }
+
+        // Fill the rest of the spawn list with random indices from 1 to 3
+        int remainingEnemies = (int)MaxEnemy - enemyIndicesToSpawn.Count;
+        for (int i = 0; i < remainingEnemies; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, 4); // Adjust the range if needed
+            if (randomIndex >= 0 && randomIndex < enemies.Length)
+            {
+                enemyIndicesToSpawn.Add(randomIndex);
+            }
+        }
+
+        // Start spawning enemies based on the final list
+        StartCoroutine(Enemydrop(enemyIndicesToSpawn));
+    }
+
+
+    public void spawn(int enemyIndex)
     {
         if (enemies.Length == 0 || spawnPoints.Length == 0)
         {
@@ -58,11 +96,9 @@ public class UI_ARENA_Counter : MonoBehaviour
             return;
         }
 
-        // Iterate over spawn points and spawn enemies
-        ShuffleSpawnPoints();
-
-        // Choose a random enemy from the array
-        GameObject enemyToSpawn = enemies[UnityEngine.Random.Range(0, enemies.Length)];
+        // Ensure the enemy index is within bounds
+        enemyIndex = Mathf.Clamp(enemyIndex, 0, enemies.Length - 1);
+        GameObject enemyToSpawn = enemies[enemyIndex];
 
         // Ensure SpawnEnemy does not exceed the bounds of spawnPoints
         int spawnIndex = (SpawnEnemy - 1) % spawnPoints.Length;
@@ -74,6 +110,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         Instantiate(enemyToSpawn, spawnPoint.position, spawnPoint.rotation);
     }
 
+
     private void UpdateEnemyCount()
     {
         if (EnemyCountText != null)
@@ -81,7 +118,7 @@ public class UI_ARENA_Counter : MonoBehaviour
             EnemyCountText.text = KillEnemy_UI.ToString();
         }
         if (KillEnemy_UI == 0)
-        {   
+        {
             MusicManagerPause?.Invoke();            
             timewave = Roundtime;
             StartCoroutine(TimeWave());
@@ -114,25 +151,25 @@ public class UI_ARENA_Counter : MonoBehaviour
                 MaxEnemy += NextWaveAddEnemyCounter;
                 SpawnEnemy = (int)MaxEnemy;
                 KillEnemy_UI.Value = MaxEnemy;
-               
                 Wave_number++;
+                OnNewWaveStart?.Invoke(Wave_number);
                 MusicManagerResume?.Invoke();
                 UpdateEnemyCount();
                 UpdateWaveCount();
-                StartCoroutine(Enemydrop());
             }
         }
     }
 
-    IEnumerator Enemydrop()
+    IEnumerator Enemydrop(List<int> enemyIndicesToSpawn)
     {
-        while (SpawnEnemy > 0)
+        foreach (int index in enemyIndicesToSpawn)
         {
-            spawn();
+            Debug.Log("Spawning enemy at index: " + index);
+            spawn(index);
             yield return new WaitForSeconds(SpawnTime);
-            SpawnEnemy--;
         }
     }
+
 
     void ShuffleSpawnPoints()
     {
