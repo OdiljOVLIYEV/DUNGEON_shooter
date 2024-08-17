@@ -26,7 +26,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     [SerializeField] private FloatVariable KillEnemy_UI;
     private float timewave;
     public float Roundtime;
-    
+    public int EnemyRank;
     private void Start()
     {
         MusicManagerStart?.Invoke();
@@ -51,19 +51,23 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
     }
 
-    public void ReceiveWaveCommand(int[] manualIndices = null)
+    public void ReceiveWaveCommand(Dictionary<int, int> manualEnemyCounts = null)
     {
         List<int> enemyIndicesToSpawn = new List<int>();
 
-        // If manual indices are provided, add them to the spawn list
-        if (manualIndices != null && manualIndices.Length > 0)
+        if (manualEnemyCounts != null && manualEnemyCounts.Count > 0)
         {
-            foreach (int index in manualIndices)
+            foreach (var pair in manualEnemyCounts)
             {
-                // Check if the index is within the valid range of the enemies array
+                int index = pair.Key;
+                int count = pair.Value;
+
                 if (index >= 0 && index < enemies.Length)
                 {
-                    enemyIndicesToSpawn.Add(index);
+                    for (int i = 0; i < count; i++)
+                    {
+                        enemyIndicesToSpawn.Add(index);
+                    }
                 }
                 else
                 {
@@ -72,18 +76,16 @@ public class UI_ARENA_Counter : MonoBehaviour
             }
         }
 
-        // Fill the rest of the spawn list with random indices from 1 to 3
         int remainingEnemies = (int)MaxEnemy - enemyIndicesToSpawn.Count;
         for (int i = 0; i < remainingEnemies; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, 4); // Adjust the range if needed
+            int randomIndex = UnityEngine.Random.Range(0, EnemyRank);
             if (randomIndex >= 0 && randomIndex < enemies.Length)
             {
                 enemyIndicesToSpawn.Add(randomIndex);
             }
         }
 
-        // Start spawning enemies based on the final list
         StartCoroutine(Enemydrop(enemyIndicesToSpawn));
     }
 

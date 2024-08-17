@@ -9872,7 +9872,7 @@ MonoBehaviour:
   MoneyCountText: {fileID: 1929052321}
   WaveCountText: {fileID: 741977448}
   TimeCountText: {fileID: 2069045436}
-  NextWaveAddEnemyCounter: 1
+  NextWaveAddEnemyCounter: 5
   moneyCount: {fileID: 11400000, guid: d5044ec09e2daba40a632cadff728bd0, type: 2}
   spawnPoints:
   - {fileID: 1354600169}
@@ -9891,6 +9891,7 @@ MonoBehaviour:
   SpawnTime: 0.3
   KillEnemy_UI: {fileID: 11400000, guid: 4096c520c727b484cabfae72ad70483d, type: 2}
   Roundtime: 1
+  EnemyRank: 4
 --- !u!4 &1392253227
 Transform:
   m_ObjectHideFlags: 0

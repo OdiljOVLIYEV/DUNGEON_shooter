@@ -11,7 +11,7 @@ public class Wave_scenarios : MonoBehaviour
     {
         waveTasks = new Dictionary<int, Action>
         {
-            //{ 1, TaskForWave1 },
+           // { 1, TaskForWave1 },
             // Add more tasks for additional waves as needed
         };
     }
@@ -38,7 +38,7 @@ public class Wave_scenarios : MonoBehaviour
         }
         else
         {
-            if (waveNumber % 10 == 0)
+            if (waveNumber % 1 == 0)
             {
                 SpawnBossEnemy();
             }
@@ -57,24 +57,28 @@ public class Wave_scenarios : MonoBehaviour
 
     private void TaskForWave1()
     {
-        // Try to get the UI_ARENA_Counter component from the GameObject
         UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
 
         if (enemy_count != null)
         {
             Debug.Log("Task for Wave 1 executed!");
 
-            // Specify enemies manually (ensure these indices are within bounds)
-            int[] manualIndices = new int[] { 5, 1 }; // Example indices; adjust as needed
+            // Specify the number of enemies for each index
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 1, 2 }, // Example: 5 enemies of index 3
+                { 0, 3 }  // Example: 3 enemies of index 4
+            };
 
-            // Call the method with the manual indices
-            enemy_count.ReceiveWaveCommand(manualIndices);
+            // Call the method with the dictionary of manual counts
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
         }
         else
         {
             Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
         }
     }
+
 
 
 
@@ -120,11 +124,15 @@ public class Wave_scenarios : MonoBehaviour
         {
             Debug.Log("Task for Wave 1 executed!");
 
-            // Specify enemies manually (ensure these indices are within bounds)
-            int[] manualIndices = new int[] { 6, 1 }; // Example indices; adjust as needed
+            // Specify the number of enemies for each index
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 6, 2 }, // Example: 5 enemies of index 3
+                 // Example: 3 enemies of index 4
+            };
 
-            // Call the method with the manual indices
-            enemy_count.ReceiveWaveCommand(manualIndices);
+            // Call the method with the dictionary of manual counts
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
         }
         else
         {
