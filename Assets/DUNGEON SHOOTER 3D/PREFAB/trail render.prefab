@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6523155961772326521}
   - component: {fileID: 172050232774480389}
   - component: {fileID: 9095555421332296001}
+  - component: {fileID: -1388126385446757328}
   m_Layer: 0
   m_Name: trail render
   m_TagString: Untagged
@@ -225,3 +226,16 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-1388126385446757328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8192707939113982345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f84ce00bc125434a963fc26736b31c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyTime: 10

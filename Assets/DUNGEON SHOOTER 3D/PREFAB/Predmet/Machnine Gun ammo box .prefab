@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun_ammo_add: {fileID: 11400000, guid: 3d2648c75161332498e618ae0ff44647, type: 2}
   shotgun_ammo_add: {fileID: 11400000, guid: 8caf29d9b1ccb9540bcfce8abeb34af1, type: 2}
-  rifle_ammo_add: {fileID: 11400000, guid: ba6d50544f32ee745b6add2de2eb88b3, type: 2}
+  rifle_ammo_add: {fileID: 11400000, guid: d61ad7482a3152a4980b495cfdfa4c33, type: 2}
   plasma_ammo_add: {fileID: 11400000, guid: ef24a5143166e18468552399dd0a1ab8, type: 2}
   rocket_launcher_ammo_add: {fileID: 11400000, guid: ba6d50544f32ee745b6add2de2eb88b3,
     type: 2}

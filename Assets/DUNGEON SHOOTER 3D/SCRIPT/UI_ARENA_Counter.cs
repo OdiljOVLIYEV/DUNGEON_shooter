@@ -51,33 +51,56 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
     }
 
-    public void ReceiveWaveCommand(Dictionary<int, int> manualEnemyCounts = null)
+    public void ReceiveWaveCommand(Dictionary<int, int> manualEnemyCounts)
     {
         List<int> enemyIndicesToSpawn = new List<int>();
+        int totalEnemies = 0;
 
-        if (manualEnemyCounts != null && manualEnemyCounts.Count > 0)
+        // Calculate the total number of manually specified enemies
+        foreach (var entry in manualEnemyCounts)
         {
-            foreach (var pair in manualEnemyCounts)
-            {
-                int index = pair.Key;
-                int count = pair.Value;
+            totalEnemies += entry.Value;
+        }
 
-                if (index >= 0 && index < enemies.Length)
+        // If total enemies exceed MaxEnemy, adjust the counts
+        if (totalEnemies > MaxEnemy)
+        {
+            Debug.LogWarning("Total enemies exceed MaxEnemy. Adjusting to fit MaxEnemy.");
+
+            int remainingEnemies = (int)MaxEnemy;
+            foreach (var entry in manualEnemyCounts)
+            {
+                int adjustedCount = Mathf.Min(entry.Value, remainingEnemies);
+                remainingEnemies -= adjustedCount;
+
+                // Add the adjusted number of enemies for this index to the spawn list
+                for (int i = 0; i < adjustedCount; i++)
                 {
-                    for (int i = 0; i < count; i++)
-                    {
-                        enemyIndicesToSpawn.Add(index);
-                    }
+                    enemyIndicesToSpawn.Add(entry.Key);
                 }
-                else
+
+                // Stop adding more enemies if we've reached the MaxEnemy limit
+                if (remainingEnemies <= 0)
                 {
-                    Debug.LogError("Invalid enemy index: " + index);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // Add the exact number of enemies for each index to the spawn list
+            foreach (var entry in manualEnemyCounts)
+            {
+                for (int i = 0; i < entry.Value; i++)
+                {
+                    enemyIndicesToSpawn.Add(entry.Key);
                 }
             }
         }
 
-        int remainingEnemies = (int)MaxEnemy - enemyIndicesToSpawn.Count;
-        for (int i = 0; i < remainingEnemies; i++)
+        // Fill the remaining slots with random enemies if needed
+        int remainingRandomEnemies = (int)MaxEnemy - enemyIndicesToSpawn.Count;
+        for (int i = 0; i < remainingRandomEnemies; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, EnemyRank);
             if (randomIndex >= 0 && randomIndex < enemies.Length)
@@ -86,8 +109,10 @@ public class UI_ARENA_Counter : MonoBehaviour
             }
         }
 
+        // Start spawning enemies based on the final list
         StartCoroutine(Enemydrop(enemyIndicesToSpawn));
     }
+
 
 
     public void spawn(int enemyIndex)
@@ -102,15 +127,14 @@ public class UI_ARENA_Counter : MonoBehaviour
         enemyIndex = Mathf.Clamp(enemyIndex, 0, enemies.Length - 1);
         GameObject enemyToSpawn = enemies[enemyIndex];
 
-        // Ensure SpawnEnemy does not exceed the bounds of spawnPoints
-        int spawnIndex = (SpawnEnemy - 1) % spawnPoints.Length;
+        // Randomly select a spawn point
+        int randomSpawnIndex = UnityEngine.Random.Range(0, spawnPoints.Length);
+        Transform spawnPoint = spawnPoints[randomSpawnIndex];
 
-        // Choose the current spawn point
-        Transform spawnPoint = spawnPoints[spawnIndex];
-
-        // Instantiate the enemy at the spawn point position and rotation
+        // Instantiate the enemy at the random spawn point
         Instantiate(enemyToSpawn, spawnPoint.position, spawnPoint.rotation);
     }
+
 
 
     private void UpdateEnemyCount()
@@ -164,6 +188,8 @@ public class UI_ARENA_Counter : MonoBehaviour
 
     IEnumerator Enemydrop(List<int> enemyIndicesToSpawn)
     {
+        ShuffleSpawnPoints(); // Shuffle the spawn points before spawning
+
         foreach (int index in enemyIndicesToSpawn)
         {
             Debug.Log("Spawning enemy at index: " + index);
@@ -171,6 +197,7 @@ public class UI_ARENA_Counter : MonoBehaviour
             yield return new WaitForSeconds(SpawnTime);
         }
     }
+
 
 
     void ShuffleSpawnPoints()
@@ -183,4 +210,5 @@ public class UI_ARENA_Counter : MonoBehaviour
             spawnPoints[randomIndex] = temp;
         }
     }
+
 }

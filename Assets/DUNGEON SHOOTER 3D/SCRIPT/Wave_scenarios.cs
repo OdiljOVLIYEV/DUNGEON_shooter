@@ -11,7 +11,12 @@ public class Wave_scenarios : MonoBehaviour
     {
         waveTasks = new Dictionary<int, Action>
         {
-           // { 1, TaskForWave1 },
+            { 1, TaskForWave1 },
+            { 2, TaskForWave2 },
+            { 3, TaskForWave3 },
+            { 4, TaskForWave4 },
+            { 5, TaskForWave5 },
+            { 6, TaskForWave6 },
             // Add more tasks for additional waves as needed
         };
     }
@@ -62,15 +67,13 @@ public class Wave_scenarios : MonoBehaviour
         if (enemy_count != null)
         {
             Debug.Log("Task for Wave 1 executed!");
-
-            // Specify the number of enemies for each index
+            enemy_count.EnemyRank = 1;
+            
             var manualEnemyCounts = new Dictionary<int, int>
             {
-                { 1, 2 }, // Example: 5 enemies of index 3
-                { 0, 3 }  // Example: 3 enemies of index 4
+                { 0, 0 }, // Requesting 11 enemies of index 0
             };
 
-            // Call the method with the dictionary of manual counts
             enemy_count.ReceiveWaveCommand(manualEnemyCounts);
         }
         else
@@ -80,35 +83,127 @@ public class Wave_scenarios : MonoBehaviour
     }
 
 
-
-
-
-
     private void TaskForWave2()
-    {
-        Debug.Log("Task for Wave 2 executed!");
-        // Your specific logic for wave 2
-    }
-
-    private void TaskForWave6()
-    {
-        Debug.Log("Task for Wave 6 executed!");
-        // Your specific logic for wave 6
-    }
-
-    private void DefaultTaskForWave()
     {
         UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
 
         if (enemy_count != null)
         {
             Debug.Log("Task for Wave 1 executed!");
+            enemy_count.EnemyRank = 1;
+            
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 0, 0 }, // Requesting 11 enemies of index 0
+            };
 
-            // Specify enemies manually (ensure these indices are within bounds)
-           // int[] manualIndices = new int[] { 0, 0 }; // Example indices; adjust as needed
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
 
-            // Call the method with the manual indices
-            enemy_count.ReceiveWaveCommand();
+    private void TaskForWave3()
+    {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+           
+            
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 2, 20 }, // Requesting 11 enemies of index 0
+            };
+
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+    private void TaskForWave4()
+    {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+           
+            enemy_count.EnemyRank = 2;
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 0, 0 }, // Requesting 11 enemies of index 0
+            };
+
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+    private void TaskForWave5()
+    {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+           
+            enemy_count.EnemyRank = 3;
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 0, 0 }, // Requesting 11 enemies of index 0
+            };
+
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+    private void TaskForWave6()
+    {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+           
+            enemy_count.EnemyRank = 3;
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 4, 3 }, // Requesting 11 enemies of index 0
+            };
+
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+
+    private void DefaultTaskForWave()
+    {
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+        enemy_count.EnemyRank = 4;
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 0, 0 }, // Requesting 11 enemies of index 0
+            };
+
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
         }
         else
         {
@@ -119,7 +214,7 @@ public class Wave_scenarios : MonoBehaviour
     private void SpawnBossEnemy()
     {
         UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
-
+        enemy_count.EnemyRank = 4;
         if (enemy_count != null)
         {
             Debug.Log("Task for Wave 1 executed!");
@@ -127,7 +222,7 @@ public class Wave_scenarios : MonoBehaviour
             // Specify the number of enemies for each index
             var manualEnemyCounts = new Dictionary<int, int>
             {
-                { 6, 2 }, // Example: 5 enemies of index 3
+                { 6, 1 }, // Example: 5 enemies of index 3
                  // Example: 3 enemies of index 4
             };
 
