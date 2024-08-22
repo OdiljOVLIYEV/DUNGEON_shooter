@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8746172766678035329}
   - component: {fileID: 1732544458090064204}
   - component: {fileID: 8509198524016459501}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plasma_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f84ce00bc125434a963fc26736b31c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyTime: 5
+  DestroyTime: 10
 --- !u!1 &5260425734306021330
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +249,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -263,7 +263,7 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.99166656
+        time: 0.46389556
         value: 0
         inSlope: 0
         outSlope: 0

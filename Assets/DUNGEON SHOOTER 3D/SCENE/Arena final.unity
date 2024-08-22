@@ -790,74 +790,6 @@ Transform:
   - {fileID: 83231842}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &115374469
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 825263504476304813, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_Name
-      value: Sprite_Enemy_Kislota otadigan
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -238.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 26.484562
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 77.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.70021546
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7139317
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 91.111
-      objectReference: {fileID: 0}
-    - target: {fileID: 2402419098965962666, guid: a99f35c68cf6f024fad525b3ed0a38ff,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a99f35c68cf6f024fad525b3ed0a38ff, type: 3}
 --- !u!1 &118611344
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,7 +2348,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280922616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 245328503ea8b164783762dfc416ddf3, type: 3}
   m_Name: 
@@ -47988,14 +47920,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3634698612627667333}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02280584, y: -0.04273465, z: 0.98851264, w: -0.14316615}
-  m_LocalPosition: {x: 0.59, y: -1.102, z: 0.116}
+  m_LocalRotation: {x: -0.019515099, y: -0.042257834, z: 0.988583, w: -0.14330764}
+  m_LocalPosition: {x: 0.591, y: -1.002, z: -0.018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1122758039199183906}
   m_Father: {fileID: 3149516935938082350}
-  m_LocalEulerAnglesHint: {x: 5.222, y: -1.89, z: 196.395}
+  m_LocalEulerAnglesHint: {x: 5.114, y: -1.523, z: 196.429}
 --- !u!1 &2888392280759899460
 GameObject:
   m_ObjectHideFlags: 0
@@ -53469,14 +53401,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2878329836967823698}
   - component: {fileID: 7778415363362943155}
-  - component: {fileID: 4642702100643185536}
+  - component: {fileID: 7778415363362943156}
   m_Layer: 9
   m_Name: PlasmaWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3637482652701929301
 Transform:
   m_ObjectHideFlags: 0
@@ -63986,22 +63918,6 @@ RectTransform:
   m_AnchoredPosition: {x: -649.91693, y: 339.9166}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4642702100643185536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3634698612627667333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dae71a5d32387046afc22a78693517f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swayAmount: 15
-  maxSwayAmount: 135
-  smoothAmount: 7.5
-  movementSwayMultiplier: 12
 --- !u!114 &4653813960474327533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100433,7 +100349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  fireRate: 0.5
+  fireRate: 0.7
   shootRadius: 20
   ammo_UI: {fileID: 11400000, guid: 849ba6b56d7b9b34184a0f65bf33f7c5, type: 2}
   plasma_ammo_add: {fileID: 11400000, guid: ef24a5143166e18468552399dd0a1ab8, type: 2}
@@ -100450,6 +100366,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   bullet: {fileID: 7225829608544178947}
+--- !u!114 &7778415363362943156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634698612627667333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae71a5d32387046afc22a78693517f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swayAmount: 5
+  maxSwayAmount: 130
+  smoothAmount: 7.5
+  movementSwayMultiplier: 4
 --- !u!4 &7782365847060913676
 Transform:
   m_ObjectHideFlags: 0
@@ -114898,7 +114830,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.8585968
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -139700,4 +139632,3 @@ SceneRoots:
   - {fileID: 1650903533}
   - {fileID: 174748868}
   - {fileID: 543450652142009780}
-  - {fileID: 115374469}

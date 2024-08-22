@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -24,54 +23,26 @@ public class Plasma : MonoBehaviour
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
 
-    protected void Start()
-    {
-    }
-
-    public void Use()
-    {
-        Debug.Log("Gun is used");
-    }
-
     private void Update()
     {
+        // Amunitsiyani UI ga yangilash
         UI_AMMO_UPDATE.Raise(plasma_ammo_add.Value);
         ammo_UI.Value = plasma_ammo_add.Value;
+
         PlayerMovment mov = FindObjectOfType<PlayerMovment>();
 
-        if (anim.GetBool("shoot") == false)
+        // Harakat animatsiyalarini boshqarish
+        if (!anim.GetBool("shoot"))
         {
-            if (mov.x != 0 || mov.z != 0)
-            {
-                anim.SetBool("walk", true);
-            }
-            else
-            {
-                speed.Value = 0;
-                anim.SetBool("walk", false);
-            }
-
-            if (Input.GetKey("left shift") && speed.Value > 0)
-            {
-                anim.SetBool("Run", true);
-            }
-            else
-            {
-                anim.SetBool("Run", false);
-            }
+            anim.SetBool("walk", mov.x != 0 || mov.z != 0);
+            anim.SetBool("Run", Input.GetKey("left shift") && speed.Value > 0);
         }
 
-        if (plasma_ammo_add.Value > 0)
+        // O'q otish amaliyoti
+        if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime)
         {
-            if (Input.GetButton("Fire1") && Time.time > nextFireTime)
-            {
-                nextFireTime = Time.time + fireRate;
-                Shoot();
-            }
-            /*else if (Input.GetButtonUp("Fire1"))
-            {
-               
-            }*/
+            nextFireTime = Time.time + fireRate;
+            Shoot();
         }
         else
         {
@@ -81,37 +52,54 @@ public class Plasma : MonoBehaviour
 
     private void Shoot()
     {
+        // Animatsiyani yoqish
         anim.SetBool("shoot", true);
-        StartCoroutine(GunAnim());
+
+        // Ovozni va zarracha effektini o'ynatish
         sound.Play();
         bullet.Play();
+
+        // Amunitsiyani kamaytirish va UI ni yangilash
         plasma_ammo_add.Value--;
         UI_AMMO_UPDATE.Raise(plasma_ammo_add.Value);
 
+        // O'q otishni boshlash
+        StartCoroutine(GunAnim());
+    }
+
+    private IEnumerator GunAnim()
+    {
+        // O'q otish yo'nalishi va boshlang'ich joyi
         Vector3 shootDirection = cam.transform.forward;
         Vector3 shootOrigin = bulletSpawnPoint.position;
 
+        // O'qni otish
         FireBullet(shootOrigin, shootDirection);
+
+        // Animatsiyaning davomiyligini kutish
+        yield return new WaitForSeconds(0.1f);
+
+        // Animatsiyani o'chirish
+        anim.SetBool("shoot", false);
     }
 
     private void FireBullet(Vector3 start, Vector3 direction)
     {
+        // O'q ob'ektini yaratish
         GameObject bulletInstance = Instantiate(bulletPrefab, start, Quaternion.LookRotation(direction));
+
+        // O'qning zarar miqdorini belgilash
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
         if (bulletScript != null)
         {
-            bulletScript.damage = damage; // O'qning zararini belgilash
+            bulletScript.damage = damage;
         }
+
+        // O'qning yo'nalishi va tezligini o'rnatish
         Rigidbody rb = bulletInstance.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);
         }
-    }
-
-    private IEnumerator GunAnim()
-    {
-        yield return new WaitForSeconds(0.1f);
-        anim.SetBool("shoot", false);
     }
 }
