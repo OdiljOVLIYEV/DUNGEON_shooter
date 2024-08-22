@@ -289,7 +289,7 @@ MonoBehaviour:
   magnetRange: 5
   moveSpeed: 50
   moneyCount: {fileID: 11400000, guid: d5044ec09e2daba40a632cadff728bd0, type: 2}
-  moneynumber: 5
+  moneynumber: 15
   sound: {fileID: 4562802865248534749}
   white: {fileID: 1646686458039223740}
 --- !u!82 &4562802865248534749
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.16862746}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
