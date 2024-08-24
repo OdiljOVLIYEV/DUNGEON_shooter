@@ -186,6 +186,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  RotationObject: 0
+  rotationSpeed: 90
 --- !u!1 &3895445952232816864
 GameObject:
   m_ObjectHideFlags: 0

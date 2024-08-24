@@ -74,12 +74,12 @@ public class ammo_add : MonoBehaviour
 			    ammoCollected = true;
 		    }
 
-		    if (rifle_ammo_add.Value<200 && rifle_ammo > 0 && !ammoCollected)
+		    if (rifle_ammo_add.Value<300 && rifle_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    rifle_ammo_add.Value = Mathf.Clamp(rifle_ammo_add.Value += rifle_ammo, 0, 200);
+			    rifle_ammo_add.Value = Mathf.Clamp(rifle_ammo_add.Value += rifle_ammo, 0, 300);
 			    UI_AMMO_UPDATE.Raise(rifle_ammo_add.Value);
 			    ammoCollected = true;
 		    }

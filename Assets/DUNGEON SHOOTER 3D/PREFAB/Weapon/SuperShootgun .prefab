@@ -351,3 +351,5 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  RotationObject: 0
+  rotationSpeed: 90
