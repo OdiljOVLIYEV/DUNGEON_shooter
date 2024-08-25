@@ -48,31 +48,28 @@ public class Rifle : MonoBehaviour
         ammo_UI.Value = rifle_ammo_add.Value;
         PlayerMovment mov = FindObjectOfType<PlayerMovment>();
 
-        // Handle movement animations
-        bool isWalking = mov.x != 0 || mov.z != 0;
-        anim.SetBool("walk", isWalking);
-
-        // Handle running animations
-        bool isRunning = Input.GetKey("left shift") && speed.Value > 0;
-        anim.SetBool("Run", isRunning);
+        if (!anim.GetBool("shoot"))
+        {
+            anim.SetBool("walk", mov.x != 0 || mov.z != 0);
+            anim.SetBool("Run", Input.GetKey("left shift") && speed.Value > 0);
+        }
 
         // Handle shooting
-        if (rifle_ammo_add.Value > 0)
-        {
-            if (Input.GetButton("Fire1") && Time.time > nextFireTime && !WeaponUI_Open.Value)
+        
+            if (rifle_ammo_add.Value > 0&&Input.GetButton("Fire1") && Time.time > nextFireTime && WeaponUI_Open.Value==false)
             {
+                anim.SetBool("shoot", true);
                 nextFireTime = Time.time + fireRate;
                 Shoot();
             }
-            else if (Input.GetButtonUp("Fire1"))
+            else 
             {
-                StartCoroutine(Gunanim());
+               
+                anim.SetBool("shoot", false);
             }
-        }
-        else
-        {
-            anim.SetBool("shoot", false);
-        }
+        
+            
+        
         
     }
 
@@ -80,7 +77,7 @@ public class Rifle : MonoBehaviour
     {
            
             
-            anim.SetBool("shoot", true);
+            
             sound.Play();
             bullet.Play();
             rifle_ammo_add.Value--;
@@ -154,9 +151,5 @@ public class Rifle : MonoBehaviour
         Gizmos.DrawLine(cam.transform.position, cam.transform.forward * range);
     }
 
-    IEnumerator Gunanim()
-    {
-        yield return new WaitForSeconds(0.1f);
-        anim.SetBool("shoot", false);
-    }
+    
 }
