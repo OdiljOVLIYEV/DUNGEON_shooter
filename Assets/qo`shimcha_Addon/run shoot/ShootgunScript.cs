@@ -21,6 +21,7 @@ public class ShotgunScript : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable canShoot;
+    [SerializeField] private BoolVariable WeaponUI_Open;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
 
@@ -70,7 +71,7 @@ public class ShotgunScript : MonoBehaviour
             }
         }
 
-        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true&&WeaponUI_Open.Value==false)
         {
             StartCoroutine(ReShootTime());
         }

@@ -14,6 +14,7 @@ public class Rifle : MonoBehaviour
     [SerializeField] private IntVariable rifle_ammo_add;
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
+    [SerializeField] private BoolVariable WeaponUI_Open;
     public Camera cam;
     public Animator anim;
     
@@ -47,41 +48,26 @@ public class Rifle : MonoBehaviour
         ammo_UI.Value = rifle_ammo_add.Value;
         PlayerMovment mov = FindObjectOfType<PlayerMovment>();
 
-        if (anim.GetBool("shoot") == false)
-        {
-            if (mov.x != 0 || mov.z != 0)
-            {
-                anim.SetBool("walk", true);
-            }
-            else
-            {
-                speed.Value = 0;
-                anim.SetBool("walk", false);
-            }
+        // Handle movement animations
+        bool isWalking = mov.x != 0 || mov.z != 0;
+        anim.SetBool("walk", isWalking);
 
-            if (Input.GetKey("left shift") && speed.Value > 0)
-            {
-                anim.SetBool("Run", true);
-            }
-            else
-            {
-                anim.SetBool("Run", false);
-            }
-        }
-     
+        // Handle running animations
+        bool isRunning = Input.GetKey("left shift") && speed.Value > 0;
+        anim.SetBool("Run", isRunning);
 
+        // Handle shooting
         if (rifle_ammo_add.Value > 0)
         {
-            if (Input.GetButton("Fire1") && Time.time > nextFireTime)
+            if (Input.GetButton("Fire1") && Time.time > nextFireTime && !WeaponUI_Open.Value)
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
             }
-            else if(Input.GetButtonUp("Fire1"))
+            else if (Input.GetButtonUp("Fire1"))
             {
-                StartCoroutine(gunanim());
+                StartCoroutine(Gunanim());
             }
-            
         }
         else
         {
@@ -168,7 +154,7 @@ public class Rifle : MonoBehaviour
         Gizmos.DrawLine(cam.transform.position, cam.transform.forward * range);
     }
 
-    IEnumerator gunanim()
+    IEnumerator Gunanim()
     {
         yield return new WaitForSeconds(0.1f);
         anim.SetBool("shoot", false);

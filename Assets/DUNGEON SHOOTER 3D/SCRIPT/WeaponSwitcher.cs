@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 using System.Collections;
-using Obvious.Soap;
-
 public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // List of weapons
-    public List<GameObject> weapons_icon; // List of weapon icons
+    public List<GameObject> weapons_icon;
+    public List<GameObject> lock_icon;// List of weapon icons
     public GameObject Katana;
     public GameObject weaponUI;
     
@@ -16,11 +16,11 @@ public class WeaponSwitcher : MonoBehaviour
     [SerializeField] private List<BoolVariable> UnlockedWeapons;
     [SerializeField] private IntVariable UnlockedWeapon;
     [SerializeField] private BoolVariable canShoot;
-
+    [SerializeField] private BoolVariable WeaponUI_Open;
+    
     private int currentWeaponIndex = -1; 
     private int previousWeaponIndex = -1;
     private int lastWeaponIndex = -1;
-    private bool uiVisible = false; // Track if the UI is visible
 
     void Start()
     {
@@ -40,18 +40,20 @@ public class WeaponSwitcher : MonoBehaviour
             Cursor.visible = true;
             MouseLook MS = FindObjectOfType<MouseLook>();
             MS.enabled = false;
-            DeactivateAllWeapons(); // Deactivate all weapons when UI is opened
+            WeaponUI_Open.Value = true;
+         
         }
         else if (Input.GetKeyUp(KeyCode.Tab))
         {
-            ShowWeaponUI(false);
+           
+             ShowWeaponUI(false);
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor again
             Cursor.visible = false; 
             MouseLook MS = FindObjectOfType<MouseLook>();
             MS.enabled = true;
-            ReactivateLastWeapon(); // Reactivate the last selected weapon
+            WeaponUI_Open.Value = false;
+           
         }
-
         // Check for keyboard inputs 1-9 for weapon switching
         for (int i = 0; i < weapons.Count; i++)
         {
@@ -68,7 +70,7 @@ public class WeaponSwitcher : MonoBehaviour
         }
 
         // F key to switch to Katana
-        if (Input.GetKeyDown(KeyCode.F) && change)
+        if (Input.GetKeyDown(KeyCode.F) && change&& WeaponUI_Open==false)
         {
             Katana.SetActive(true);
             SwordEffectCall?.Invoke();
@@ -89,21 +91,46 @@ public class WeaponSwitcher : MonoBehaviour
 
     public void SetActiveWeapon(int index)
     {
-        canShoot.Value = true;
         if (index < 0 || index >= weapons.Count || index == currentWeaponIndex)
             return;
 
+        // Deactivate the previously active weapon and its icon
         if (currentWeaponIndex != -1)
         {
             weapons[currentWeaponIndex].SetActive(false);
             weapons_icon[currentWeaponIndex].SetActive(false);
         }
 
+        // Update previous and current weapon indices
         previousWeaponIndex = currentWeaponIndex;
         currentWeaponIndex = index;
+
+        // Activate the new weapon and its icon
         weapons[currentWeaponIndex].SetActive(true);
         weapons_icon[currentWeaponIndex].SetActive(true);
-        lastWeaponIndex = currentWeaponIndex; // Update lastWeaponIndex
+
+        // Update lock icons based on unlocked weapons
+        UpdateLockIcons();
+
+        ShowWeaponUI(false);
+    }
+
+    private void UpdateLockIcons()
+    {
+        for (int i = 0; i < lock_icon.Count; i++)
+        {
+            if (i < UnlockedWeapons.Count)
+            {
+                bool isUnlocked = UnlockedWeapons[i].Value;
+                lock_icon[i].SetActive(!isUnlocked);
+                
+            }
+            else
+            {
+                lock_icon[i].SetActive(false);
+                
+            }
+        }
     }
 
     private void InitializeWeapons()
@@ -158,27 +185,6 @@ public class WeaponSwitcher : MonoBehaviour
         canShoot.Value = true;
     }
 
-    private void DeactivateAllWeapons()
-    {
-        foreach (GameObject weapon in weapons)
-        {
-            weapon.SetActive(false);
-        }
-        foreach (GameObject icon in weapons_icon)
-        {
-            icon.SetActive(false);
-        }
-    }
-
-    private void ReactivateLastWeapon()
-    {
-        if (lastWeaponIndex != -1)
-        {
-            weapons[lastWeaponIndex].SetActive(true);
-            weapons_icon[lastWeaponIndex].SetActive(true);
-        }
-    }
-
     IEnumerator weaponhandchange()
     {
         change = false;
@@ -219,6 +225,7 @@ public class WeaponSwitcher : MonoBehaviour
     void ShowWeaponUI(bool show)
     {
         weaponUI.SetActive(show);
-        uiVisible = show;
     }
+    
 }
+ 
