@@ -12,6 +12,7 @@ public class GunScript : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private BoolVariable Main_menu;
     public Camera cam;
     public Animator anim;
 
@@ -72,7 +73,7 @@ public class GunScript : MonoBehaviour
 
         if (gun_ammo_add.Value > 0)
         {
-            if (Input.GetButtonDown("Fire1")&& WeaponUI_Open.Value==false)
+            if (Input.GetButtonDown("Fire1")&& WeaponUI_Open.Value==false&&Main_menu.Value==false)
             {
                 Shoot();
             }

@@ -1,91 +1,84 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class MouseLook : MonoBehaviour
 {
-	public Transform playerBody;
-	
-	public float mouseSensitivity = 100f;
-	
-	float xRotation = 0f;
-	
-	
-	public Transform targetObject; 
-	public float rotationSpeed = 5f;
-	public float leftmaxf;
-	public float rightmax;
-	
-	public float minAngle = -80f;
-	public float maxAngle = 80f;
+    public Slider SLIDER;
+    public TextMeshProUGUI text;
+    public Transform playerBody;
 
-	private float currentAngle = 0f;
+    public float mouseSensitivity = 100f;
+
+    float xRotation = 0f;
+
+    public Transform targetObject; 
+    public float rotationSpeed = 5f;
+    public float leftmaxf;
+    public float rightmax;
+
+    public float minAngle = -80f;
+    public float maxAngle = 80f;
+
+    private float currentAngle = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-	    Cursor.lockState = CursorLockMode.Locked;
+        mouseSensitivity = PlayerPrefs.GetFloat("currentSensitivity", 100f);
+        SLIDER.value = mouseSensitivity / 10f;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
-	{  
-		
-		if (Input.GetKey(KeyCode.E))
-		{
-			
-			
-			// Rotate the camera 90 degrees to the right when "E" is pressed
-			//RotateTargetObject(90f);
-			//Debug.Log("AYLANSIN");
-		}
-		
-		
-	    float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-	    float mouseY = Input.GetAxis("Mouse Y") *mouseSensitivity * Time.deltaTime;
-	   
-	    xRotation -=mouseY;
-	    xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-	     transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-	    playerBody.Rotate(Vector3.up * mouseX);
-	    
-		lefthandcheck chap=FindObjectOfType<lefthandcheck>();
-		righthandcheck ong=FindObjectOfType<righthandcheck>();
-		PlayerMovment move=FindObjectOfType<PlayerMovment>();
-		
-		
-		if (chap.chap==true&&move.wallrun==true)
-	    {
-		    
-			RotateCamera(-1); 	
-			// transform.localRotation = Quaternion.Euler(0, 0,-20);
-		    	
-		    
-		    
-		    
-		   
-	    }
-		if(ong.ong==true&&move.wallrun==true){
-	    	
-			RotateCamera(1);
-	    	  
-			//transform.localRotation = Quaternion.Euler(0, 0, 20f);
-		   
-		}
-	    
-	
-    
-	}
-	
-	void RotateCamera(float direction)
-	{
-		float angleToRotate = direction * rotationSpeed * Time.deltaTime;
-		currentAngle += angleToRotate;
+    {  
+        // Convert the slider value to a string and truncate it to 3 characters
+        string sliderValueText = SLIDER.value.ToString();
+        text.text = sliderValueText.Length > 3 ? sliderValueText.Substring(0, 3) : sliderValueText;
 
-		// Limit the rotation angle between minAngle and maxAngle
-		currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
+        // Update the mouse sensitivity in PlayerPrefs
+        PlayerPrefs.SetFloat("currentSensitivity", mouseSensitivity);
 
-		transform.localRotation = Quaternion.Euler(0f,0f,currentAngle);
-		
-	}
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerBody.Rotate(Vector3.up * mouseX);
+
+        // Find necessary components
+        lefthandcheck chap = FindObjectOfType<lefthandcheck>();
+        righthandcheck ong = FindObjectOfType<righthandcheck>();
+        PlayerMovment move = FindObjectOfType<PlayerMovment>();
+
+        // Wallrun rotation adjustments
+        if (chap.chap == true && move.wallrun == true)
+        {
+            RotateCamera(-1); 	
+        }
+        if (ong.ong == true && move.wallrun == true)
+        {
+            RotateCamera(1);
+        }
+    }
+
+    public void adjustspeed(float newspeed)
+    {
+        mouseSensitivity = newspeed * 10;
+    }
+
+    void RotateCamera(float direction)
+    {
+        float angleToRotate = direction * rotationSpeed * Time.deltaTime;
+        currentAngle += angleToRotate;
+
+        // Limit the rotation angle between minAngle and maxAngle
+        currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
+
+        transform.localRotation = Quaternion.Euler(0f, 0f, currentAngle);
+    }
 }
