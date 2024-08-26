@@ -71,7 +71,7 @@ public class ShotgunScript : MonoBehaviour
             }
         }
 
-        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true&&WeaponUI_Open.Value==false)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true && WeaponUI_Open.Value==false)
         {
             StartCoroutine(ReShootTime());
         }

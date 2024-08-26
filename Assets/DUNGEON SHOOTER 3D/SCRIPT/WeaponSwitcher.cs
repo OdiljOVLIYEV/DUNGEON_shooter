@@ -29,6 +29,7 @@ public class WeaponSwitcher : MonoBehaviour
         InitializeWeaponIcons();
         weaponUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        WeaponUI_Open.Value = false;
     }
 
     void Update()

@@ -42,6 +42,7 @@ public class Plasma : MonoBehaviour
         // O'q otish amaliyoti
         if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false)
         {
+            anim.SetBool("shoot", true);
             nextFireTime = Time.time + fireRate;
             Shoot();
         }
@@ -54,7 +55,7 @@ public class Plasma : MonoBehaviour
     private void Shoot()
     {
         // Animatsiyani yoqish
-        anim.SetBool("shoot", true);
+        
 
         // Ovozni va zarracha effektini o'ynatish
         sound.Play();

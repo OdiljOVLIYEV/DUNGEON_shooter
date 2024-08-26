@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8746172766678035329}
   - component: {fileID: 1732544458090064204}
   - component: {fileID: 8509198524016459501}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Plasma_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1077324688958110057}
+  - {fileID: 8097520474376611255}
   - {fileID: 8097520474376611253}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -1.833, y: 79.301, z: 0.702}
@@ -52,7 +53,8 @@ MonoBehaviour:
   damage: 10
   explosionForce: 700
   explosionRadius: 5
-  explosionEffect: {fileID: 186584, guid: 3c197a60ad50b6149b81afeb14b3ef42, type: 3}
+  explosionEffect: {fileID: 6290431113209009988, guid: ca234bcbde1865b45a9c5dafbeaa89ab,
+    type: 3}
   particleType: 2
   maxDamage: 100
   rc_l_for_radius: 0
@@ -131,7 +133,7 @@ GameObject:
   - component: {fileID: 1053290901336488144}
   - component: {fileID: 1639835884843527628}
   - component: {fileID: 8086859135033783334}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Plasma_EFFECT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +257,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.16891861
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -263,7 +265,7 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.46389556
+        time: 0.1992166
         value: 0
         inSlope: 0
         outSlope: 0
@@ -327,7 +329,7 @@ GameObject:
   - component: {fileID: 8097520474376611253}
   - component: {fileID: 8097520474390765813}
   - component: {fileID: 8097520474390665557}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Plasma PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,8 +348,7 @@ Transform:
   m_LocalPosition: {x: 0.00010582202, y: 0.06932631, z: -0.00005601019}
   m_LocalScale: {x: 0.031197872, y: 0.041413974, z: 0.18846278}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8097520474376611255}
+  m_Children: []
   m_Father: {fileID: 1281277145332522698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8097520474390765813
@@ -358,7 +359,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8097520474376649109}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -4945,7 +4946,7 @@ GameObject:
   - component: {fileID: 8097520474376611255}
   - component: {fileID: 8097520474390765815}
   - component: {fileID: 8097520474390665559}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Plasma Electro PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4960,12 +4961,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8097520474376649111}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: 0.00000002630986, w: 0.7071068}
+  m_LocalPosition: {x: 0.000094809395, y: 0.06932631, z: -0.00006673422}
+  m_LocalScale: {x: 0.031197872, y: 0.041413967, z: 0.1884628}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8097520474376611253}
+  m_Father: {fileID: 1281277145332522698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8097520474390765815
 ParticleSystem:

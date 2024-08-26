@@ -78,4 +78,11 @@ public class Bullet : MonoBehaviour
                 break;
         }
     }
+    
+    private void OnDrawGizmos()
+    {
+        // Draw the explosion radius as a wireframe sphere in the Scene view
+        Gizmos.color = Color.red; // Set the color of the gizmo
+        Gizmos.DrawWireSphere(transform.position, explosionRadius); // Draw the wireframe sphere
+    }
 }
