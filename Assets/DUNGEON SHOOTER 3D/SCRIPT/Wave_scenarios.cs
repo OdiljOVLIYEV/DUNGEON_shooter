@@ -5,7 +5,9 @@ using UnityEngine;
 public class Wave_scenarios : MonoBehaviour
 {
     private Dictionary<int, Action> waveTasks;
-    
+    private int yuguruvchi = 0;
+    private int mini_boss = 0;
+    private int boss = 0;
    
     private void Start()
     {
@@ -16,7 +18,7 @@ public class Wave_scenarios : MonoBehaviour
             { 3, TaskForWave3 },
             { 4, TaskForWave4 },
             { 5, TaskForWave5 },
-            { 6, TaskForWave6 },
+           
             // Add more tasks for additional waves as needed
         };
     }
@@ -43,7 +45,17 @@ public class Wave_scenarios : MonoBehaviour
         }
         else
         {
-            if (waveNumber % 1 == 0)
+            if ((waveNumber - 6) % 10 == 0 && waveNumber >= 6)
+            {
+                yuguruvchiEnemy();
+            }
+            else
+            if ((waveNumber - 8) % 10 == 0 && waveNumber >= 8)
+            {
+                miniBossEnemy();
+            }
+            else
+            if (waveNumber % 10 == 0)
             {
                 SpawnBossEnemy();
             }
@@ -210,9 +222,10 @@ public class Wave_scenarios : MonoBehaviour
             Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
         }
     }
-    
-    private void SpawnBossEnemy()
+    private void yuguruvchiEnemy()
     {
+        yuguruvchi += 3;
+        
         UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
         enemy_count.EnemyRank = 4;
         if (enemy_count != null)
@@ -222,7 +235,56 @@ public class Wave_scenarios : MonoBehaviour
             // Specify the number of enemies for each index
             var manualEnemyCounts = new Dictionary<int, int>
             {
-                { 6, 1 }, // Example: 5 enemies of index 3
+                { 4, yuguruvchi }, // Example: 5 enemies of index 3
+                // Example: 3 enemies of index 4
+            };
+
+            // Call the method with the dictionary of manual counts
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+    
+    private void miniBossEnemy()
+    {
+        mini_boss += 2;
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+        enemy_count.EnemyRank = 4;
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+
+            // Specify the number of enemies for each index
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 5, mini_boss }, // Example: 5 enemies of index 3
+                // Example: 3 enemies of index 4
+            };
+
+            // Call the method with the dictionary of manual counts
+            enemy_count.ReceiveWaveCommand(manualEnemyCounts);
+        }
+        else
+        {
+            Debug.LogError("UI_ARENA_Counter component not found on this GameObject!");
+        }
+    }
+    private void SpawnBossEnemy()
+    {
+        boss += 1;
+        UI_ARENA_Counter enemy_count = GetComponent<UI_ARENA_Counter>();
+        enemy_count.EnemyRank = 4;
+        if (enemy_count != null)
+        {
+            Debug.Log("Task for Wave 1 executed!");
+
+            // Specify the number of enemies for each index
+            var manualEnemyCounts = new Dictionary<int, int>
+            {
+                { 6, boss }, // Example: 5 enemies of index 3
                  // Example: 3 enemies of index 4
             };
 

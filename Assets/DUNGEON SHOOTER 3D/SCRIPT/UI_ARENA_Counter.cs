@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UI_ARENA_Counter : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class UI_ARENA_Counter : MonoBehaviour
     public TextMeshProUGUI MoneyCountText;
     public TextMeshProUGUI WaveCountText;
     public TextMeshProUGUI TimeCountText;
+    public Image wavebackgroud;
+    [SerializeField] private BoolVariable Main_menu;
+    public GameObject[] gameObjects; 
     public int NextWaveAddEnemyCounter;
     [SerializeField] private IntVariable moneyCount;
     public static Action MusicManagerStart;
@@ -27,6 +31,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     private float timewave;
     public float Roundtime;
     public int EnemyRank;
+  
     private void Start()
     {
         MusicManagerStart?.Invoke();
@@ -40,6 +45,21 @@ public class UI_ARENA_Counter : MonoBehaviour
 
     void Update()
     {
+        if (Main_menu.Value == true)
+        {
+            foreach (GameObject obj in gameObjects)
+            {
+                obj.SetActive(false); // Obyektlarni yoqish
+            }
+        }
+        else
+        {
+            foreach (GameObject obj in gameObjects)
+            {
+                obj.SetActive(true); // Obyektlarni o'chirish
+            }
+        }
+        
         if (MoneyCountText != null)
         {
             MoneyCountText.text = moneyCount.ToString() + " $";

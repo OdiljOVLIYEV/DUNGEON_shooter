@@ -13,6 +13,7 @@ public class Weapon_AMMO_UI : MonoBehaviour
 
 	[SerializeField] private IntVariable ammo_UI;
 	[SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
+	
 	//private int max;
 	//public int gun_ammo;
 	//public int shotgun_ammo;

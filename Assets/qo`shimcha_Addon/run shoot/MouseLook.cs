@@ -27,6 +27,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         mouseSensitivity = PlayerPrefs.GetFloat("currentSensitivity", 100f);
         SLIDER.value = mouseSensitivity / 10f;
         Cursor.lockState = CursorLockMode.Locked;
@@ -36,7 +37,8 @@ public class MouseLook : MonoBehaviour
     void Update()
     {  
         // Convert the slider value to a string and truncate it to 3 characters
-        string sliderValueText = SLIDER.value.ToString();
+       // string sliderValueText = SLIDER.value.ToString();
+        string sliderValueText = Mathf.Floor(SLIDER.value).ToString();
         text.text = sliderValueText.Length > 3 ? sliderValueText.Substring(0, 3) : sliderValueText;
 
         // Update the mouse sensitivity in PlayerPrefs
@@ -68,7 +70,7 @@ public class MouseLook : MonoBehaviour
 
     public void adjustspeed(float newspeed)
     {
-        mouseSensitivity = newspeed * 10;
+        mouseSensitivity = newspeed * 50;
     }
 
     void RotateCamera(float direction)

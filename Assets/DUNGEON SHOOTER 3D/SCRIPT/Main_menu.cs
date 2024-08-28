@@ -14,6 +14,6 @@ public class Main_menu : MonoBehaviour
 	
 	public void Main_menus(){
 
-		SceneManager.LoadScene("Main_Menu");
+		SceneManager.LoadScene(0);
 	}
 }

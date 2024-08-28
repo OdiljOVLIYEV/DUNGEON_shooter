@@ -13,6 +13,7 @@ public class Plasma : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private BoolVariable Main_menu;
     public Camera cam;
     public Animator anim;
 
@@ -40,7 +41,7 @@ public class Plasma : MonoBehaviour
         }
 
         // O'q otish amaliyoti
-        if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false)
+        if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false&&Main_menu==false)
         {
             anim.SetBool("shoot", true);
             nextFireTime = Time.time + fireRate;

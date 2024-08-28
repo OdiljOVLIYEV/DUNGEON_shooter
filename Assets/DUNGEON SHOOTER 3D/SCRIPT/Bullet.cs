@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector]
-    public float damage = 10f; // O'qning zarar miqdori
+    
+    public float damage = 100f; // O'qning zarar miqdori
     public float explosionForce = 700f;
     public float explosionRadius = 5f;
     public GameObject explosionEffect;
@@ -13,26 +13,34 @@ public class Bullet : MonoBehaviour
     public int maxDamage = 100;
 
     public bool rc_l_for_radius;
+   
+
+    private void Start()
+    {
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (rc_l_for_radius)
         {
             Explode();
-            Destroy(gameObject,0.3f); // O'qni yo'q qilish
+            Destroy(gameObject,0.4f); // O'qni yo'q qilish
         }
         else
         {
+           
             IDamageable damageable = other.GetComponent<IDamageable>();
 
             if (damageable != null)
             {
                 damageable.TakeDamage(damage, transform.position, -transform.forward);
+              
                 particalsystem();
-                Destroy(gameObject);
+                Destroy(gameObject,1f);
             }
-           Destroy(gameObject);
-            
+           
+            Destroy(gameObject,1f); 
         }
         
     }

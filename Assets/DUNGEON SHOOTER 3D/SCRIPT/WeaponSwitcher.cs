@@ -47,13 +47,13 @@ public class WeaponSwitcher : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.Tab))
         {
            
-             ShowWeaponUI(false);
+             
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor again
             Cursor.visible = false; 
             MouseLook MS = FindObjectOfType<MouseLook>();
             MS.enabled = true;
             WeaponUI_Open.Value = false;
-           
+            StartCoroutine(showfalse());
         }
         // Check for keyboard inputs 1-9 for weapon switching
         for (int i = 0; i < weapons.Count; i++)
@@ -227,6 +227,10 @@ public class WeaponSwitcher : MonoBehaviour
     {
         weaponUI.SetActive(show);
     }
-    
+    IEnumerator showfalse()
+    {
+        yield return new WaitForSeconds(0.2f); // Adjust this delay as needed
+        ShowWeaponUI(false);
+    }
 }
  
