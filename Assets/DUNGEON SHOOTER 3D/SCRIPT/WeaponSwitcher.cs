@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 public class WeaponSwitcher : MonoBehaviour
 {
     public List<GameObject> weapons; // List of weapons
     public List<GameObject> weapons_icon;
     public List<GameObject> lock_icon;// List of weapon icons
     public GameObject Katana;
+    public Image katana;
+    public Image katanlock_icon;
     public GameObject weaponUI;
     
     public bool change = false;
@@ -24,6 +28,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Start()
     {
+        katana.enabled = false;
         canShoot.Value = true;
         InitializeWeapons();
         InitializeWeaponIcons();
@@ -74,6 +79,7 @@ public class WeaponSwitcher : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && change&& WeaponUI_Open==false)
         {
             Katana.SetActive(true);
+            katana.enabled = true;
             SwordEffectCall?.Invoke();
             if (currentWeaponIndex != -1)
             {
@@ -178,6 +184,7 @@ public class WeaponSwitcher : MonoBehaviour
     void WeaponOn()
     {
         Katana.SetActive(false);
+        katana.enabled = false;
         if (currentWeaponIndex != -1)
         {
             weapons[currentWeaponIndex].SetActive(true);
@@ -205,6 +212,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     public void Katana_unlock()
     {
+        katanlock_icon.enabled = false;
         change = true;
     }
 
@@ -212,7 +220,7 @@ public class WeaponSwitcher : MonoBehaviour
     public void OnWeaponIconClick(int weaponIndex)
     {
         Debug.Log("Weapon icon clicked: " + weaponIndex);
-    
+        
         if (UnlockedWeapons[weaponIndex].Value)
         {
             SetActiveWeapon(weaponIndex);
@@ -229,7 +237,7 @@ public class WeaponSwitcher : MonoBehaviour
     }
     IEnumerator showfalse()
     {
-        yield return new WaitForSeconds(0.2f); // Adjust this delay as needed
+        yield return new WaitForSeconds(0.1f); // Adjust this delay as needed
         ShowWeaponUI(false);
     }
 }
