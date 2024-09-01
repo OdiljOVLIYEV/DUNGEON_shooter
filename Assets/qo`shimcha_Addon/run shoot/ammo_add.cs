@@ -84,22 +84,22 @@ public class ammo_add : MonoBehaviour
 			    ammoCollected = true;
 		    }
 		    
-		    if (plasma_ammo_add.Value<100 && plasma_ammo > 0 && !ammoCollected)
+		    if (plasma_ammo_add.Value<15 && plasma_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    plasma_ammo_add.Value = Mathf.Clamp(plasma_ammo_add.Value += plasma_ammo, 0, 100);
+			    plasma_ammo_add.Value = Mathf.Clamp(plasma_ammo_add.Value += plasma_ammo, 0, 15);
 			    UI_AMMO_UPDATE.Raise(plasma_ammo_add.Value);
 			    ammoCollected = true;
 		    }
 		    
-		    if (rocket_launcher_ammo_add.Value<10 && rocket_launcher_ammo > 0 && !ammoCollected)
+		    if (rocket_launcher_ammo_add.Value<15 && rocket_launcher_ammo > 0 && !ammoCollected)
 		    {
 			    isCollected = true; 
 			    white.enabled = true;
 			    Invoke("whiteoff", 0.2f);
-			    rocket_launcher_ammo_add.Value = Mathf.Clamp(rocket_launcher_ammo_add.Value += rocket_launcher_ammo, 0, 10);
+			    rocket_launcher_ammo_add.Value = Mathf.Clamp(rocket_launcher_ammo_add.Value += rocket_launcher_ammo, 0, 15);
 			    UI_AMMO_UPDATE.Raise(rocket_launcher_ammo_add.Value);
 			    ammoCollected = true;
 		    }

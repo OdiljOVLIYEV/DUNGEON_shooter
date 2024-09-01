@@ -297,7 +297,7 @@ MonoBehaviour:
   bloodParticle: {fileID: 19882578, guid: b85ef8139fbcfa746b2954a470627418, type: 3}
   particleType: 0
   money: {fileID: 1952802582266928029, guid: 9258a9eb31c80b749a4de1218fc5ccac, type: 3}
-  maxHealth: 250
+  maxHealth: 2000
   currentHealth: 0
   anim: {fileID: 4318136575469698864}
   dead: 0

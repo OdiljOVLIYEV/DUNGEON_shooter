@@ -108,7 +108,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.007907075
+  m_Radius: 0.1
   m_Height: 0.076935664
   m_Direction: 2
   m_Center: {x: -0.00039358425, y: 0.00029928205, z: 0.016594999}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  explosionForce: 10
+  explosionForce: 1
   explosionRadius: 30
   explosionEffect: {fileID: 7512862375756981636, guid: 6f9097d621bd40f4597620f7a9f899c4,
     type: 3}

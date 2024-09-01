@@ -39,7 +39,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             ShowWeaponUI(true);
             Cursor.lockState = CursorLockMode.None; // Unlock the cursor
@@ -49,7 +49,7 @@ public class WeaponSwitcher : MonoBehaviour
             WeaponUI_Open.Value = true;
          
         }
-        else if (Input.GetKeyUp(KeyCode.Tab))
+        else if (Input.GetKeyUp(KeyCode.LeftAlt))
         {
            
              

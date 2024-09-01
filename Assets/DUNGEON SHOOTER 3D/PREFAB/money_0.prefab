@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 5069572573882393106}
   - component: {fileID: -882850985434279980}
   - component: {fileID: 4562802865248534749}
+  - component: {fileID: 2029271911799138812}
   m_Layer: 0
   m_Name: money_0
   m_TagString: Untagged
@@ -289,7 +290,7 @@ MonoBehaviour:
   magnetRange: 5
   moveSpeed: 50
   moneyCount: {fileID: 11400000, guid: d5044ec09e2daba40a632cadff728bd0, type: 2}
-  moneynumber: 15
+  moneynumber: 25
   sound: {fileID: 4562802865248534749}
   white: {fileID: 1646686458039223740}
 --- !u!82 &4562802865248534749
@@ -388,6 +389,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2029271911799138812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952802582266928029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f84ce00bc125434a963fc26736b31c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyTime: 60
 --- !u!1 &4031444572270710642
 GameObject:
   m_ObjectHideFlags: 0

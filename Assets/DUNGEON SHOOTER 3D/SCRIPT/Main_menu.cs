@@ -1,19 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Main_menu : MonoBehaviour
 {
-    // Start is called before the first frame update
-	public void Play(){
-		
-		SceneManager.LoadScene(1);
-	
-	}
-	
-	public void Main_menus(){
 
-		SceneManager.LoadScene(0);
-	}
+    private void Start()
+    {
+        AudioListener.volume=1f;
+        
+        
+    }
+
+    private void Update()
+    {
+       
+        
+    }
+
+    public void Play()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void MainMenus()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

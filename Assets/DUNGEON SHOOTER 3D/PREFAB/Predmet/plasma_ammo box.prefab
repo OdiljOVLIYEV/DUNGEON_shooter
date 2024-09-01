@@ -260,7 +260,7 @@ MonoBehaviour:
   gun_ammo: 0
   shotgun_ammo: 0
   rifle_ammo: 0
-  plasma_ammo: 20
+  plasma_ammo: 5
   rocket_launcher_ammo: 0
   white: {fileID: 6748992179831532863}
   groundLayer:

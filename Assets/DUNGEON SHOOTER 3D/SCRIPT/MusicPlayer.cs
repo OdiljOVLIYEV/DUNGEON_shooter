@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
@@ -9,7 +10,8 @@ public class MusicPlayer : MonoBehaviour
     private int currentTrackIndex = 0;  // Hozirgi trek indeksi
     public float fadeDuration = 1.0f;   // Ovoz pasayish vaqti
     private bool isPaused = false;      // Musiqa to'xtatilganligini belgilash
-
+    private float maxsound;
+    
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -20,6 +22,8 @@ public class MusicPlayer : MonoBehaviour
 
     void Update()
     {
+       
+        
         if (!audioSource.isPlaying && !isPaused)
         {
             PlayNextTrack();
@@ -95,15 +99,21 @@ public class MusicPlayer : MonoBehaviour
 
     private IEnumerator FadeInCoroutine()
     {
-        float startVolume = 0.2f;
+        float startVolume = 0.1f;
         audioSource.volume = startVolume;
 
-        while (audioSource.volume < 1.0f)
+        MouseLook ms = FindObjectOfType<MouseLook>();
+        while (audioSource.volume <ms.maxvolume )
         {
             audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
             yield return null;
         }
 
-        audioSource.volume = 1.0f;
+        //audioSource.volume = 1.0f;
+    }
+    
+    public void SetMaxVolume(float volume)
+    {
+        audioSource.volume = volume;
     }
 }

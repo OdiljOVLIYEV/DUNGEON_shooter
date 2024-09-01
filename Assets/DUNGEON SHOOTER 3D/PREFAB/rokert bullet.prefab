@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  explosionForce: 10
+  explosionForce: 1
   explosionRadius: 15
   explosionEffect: {fileID: 8500247577252458025, guid: c7b0ffe8fe565bc49bec453bf0813522,
     type: 3}

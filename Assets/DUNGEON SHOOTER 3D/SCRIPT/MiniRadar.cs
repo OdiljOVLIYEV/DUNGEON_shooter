@@ -26,6 +26,8 @@ public class MiniRadar : MonoBehaviour
         }
         blips.Clear();
 
+        float radarRadius = radarImage.rect.width / 2f; // Radarning yarim diametri
+
         // Yangi bliplarni yaratish
         foreach (Transform target in FindTargets())
         {
@@ -39,6 +41,13 @@ public class MiniRadar : MonoBehaviour
             {
                 Vector2 radarPos = new Vector2(relativePos.x, relativePos.z) * radarScale;
                 radarPos = RotatePointAroundPivot(radarPos, Vector2.zero, player.eulerAngles.y); // Aylanish burchagini o'ngga (nega) aylantirish
+
+                // Radar chetiga chiqmasligini ta'minlash
+                if (radarPos.magnitude > radarRadius)
+                {
+                    radarPos = radarPos.normalized * radarRadius;
+                }
+
                 GameObject blip = Instantiate(blipPrefab, radarImage);
                 blip.GetComponent<RectTransform>().anchoredPosition = radarPos;
                 blips.Add(blip);

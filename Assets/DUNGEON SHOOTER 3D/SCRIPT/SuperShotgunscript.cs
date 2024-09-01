@@ -10,7 +10,8 @@ public class SuperShotgunscript : MonoBehaviour
     public int pellets = 4; // Bir o'q bilan nechta raycast amalga oshirilishi
     public float spreadAngle = 10f; // Sochilma burchagini belgilash
     public int bullets=2;
-    public float reshoot_rate;
+    public float fireRate = 0.1f;
+    private float nextFireTime = 0f;
     public Camera fpsCam; // O'yinchining kamerasini belgilash
     public AudioSource sound;
 
@@ -72,32 +73,27 @@ public class SuperShotgunscript : MonoBehaviour
             }
         }
 
-        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value==true && WeaponUI_Open.Value==false)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value == true && WeaponUI_Open.Value == false)
         {
-            StartCoroutine(ReShootTime());
+            if (Time.time >= nextFireTime)
+            {
+                anim.SetBool("shoot", true);
+                canShoot.Value = false;
+                Shoot();
+                nextFireTime = Time.time + fireRate; // Set the next fire time 1 second from now
+            }
         }
-
-        IEnumerator ReShootTime()
+        else
         {
-            canShoot.Value = false;
-            Shoot();
-            yield return new WaitForSeconds(reshoot_rate);
-            EjectCasing();
             canShoot.Value = true;
+            anim.SetBool("shoot", false);
         }
     }
 
     void Shoot()
     {
-        anim.SetBool("shoot", true);
         sound.Play();
-        StartCoroutine(gunanim());
-        /*int bullets = 2; // O'q sonini belgilaymiz
-        Debug.Log("Bullets: " + bullets); // Tekshiruv uchun bullets qiymatini chop qilamiz
-
-        shotgun_ammo_add.Value -= bullets; // shotgun_ammo_add.Value qiymatini bullets orqali kamaytiramiz
-        Debug.Log("Shotgun Ammo Value: " + shotgun_ammo_add.Value);*/
-        shotgun_ammo_add.Value -= bullets ;
+        shotgun_ammo_add.Value -= bullets;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;
         bullet.Play();
@@ -117,8 +113,10 @@ public class SuperShotgunscript : MonoBehaviour
             FireBullet(fpsCam.transform.position, direction);
         }
 
-        Invoke(nameof(ResetShootingFlag), 0.1f);
+        ResetShootingFlag();
     }
+
+
 
     private void ProcessHit(RaycastHit hit, Vector3 direction)
     {
@@ -143,6 +141,8 @@ public class SuperShotgunscript : MonoBehaviour
             }
         }
     }
+
+
 
     void FireBullet(Vector3 origin, Vector3 direction)
     {
@@ -170,11 +170,7 @@ public class SuperShotgunscript : MonoBehaviour
         isShooting = false;
     }
 
-    IEnumerator gunanim()
-    {
-        yield return new WaitForSeconds(0.3f);
-        anim.SetBool("shoot", false);
-    }
+    
 
     void OnDrawGizmos()
     {

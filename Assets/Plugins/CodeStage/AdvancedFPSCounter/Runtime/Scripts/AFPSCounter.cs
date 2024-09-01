@@ -850,7 +850,7 @@ namespace CodeStage.AdvancedFPSCounter
 			if (keepAlive)
 			{
 				// will keep alive itself or other topmost game object
-				DontDestroyOnLoad(transform.root.gameObject);
+				//DontDestroyOnLoad(transform.root.gameObject);
 				SceneManager.sceneLoaded += OnLevelWasLoadedNew;
 			}
 		}

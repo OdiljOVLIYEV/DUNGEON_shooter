@@ -30,8 +30,10 @@ public class UI_ARENA_Counter : MonoBehaviour
     [SerializeField] private FloatVariable KillEnemy_UI;
     private float timewave;
     public float Roundtime;
+    [HideInInspector]
     public int EnemyRank;
-  
+    [SerializeField] private FloatVariable HealthPlayer; 
+    
     private void Start()
     {
         MusicManagerStart?.Invoke();
@@ -59,6 +61,8 @@ public class UI_ARENA_Counter : MonoBehaviour
                 obj.SetActive(true); // Obyektlarni o'chirish
             }
         }
+       
+        
         
         if (MoneyCountText != null)
         {

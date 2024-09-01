@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class MouseLook : MonoBehaviour
 {
     public Slider SLIDER;
+    public Slider volumeSlider;
+    public float maxvolume;// Ovoz uchun qo'shimcha Slider
     public TextMeshProUGUI text;
     public Transform playerBody;
 
@@ -24,20 +26,33 @@ public class MouseLook : MonoBehaviour
 
     private float currentAngle = 0f;
 
+    public AudioSource audioSource; // AudioSource komponenti
+ 
     // Start is called before the first frame update
     void Start()
     {
-        
         mouseSensitivity = PlayerPrefs.GetFloat("currentSensitivity", 100f);
         SLIDER.value = mouseSensitivity / 10f;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Ovoz darajasini dastlabki qiymatiga o'rnating
+        volumeSlider.value = audioSource.volume;
+        volumeSlider.onValueChanged.AddListener(SetVolume);
+
+        // MusicPlayer skriptini topish
+        MusicPlayer musicPlayer = FindObjectOfType<MusicPlayer>();
+        if (musicPlayer != null)
+        {
+            // Slider qiymatiga asoslangan holda musiqa o'yinchi ovozini yangilash
+            volumeSlider.onValueChanged.AddListener(musicPlayer.SetMaxVolume);
+        }
     }
+
 
     // Update is called once per frame
     void Update()
     {  
         // Convert the slider value to a string and truncate it to 3 characters
-       // string sliderValueText = SLIDER.value.ToString();
         string sliderValueText = Mathf.Floor(SLIDER.value).ToString();
         text.text = sliderValueText.Length > 3 ? sliderValueText.Substring(0, 3) : sliderValueText;
 
@@ -70,7 +85,7 @@ public class MouseLook : MonoBehaviour
 
     public void adjustspeed(float newspeed)
     {
-        mouseSensitivity = newspeed * 50;
+        mouseSensitivity = newspeed * 25;
     }
 
     void RotateCamera(float direction)
@@ -83,4 +98,13 @@ public class MouseLook : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(0f, 0f, currentAngle);
     }
+
+    public void SetVolume(float volume)
+    {
+        
+        audioSource.volume = volume; // Ovoz darajasini o'zgartirish
+        maxvolume = audioSource.volume;
+        // MusicPlayer ovoz balandligini yangilash
+    }
+
 }

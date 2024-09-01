@@ -6,17 +6,28 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    private Vector3 originalLocalPosition; // Dastlabki local pozitsiyani saqlash uchun
+
+    public Transform cameraTransform; 
+    public GameObject[] gameObjects; 
     public TextMeshProUGUI text; // Health matni uchun TextMeshPro komponenti
-    [SerializeField] private FloatVariable HealthPlayer; // ScriptableObject uchun FloatVariable
-    
+    [SerializeField] private FloatVariable HealthPlayer; 
+    [SerializeField] private BoolVariable Main_menu;// ScriptableObject uchun FloatVariable
+    public GameObject diedmenu;
     public Image image; // UI Image komponenti
     public float fadeDuration = 1.0f; // Fade davomiyligi (soniyalarda)
+    [SerializeField] private IntVariable gun_ammo_add;
+    [SerializeField] private IntVariable shotgun_ammo_add;
+    [SerializeField] private IntVariable rifle_ammo_add;
+    [SerializeField] private IntVariable plasma_ammo_add;
+    [SerializeField] private IntVariable rocket_launcher_ammo_add;
     
     private string unlimitedSymbol = "∞"; // Cheksizlik belgisini qo‘shish
     private void Start()
     {
         GetComponent<Animator>().enabled = false;
         UpdateHealthText(); // Health matnini yangilash
+        originalLocalPosition = cameraTransform.localPosition;
     }
 
     private void Update()
@@ -52,20 +63,25 @@ public class PlayerHealth : MonoBehaviour
     {
         image.enabled = true;
         StartCoroutine(FadeOut()); // Fade out effektini boshlash
-        HealthPlayer.Value -= amount;
+        HealthPlayer.Value = Mathf.Max(HealthPlayer.Value - amount, 0);
         UpdateHealthText(); // Health matnini yangilash
         
         if (HealthPlayer.Value <= 0f)
         {
-            Die(); // O'lish funktsiyasini chaqirish
+            Die();
+           // Invoke("MouseOn",2f);// O'lish funktsiyasini chaqirish
         }
     }
 
     void Die()
     {
+       
         image.enabled = false;
         GetComponent<Animator>().enabled = true;
         Debug.Log("Player Died");
+        Main_menu.Value = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         // Playerning o'lish logikasini shu yerda amalga oshiring
     }
 
@@ -88,5 +104,47 @@ public class PlayerHealth : MonoBehaviour
     {
         string healthText = Mathf.Floor(HealthPlayer.Value).ToString();
         text.text = healthText.Length > 3 ? healthText.Substring(0, 3) : healthText;
+    }
+
+    public void Continue()
+    {
+        Main_menu.Value = false;
+        HealthPlayer.Value = 100f;
+        
+        // Sichqoncha kursorini yashirish va uni o'rnatish
+         // Sichqoncha kursorini yashirish
+        // Invoke("MouseOff",0.2f);
+        GetComponent<Animator>().enabled = false;
+        PlayerMovment PM = FindObjectOfType<PlayerMovment>();
+        PM.enabled = true;
+        BACKMENU BC = FindObjectOfType<BACKMENU>();
+        BC.enabled = true;
+        MouseLook ML = FindObjectOfType<MouseLook>();
+        ML.enabled = true;
+        WeaponSwitcher ws = FindObjectOfType<WeaponSwitcher>();
+        ws.enabled = true;
+        diedmenu.SetActive(false);
+        ResetCameraPosition();
+        gun_ammo_add.Value = 80;
+        shotgun_ammo_add.Value=50;
+        rifle_ammo_add.Value=100;
+        plasma_ammo_add.Value=15;
+        rocket_launcher_ammo_add.Value=15;
+        foreach (GameObject obj in gameObjects)
+        {
+            obj.SetActive(true); // Obyektlarni yoqish
+        }
+        Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
+        Cursor.visible = false; 
+    
+       
+    }
+
+    
+   
+    public void ResetCameraPosition()
+    {
+        // Animatsiya tugagandan keyin kamerani dastlabki pozitsiyasiga qaytarish
+        cameraTransform.localPosition = originalLocalPosition;
     }
 }
