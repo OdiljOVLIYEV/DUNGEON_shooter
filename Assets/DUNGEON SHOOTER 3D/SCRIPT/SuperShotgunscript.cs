@@ -95,6 +95,7 @@ public class SuperShotgunscript : MonoBehaviour
 
     void Shoot()
     {
+        SaveData();
         sound.Play();
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;

@@ -9,8 +9,8 @@ public class UnlockWeapon : MonoBehaviour
     [SerializeField] private int unlockweaponnumber;
     public LayerMask groundLayer;
     public static Action KatanaUnlock;
-    [SerializeField] private ScriptableEventNoParam SaveEvent;
     public bool RotationObject;
+    [SerializeField] private ScriptableEventNoParam UnlockEvent;
     [SerializeField] private float rotationSpeed = 90f;
     //public WeaponSwitcher weaponSwitcher;
     // Start is called before the first frame update
@@ -67,7 +67,7 @@ public class UnlockWeapon : MonoBehaviour
             
             UnlockedWeapon.Value = unlockweaponnumber;
             weaponSwitcher.UnlockWeapon(UnlockedWeapon.Value);
-            //SaveEvent.Raise();
+            UnlockEvent.Raise();
             weaponSwitcher.CheckAndSetActiveWeapon(UnlockedWeapon.Value);
            
             Destroy(gameObject);

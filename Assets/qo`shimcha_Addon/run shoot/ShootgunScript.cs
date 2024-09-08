@@ -96,12 +96,14 @@ public class ShotgunScript : MonoBehaviour
 
     void Shoot()
     {
+        SaveData();
         sound.Play();
         shotgun_ammo_add.Value -= bullets;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;
         bullet.Play();
-
+       
+        
         for (int i = 0; i < pellets; i++)
         {
             Vector3 direction = fpsCam.transform.forward;

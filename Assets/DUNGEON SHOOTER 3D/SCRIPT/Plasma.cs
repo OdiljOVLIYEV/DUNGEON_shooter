@@ -65,7 +65,7 @@ public class Plasma : MonoBehaviour
     {
         // Animatsiyani yoqish
         
-
+        SaveData();
         // Ovozni va zarracha effektini o'ynatish
         sound.Play();
         bullet.Play();

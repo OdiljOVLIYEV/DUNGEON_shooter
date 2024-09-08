@@ -17,6 +17,7 @@ public class WeaponSwitcher : MonoBehaviour
     public Image katanlock_icon;
     public GameObject weaponUI;
     [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam UnlockEvent;
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     public bool change = false;
     public static Action SwordEffectCall;
@@ -46,6 +47,7 @@ public class WeaponSwitcher : MonoBehaviour
         
         UpdateLockIcons();
         LoadWeaponUnlockStates();
+       
     }
 
    
@@ -78,7 +80,7 @@ public class WeaponSwitcher : MonoBehaviour
         {
             if (Input.GetKeyDown((i + 1).ToString()) && UnlockedWeapons[i].Value)
             {
-                SaveWeaponUnlockStates();
+                SaveEvent.Raise();
                 SetActiveWeapon(i);
             }
         }
@@ -86,7 +88,7 @@ public class WeaponSwitcher : MonoBehaviour
         // Q key switches between the last two selected weapons
         if (Input.GetKeyDown(KeyCode.Q) && previousWeaponIndex != -1)
         {
-            //SaveEvent.Raise();
+            SaveEvent.Raise();
             SetActiveWeapon(previousWeaponIndex);
         }
 
@@ -117,8 +119,7 @@ public class WeaponSwitcher : MonoBehaviour
         if (index < 0 || index >= weapons.Count || index == currentWeaponIndex)
             return;
 
-        // Save the game state when weapon switching happens
-        SaveEvent.Raise();
+ 
 
         // Deactivate the previously active weapon and its icon
         if (currentWeaponIndex != -1)
@@ -236,11 +237,13 @@ public class WeaponSwitcher : MonoBehaviour
     private void OnEnable()
     {
         global::UnlockWeapon.KatanaUnlock += Katana_unlock;
+        UnlockEvent.OnRaised += SaveWeaponUnlockStates;
     }
 
     private void OnDisable()
     {
         global::UnlockWeapon.KatanaUnlock -= Katana_unlock;
+       UnlockEvent.OnRaised -= SaveWeaponUnlockStates;
     }
 
     public void Katana_unlock()

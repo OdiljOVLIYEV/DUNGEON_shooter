@@ -85,7 +85,7 @@ public class Rifle : MonoBehaviour
     {
            
             
-            
+            SaveData();
             sound.Play();
             bullet.Play();
             rifle_ammo_add.Value--;

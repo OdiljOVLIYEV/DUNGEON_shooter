@@ -79,6 +79,7 @@ public class Rocket_Launcher : MonoBehaviour
 
     private void Shoot()
     {
+        SaveData();
         anim.SetBool("shoot", true);
         StartCoroutine(GunAnim());
         sound.Play();
