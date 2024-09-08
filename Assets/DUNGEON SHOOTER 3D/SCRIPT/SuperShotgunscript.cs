@@ -24,6 +24,8 @@ public class SuperShotgunscript : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable canShoot;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam LoadEvent;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
 
@@ -42,6 +44,7 @@ public class SuperShotgunscript : MonoBehaviour
 
     void Start()
     {
+        LoadData();
         directions = new Vector3[pellets]; // Yo'nalishlar massivini initsializatsiya qilish
     }
 
@@ -93,11 +96,19 @@ public class SuperShotgunscript : MonoBehaviour
     void Shoot()
     {
         sound.Play();
-        shotgun_ammo_add.Value -= bullets;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);
         isShooting = true;
         bullet.Play();
-
+       int currentDamage = damage;
+      if (shotgun_ammo_add.Value == 1)
+      {
+        currentDamage = damage / 2; // Reduce damage to 50%
+        shotgun_ammo_add.Value -= 1; // Reduce ammo by 1
+      }
+      else
+      {
+          shotgun_ammo_add.Value -= bullets; // Reduce ammo by the regular amount
+      } 
         for (int i = 0; i < pellets; i++)
         {
             Vector3 direction = fpsCam.transform.forward;
@@ -182,5 +193,34 @@ public class SuperShotgunscript : MonoBehaviour
         {
             Gizmos.DrawRay(fpsCam.transform.position, directions[i] * range);
         }
+    }
+    
+    private void OnEnable()
+    {
+        SaveEvent.OnRaised += SaveData;
+       
+    }
+
+    private void OnDisable()
+    {
+        SaveEvent.OnRaised -= SaveData;
+        
+    }
+
+    public void SaveData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.AmmoSuperShotgun = shotgun_ammo_add.Value;
+        SaveManager.instance.SavePlayerData(data);
+      
+        
+    }
+
+
+    public void LoadData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        shotgun_ammo_add.Value = data.AmmoSuperShotgun;
+      
     }
 }

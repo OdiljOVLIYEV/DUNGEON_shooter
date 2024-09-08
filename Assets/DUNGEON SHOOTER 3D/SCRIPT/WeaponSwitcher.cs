@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using System.Collections;
+using System.IO;
+using Animancer;
 using UnityEngine.UI;
 
 public class WeaponSwitcher : MonoBehaviour
@@ -14,7 +16,8 @@ public class WeaponSwitcher : MonoBehaviour
     public Image katana;
     public Image katanlock_icon;
     public GameObject weaponUI;
-    
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     public bool change = false;
     public static Action SwordEffectCall;
     [SerializeField] private List<BoolVariable> UnlockedWeapons;
@@ -26,8 +29,11 @@ public class WeaponSwitcher : MonoBehaviour
     private int previousWeaponIndex = -1;
     private int lastWeaponIndex = -1;
 
+   
+
     void Start()
     {
+       
         katana.enabled = false;
         canShoot.Value = true;
         InitializeWeapons();
@@ -35,12 +41,19 @@ public class WeaponSwitcher : MonoBehaviour
         weaponUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         WeaponUI_Open.Value = false;
+        
+        
+        
+        UpdateLockIcons();
+        LoadWeaponUnlockStates();
     }
 
+   
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (Input.GetMouseButton(2))
         {
+            
             ShowWeaponUI(true);
             Cursor.lockState = CursorLockMode.None; // Unlock the cursor
             Cursor.visible = true;
@@ -49,10 +62,10 @@ public class WeaponSwitcher : MonoBehaviour
             WeaponUI_Open.Value = true;
          
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+        else if (Input.GetMouseButtonUp(2))
         {
            
-             
+           
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor again
             Cursor.visible = false; 
             MouseLook MS = FindObjectOfType<MouseLook>();
@@ -65,6 +78,7 @@ public class WeaponSwitcher : MonoBehaviour
         {
             if (Input.GetKeyDown((i + 1).ToString()) && UnlockedWeapons[i].Value)
             {
+                SaveWeaponUnlockStates();
                 SetActiveWeapon(i);
             }
         }
@@ -72,6 +86,7 @@ public class WeaponSwitcher : MonoBehaviour
         // Q key switches between the last two selected weapons
         if (Input.GetKeyDown(KeyCode.Q) && previousWeaponIndex != -1)
         {
+            //SaveEvent.Raise();
             SetActiveWeapon(previousWeaponIndex);
         }
 
@@ -98,8 +113,12 @@ public class WeaponSwitcher : MonoBehaviour
 
     public void SetActiveWeapon(int index)
     {
+        // Ensure index is valid
         if (index < 0 || index >= weapons.Count || index == currentWeaponIndex)
             return;
+
+        // Save the game state when weapon switching happens
+        SaveEvent.Raise();
 
         // Deactivate the previously active weapon and its icon
         if (currentWeaponIndex != -1)
@@ -116,29 +135,29 @@ public class WeaponSwitcher : MonoBehaviour
         weapons[currentWeaponIndex].SetActive(true);
         weapons_icon[currentWeaponIndex].SetActive(true);
 
-        // Update lock icons based on unlocked weapons
-        UpdateLockIcons();
+        // DO NOT change the unlock states, only switch the active weapon
+        // The unlock states are managed independently and shouldn't be touched here
 
         ShowWeaponUI(false);
     }
 
+    
     private void UpdateLockIcons()
     {
         for (int i = 0; i < lock_icon.Count; i++)
         {
             if (i < UnlockedWeapons.Count)
             {
-                bool isUnlocked = UnlockedWeapons[i].Value;
-                lock_icon[i].SetActive(!isUnlocked);
-                
+                // Hide the lock icon if the weapon is unlocked, show it if still locked
+                lock_icon[i].SetActive(!UnlockedWeapons[i].Value);
             }
             else
             {
-                lock_icon[i].SetActive(false);
-                
+                lock_icon[i].SetActive(false); // Hide lock icon for out-of-bounds items (safety check)
             }
         }
     }
+
 
     private void InitializeWeapons()
     {
@@ -165,13 +184,27 @@ public class WeaponSwitcher : MonoBehaviour
         }
     }
 
-    public void UnlockWeapon(int UnlockedWeapon)
+    public void UnlockWeapon(int unlockedWeaponIndex)
     {
-        if (UnlockedWeapon >= 0 && UnlockedWeapon < weapons.Count)
+        // Ensure index is valid
+        if (unlockedWeaponIndex >= 0 && unlockedWeaponIndex < weapons.Count)
         {
-            UnlockedWeapons[UnlockedWeapon].Value = true;
+            UnlockedWeapons[unlockedWeaponIndex].Value = true;  // Unlock the specified weapon
+
+            // Ensure that all unlocked weapons remain unlocked
+            for (int i = 0; i < UnlockedWeapons.Count; i++)
+            {
+                if (UnlockedWeapons[i].Value)
+                {
+                    lock_icon[i].SetActive(false); // Hide lock icon for unlocked weapons
+                }
+            }
+
+            UpdateLockIcons(); // Update the lock icons to reflect changes
         }
     }
+
+
 
     public void CheckAndSetActiveWeapon(int UnlockedWeapon)
     {
@@ -240,5 +273,34 @@ public class WeaponSwitcher : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // Adjust this delay as needed
         ShowWeaponUI(false);
     }
+    public void SaveWeaponUnlockStates()
+    {
+        PlayerData playerData = SaveManager.instance.LoadPlayerData(); // Load existing data
+        playerData.weaponUnlockStates = new List<bool>();  // Initialize the list
+
+        // Save the unlock state for each weapon
+        foreach (BoolVariable weaponUnlocked in UnlockedWeapons)
+        {
+            playerData.weaponUnlockStates.Add(weaponUnlocked.Value);
+        }
+
+        SaveManager.instance.SavePlayerData(playerData); // Save the updated data
+    }
+    public void LoadWeaponUnlockStates()
+    {
+        PlayerData playerData = SaveManager.instance.LoadPlayerData(); // Load saved data
+
+        // If there are saved weapon unlock states, apply them
+        if (playerData.weaponUnlockStates != null && playerData.weaponUnlockStates.Count == UnlockedWeapons.Count)
+        {
+            for (int i = 0; i < playerData.weaponUnlockStates.Count; i++)
+            {
+                UnlockedWeapons[i].Value = playerData.weaponUnlockStates[i];
+            }
+        }
+
+        UpdateLockIcons(); // Update the UI icons to reflect the loaded state
+    }
+
+    
 }
- 

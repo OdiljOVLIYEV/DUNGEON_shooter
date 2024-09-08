@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections;
 using Obvious.Soap;
+using UnityEngine;
 
-public class GunScript : MonoBehaviour
+public class GunScript : MonoBehaviour, ISAVEABLE
 {
     public float damage = 10f;
     public float range = 100f;
@@ -15,31 +16,29 @@ public class GunScript : MonoBehaviour
     [SerializeField] private BoolVariable Main_menu;
     public Camera cam;
     public Animator anim;
-
-    #region MyRegion
-
-    public GameObject bulletCasingPrefab; // Gilza prefabini joylashtiring
-    public Transform casingEjectionPoint; // Gilza chiqariladigan nuqta
-    public float casingEjectionForce = 2f; // Gilza chiqarish kuchi
-
-    #endregion
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam LoadEvent;
+    public GameObject bulletCasingPrefab;
+    public Transform casingEjectionPoint;
+    public float casingEjectionForce = 2f;
 
     public AudioSource sound;
     public LayerMask enemyLayer;
- 
+
     public ParticleSystem bullet;
 
-    // Tracer bullet properties
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     public float bulletSpeed = 1000f;
 
-    protected void Start()
+    private void Start()
     {
+        LoadData();
     }
 
     public void Use()
     {
+        
         Debug.Log("Gun is used");
     }
 
@@ -73,7 +72,7 @@ public class GunScript : MonoBehaviour
 
         if (gun_ammo_add.Value > 0)
         {
-            if (Input.GetButtonDown("Fire1")&& WeaponUI_Open.Value==false&&Main_menu.Value==false)
+            if (Input.GetButtonDown("Fire1") && !WeaponUI_Open.Value && !Main_menu.Value)
             {
                 Shoot();
             }
@@ -87,7 +86,6 @@ public class GunScript : MonoBehaviour
         sound.Play();
         bullet.Play();
         gun_ammo_add.Value--;
-       // UI_AMMO_UPDATE.Raise(gun_ammo_add.Value);
         EjectCasing();
 
         RaycastHit hit;
@@ -161,4 +159,37 @@ public class GunScript : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         anim.SetBool("shoot", false);
     }
+
+    private void OnEnable()
+    {
+        SaveEvent.OnRaised += SaveData;
+       
+    }
+
+    private void OnDisable()
+    {
+        SaveEvent.OnRaised -= SaveData;
+        
+    }
+
+    public void SaveData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.Ammogun = gun_ammo_add.Value;
+        SaveManager.instance.SavePlayerData(data);
+
+    }
+
+
+    public void LoadData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        gun_ammo_add.Value = data.Ammogun;
+        
+     
+    }
+
+
+
+
 }

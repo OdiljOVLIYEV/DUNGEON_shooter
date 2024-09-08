@@ -24,6 +24,8 @@ public class ShotgunScript : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable canShoot;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam LoadEvent;
     public LayerMask enemyLayer;
     public ParticleSystem bullet;
 
@@ -42,6 +44,8 @@ public class ShotgunScript : MonoBehaviour
 
     void Start()
     {
+        
+        LoadData();
         directions = new Vector3[pellets]; // Yo'nalishlar massivini initsializatsiya qilish
     }
 
@@ -187,5 +191,35 @@ public class ShotgunScript : MonoBehaviour
         {
             Gizmos.DrawRay(fpsCam.transform.position, directions[i] * range);
         }
+    }
+    
+    private void OnEnable()
+    {
+        SaveEvent.OnRaised += SaveData;
+       
+    }
+
+    private void OnDisable()
+    {
+        SaveEvent.OnRaised -= SaveData;
+        
+    }
+
+    public void SaveData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.AmmoShotgun = shotgun_ammo_add.Value;
+        SaveManager.instance.SavePlayerData(data);
+       
+        
+    }
+
+
+    public void LoadData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        shotgun_ammo_add.Value = data.AmmoShotgun;
+        
+      
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GamePush;
 using Obvious.Soap;
 using UnityEngine;
 using TMPro;
@@ -32,17 +33,19 @@ public class UI_ARENA_Counter : MonoBehaviour
     public float Roundtime;
     [HideInInspector]
     public int EnemyRank;
-    [SerializeField] private FloatVariable HealthPlayer; 
-    
+    [SerializeField] private FloatVariable HealthPlayer;
+    public GameObject WaveWin;
+    public bool NextUI;
     private void Start()
     {
+        LoadData();
         MusicManagerStart?.Invoke();
         MusicManagerPause?.Invoke();   
-      
-        timewave = Roundtime;
-        StartCoroutine(TimeWave());
         WaveCountText.enabled = false;
         TimeCountText.enabled = true;
+        timewave = Roundtime;
+        StartCoroutine(TimeWave());
+        
     }
 
     void Update()
@@ -167,26 +170,52 @@ public class UI_ARENA_Counter : MonoBehaviour
         {
             EnemyCountText.text = KillEnemy_UI.ToString();
         }
-        if (KillEnemy_UI == 0)
+        if (KillEnemy_UI == 0&& NextUI==true)
         {
-            MusicManagerPause?.Invoke();            
-            timewave = Roundtime;
-            StartCoroutine(TimeWave());
+            
+            MusicManagerPause?.Invoke();
+            WaveWin.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            Time.timeScale=0f;
+            SaveData();
         }
+       
+    }
+    
+    
+    public void next()
+    {   Time.timeScale=1f;
+        NextUI = false;
+        WaveWin.SetActive(false);
+        Debug.Log("keyingi");
+        timewave = Roundtime;
+        StartCoroutine(TimeWave());
+        StartCoroutine(ADSCALL());
+        Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
+        Cursor.visible = false; 
+       
     }
 
+   
     private void UpdateWaveCount()
     {
         if (WaveCountText != null)
         {
             WaveCountText.text = "Wave " + Wave_number.ToString();
+            
         }
     }
 
     IEnumerator TimeWave()
     {
+       
+        
         while (timewave > 0)
         {
+            
+            
+           
             yield return new WaitForSeconds(1f);
             timewave -= 1;
             TimeCountText.text = timewave.ToString();
@@ -195,6 +224,7 @@ public class UI_ARENA_Counter : MonoBehaviour
 
             if (timewave == 0)
             {
+                NextUI = true;
                 WaveCountText.enabled = true;
                 TimeCountText.enabled = false;
                 
@@ -206,6 +236,7 @@ public class UI_ARENA_Counter : MonoBehaviour
                 MusicManagerResume?.Invoke();
                 UpdateEnemyCount();
                 UpdateWaveCount();
+                
             }
         }
     }
@@ -235,4 +266,94 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
     }
 
+    IEnumerator ADSCALL()
+    {
+        yield return new WaitForSeconds(2f);
+        ShowFullscreen();
+        
+    }
+    
+    
+    public void ShowFullscreen() => GP_Ads.ShowFullscreen(OnFullscreenStart, OnFullscreenClose);
+
+// Начался показ
+    private void OnFullscreenStart()
+    {
+       
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Time.timeScale=0f;
+        AudioListener.volume=0f;
+        Debug.Log("ON FULLSCREEN START");
+    }
+
+    // Закончился показ
+    private void OnFullscreenClose(bool success)
+    {
+        Time.timeScale=1f;
+        AudioListener.volume=1f;
+        Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
+        Cursor.visible = false; 
+        Debug.Log("ON FULLSCREEN CLOSE");
+    }
+    public void ShowRewarded()
+    {
+       
+        
+       
+        GP_Ads.ShowRewarded("", OnRewardedReward, OnRewardedStart, OnRewardedClose);
+    }
+
+    private void OnRewardedStart()
+    {  
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Time.timeScale=0f;
+        AudioListener.volume=0f;
+        Debug.Log("ON REWARDED: START");
+    }
+
+
+    // Reward is received
+    private void OnRewardedReward(string value)
+    {
+       
+        
+       
+    }
+
+// Showing ended
+    private void OnRewardedClose(bool success)
+    { 
+        Time.timeScale=1f;
+        AudioListener.volume=1f;
+        NextUI = false;
+        WaveWin.SetActive(false);
+        timewave = Roundtime;
+        StartCoroutine(TimeWave());
+        Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
+        Cursor.visible = false;
+        Debug.Log("ON REWARDED: CLOSE");
+    }
+    
+    public void SaveData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.currentWave = Wave_number;
+        data.EnemyMax = MaxEnemy;
+        data.moneycount= moneyCount.Value;
+        SaveManager.instance.SavePlayerData(data);
+    }
+
+
+    public void LoadData()
+    {
+         PlayerData data = SaveManager.instance.LoadPlayerData();
+         Wave_number=data.currentWave;
+         MaxEnemy=data.EnemyMax;
+         moneyCount.Value=data.moneycount;
+        
+        
+    }
+ 
 }

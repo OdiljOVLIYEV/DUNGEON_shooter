@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Animancer;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class Rifle : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam LoadEvent;
     public Camera cam;
     public Animator anim;
     
@@ -30,12 +33,17 @@ public class Rifle : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     public float bulletSpeed = 1000f;
+    
 
-    protected void Start()
+    private void Awake()
     {
-      
-      
+         LoadData();
     }
+
+   /* private void Start()
+    {
+       
+    }*/
 
     public void Use()
     {
@@ -100,7 +108,7 @@ public class Rifle : MonoBehaviour
             {
                 FireBullet(shootOrigin, shootOrigin + shootDirection * range);
             }
-        //}
+        
     }
 
     private void ProcessHit(RaycastHit hit)
@@ -151,5 +159,38 @@ public class Rifle : MonoBehaviour
         Gizmos.DrawLine(cam.transform.position, cam.transform.forward * range);
     }
 
-    
+    private void OnEnable()
+    {
+        SaveEvent.OnRaised += SaveData;
+       
+    }
+
+    private void OnDisable()
+    {
+        SaveEvent.OnRaised -= SaveData;
+        
+    }
+
+    public void SaveData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.Machinegun = rifle_ammo_add.Value;
+        SaveManager.instance.SavePlayerData(data);
+        
+        
+        
+        
+        
+    }
+
+
+    public void LoadData()
+    {
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        rifle_ammo_add.Value = data.Machinegun;
+        
+        
+        
+      
+    }
 }

@@ -9,7 +9,7 @@ public class UnlockWeapon : MonoBehaviour
     [SerializeField] private int unlockweaponnumber;
     public LayerMask groundLayer;
     public static Action KatanaUnlock;
-
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
     public bool RotationObject;
     [SerializeField] private float rotationSpeed = 90f;
     //public WeaponSwitcher weaponSwitcher;
@@ -64,9 +64,12 @@ public class UnlockWeapon : MonoBehaviour
             // Debug.Log("Unlock weapon at index: " + unlockWeaponIndex);
             //UnlockedWeapon.Value = unlockWeaponIndex;
             // weaponSwitcher.CheckAndSetActiveWeapon(unlockWeaponIndex); // Qurolni almashtirishni chaqirish
+            
             UnlockedWeapon.Value = unlockweaponnumber;
             weaponSwitcher.UnlockWeapon(UnlockedWeapon.Value);
+            //SaveEvent.Raise();
             weaponSwitcher.CheckAndSetActiveWeapon(UnlockedWeapon.Value);
+           
             Destroy(gameObject);
            
         }

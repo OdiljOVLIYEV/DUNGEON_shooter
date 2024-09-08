@@ -88,7 +88,7 @@ public class PlayerMovment : MonoBehaviour
 			
 		}
 		
-		if (Input.GetKey(KeyCode.LeftControl))
+		/*if (Input.GetKey(KeyCode.LeftControl))
 		{
 			
 			crouchtwo=true;
@@ -96,7 +96,7 @@ public class PlayerMovment : MonoBehaviour
 		} else
 		{  	crouchtwo=false;
 			controller.height = 2f;
-		}
+		}*/
 		
 		
 		

@@ -1,4 +1,5 @@
 using System.Collections;
+using GamePush;
 using Obvious.Soap;
 using TMPro;
 using UnityEngine;
@@ -21,10 +22,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private IntVariable rifle_ammo_add;
     [SerializeField] private IntVariable plasma_ammo_add;
     [SerializeField] private IntVariable rocket_launcher_ammo_add;
-    
+    [SerializeField] private BoolVariable ContinueButton;
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
+    [SerializeField] private ScriptableEventNoParam LoadEvent;
+    public GameObject weaponui;
     private string unlimitedSymbol = "∞"; // Cheksizlik belgisini qo‘shish
     private void Start()
     {
+        //LoadData();
         GetComponent<Animator>().enabled = false;
         UpdateHealthText(); // Health matnini yangilash
         originalLocalPosition = cameraTransform.localPosition;
@@ -47,11 +52,13 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         HealtPacks.PlayerHealth += PlayerHealt_UI;
+        //SaveEvent.OnRaised += SaveData;
     }
 
     private void OnDisable()
     {
         HealtPacks.PlayerHealth -= PlayerHealt_UI;
+       // SaveEvent.OnRaised -= SaveData;
     }
 
     private void PlayerHealt_UI()
@@ -75,7 +82,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-       
+        
         image.enabled = false;
         GetComponent<Animator>().enabled = true;
         Debug.Log("Player Died");
@@ -110,7 +117,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Main_menu.Value = false;
         HealthPlayer.Value = 100f;
-        
+        ContinueButton.Value = false;
         // Sichqoncha kursorini yashirish va uni o'rnatish
          // Sichqoncha kursorini yashirish
         // Invoke("MouseOff",0.2f);
@@ -121,8 +128,9 @@ public class PlayerHealth : MonoBehaviour
         BC.enabled = true;
         MouseLook ML = FindObjectOfType<MouseLook>();
         ML.enabled = true;
-        WeaponSwitcher ws = FindObjectOfType<WeaponSwitcher>();
-        ws.enabled = true;
+        zoom ZM = FindObjectOfType<zoom>();
+        ZM.enabled = true;
+        weaponui.SetActive(true);
         diedmenu.SetActive(false);
         ResetCameraPosition();
         gun_ammo_add.Value = 80;
@@ -147,4 +155,22 @@ public class PlayerHealth : MonoBehaviour
         // Animatsiya tugagandan keyin kamerani dastlabki pozitsiyasiga qaytarish
         cameraTransform.localPosition = originalLocalPosition;
     }
+    
+   
+   
+
+   /* public void SaveData()
+    {
+        SaveManager.instance.playerHealth = HealthPlayer.Value;
+       
+    }
+
+
+    public void LoadData()
+    {
+        HealthPlayer.Value = SaveManager.instance.playerHealth;
+        
+    }*/
+    
+    
 }
