@@ -34,7 +34,7 @@ public class Main_menu : MonoBehaviour
     public void MainMenus()
     {
         SceneManager.LoadScene(0);
-        //SaveEvent.Raise();
+        
     }
     
     public void ResetData()

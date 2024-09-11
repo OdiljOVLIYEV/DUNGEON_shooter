@@ -193,9 +193,11 @@ public class UI_ARENA_Counter : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         Time.timeScale=0f;
-        
-       
-        
+        BACKMENU bc = FindObjectOfType<BACKMENU>();
+        bc.enabled = false;
+
+
+
     }
     
     public void next()
@@ -208,6 +210,8 @@ public class UI_ARENA_Counter : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
         Cursor.visible = false; 
         Main_menu.Value = false;
+        BACKMENU bc = FindObjectOfType<BACKMENU>();
+        bc.enabled = true;
     }
 
    
@@ -340,6 +344,8 @@ public class UI_ARENA_Counter : MonoBehaviour
         Cursor.visible = false;
         Debug.Log("ON REWARDED: CLOSE");
         Main_menu.Value = false;
+        BACKMENU bc = FindObjectOfType<BACKMENU>();
+        bc.enabled = true;
     }
 
     private void OnEnable()
