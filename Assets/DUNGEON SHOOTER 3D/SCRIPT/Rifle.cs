@@ -17,8 +17,6 @@ public class Rifle : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
     [SerializeField] private BoolVariable Main_menu;
-    [SerializeField] private ScriptableEventNoParam SaveEvent;
-    [SerializeField] private ScriptableEventNoParam LoadEvent;
     public Camera cam;
     public Animator anim;
     
@@ -38,7 +36,7 @@ public class Rifle : MonoBehaviour
 
     private void Awake()
     {
-         LoadData();
+     
     }
 
    /* private void Start()
@@ -160,38 +158,5 @@ public class Rifle : MonoBehaviour
         Gizmos.DrawLine(cam.transform.position, cam.transform.forward * range);
     }
 
-    private void OnEnable()
-    {
-        SaveEvent.OnRaised += SaveData;
-       
-    }
 
-    private void OnDisable()
-    {
-        SaveEvent.OnRaised -= SaveData;
-        
-    }
-
-    public void SaveData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        data.Machinegun = rifle_ammo_add.Value;
-        SaveManager.instance.SavePlayerData(data);
-        
-        
-        
-        
-        
-    }
-
-
-    public void LoadData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        rifle_ammo_add.Value = data.Machinegun;
-        
-        
-        
-      
-    }
 }

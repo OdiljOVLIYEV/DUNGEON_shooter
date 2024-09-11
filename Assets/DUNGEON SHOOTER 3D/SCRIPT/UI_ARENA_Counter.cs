@@ -173,18 +173,20 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
         if (KillEnemy_UI == 0&& NextUI==true)
         {
-            
-            MusicManagerPause?.Invoke();
-            NextUI = false;
-            SaveData();
-            SaveEvent.Raise();
-            StartCoroutine(WIN());
+             NextUI = false;
+             MusicManagerPause?.Invoke();
+           
+             SaveData();
+             SaveEvent.Raise();
+             StartCoroutine(WIN());
             
         }
        
     }
     IEnumerator WIN()
     {
+        
+     
         yield return new WaitForSeconds(2f);
         Main_menu.Value = true;
         WaveWin.SetActive(true);
@@ -285,7 +287,8 @@ public class UI_ARENA_Counter : MonoBehaviour
 // Начался показ
     private void OnFullscreenStart()
     {
-        
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         
         Debug.Log("ON FULLSCREEN START");
     }
@@ -338,7 +341,17 @@ public class UI_ARENA_Counter : MonoBehaviour
         Debug.Log("ON REWARDED: CLOSE");
         Main_menu.Value = false;
     }
-    
+
+    private void OnEnable()
+    {
+        SaveEvent.OnRaised += SaveData;
+    }
+
+    private void OnDisable()
+    {
+        SaveEvent.OnRaised -= SaveData;
+    }
+
     public void SaveData()
     {
         PlayerData data = SaveManager.instance.LoadPlayerData();

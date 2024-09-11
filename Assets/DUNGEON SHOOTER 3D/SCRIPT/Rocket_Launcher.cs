@@ -15,8 +15,7 @@ public class Rocket_Launcher : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
     [SerializeField] private BoolVariable Main_menu;
-    [SerializeField] private ScriptableEventNoParam SaveEvent;
-    [SerializeField] private ScriptableEventNoParam LoadEvent;
+  
     public Camera cam;
     public Animator anim;
 
@@ -30,7 +29,7 @@ public class Rocket_Launcher : MonoBehaviour
 
     protected void Start()
     {
-        LoadData();
+      
     }
 
     public void Use()
@@ -114,32 +113,5 @@ public class Rocket_Launcher : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         anim.SetBool("shoot", false);
     }
-    
-    private void OnEnable()
-    {
-        SaveEvent.OnRaised += SaveData;
-       
-    }
 
-    private void OnDisable()
-    {
-        SaveEvent.OnRaised -= SaveData;
-        
-    }
-
-    public void SaveData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        data.RocketLauncher = rocket_launcher_ammo_add.Value;
-        SaveManager.instance.SavePlayerData(data);
-        
-    }
-
-
-    public void LoadData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        rocket_launcher_ammo_add.Value = data.RocketLauncher;
-      
-    }
 }

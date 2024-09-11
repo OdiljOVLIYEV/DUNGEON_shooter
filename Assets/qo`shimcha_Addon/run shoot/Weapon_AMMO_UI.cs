@@ -24,18 +24,14 @@ public class Weapon_AMMO_UI : MonoBehaviour
 	[SerializeField] private IntVariable plasma_ammo_add;
 	public TextMeshProUGUI Rocket_launcher_ammo;
 	[SerializeField] private IntVariable rocket_launcher_ammo_add;
-
+	[SerializeField] private ScriptableEventNoParam SaveEvent;
 	private PlayerData playerData;
 	private void Start()
 	{
-		playerData = SaveManager.instance.LoadPlayerData();
-
+		
+		LoadData();
 		// Initialize ammo values from the player data
-		gun_ammo_add.Value = playerData.Ammogun;
-		shotgun_ammo_add.Value = playerData.AmmoShotgun;
-		rifle_ammo_add.Value = playerData.Machinegun;
-		plasma_ammo_add.Value = playerData.Plasma;
-		rocket_launcher_ammo_add.Value = playerData.RocketLauncher;
+		
 		UpdateAmmoUI();
 	}
 	private void Update()
@@ -51,12 +47,14 @@ public class Weapon_AMMO_UI : MonoBehaviour
     private void OnEnable()
     {
 	    UI_AMMO_UPDATE.OnRaised += UI_UPDATE;
-	   // UpdateAmmoUI();
+	    SaveEvent.OnRaised += SaveData;
+	    // UpdateAmmoUI();
     }
 
     private void OnDisable()
     {
 	    UI_AMMO_UPDATE.OnRaised -= UI_UPDATE;
+	    SaveEvent.OnRaised -= SaveData;
     }
 
     void UI_UPDATE(int all_ammo_add)
@@ -75,5 +73,35 @@ public class Weapon_AMMO_UI : MonoBehaviour
 	    Rifle_ammo.text = rifle_ammo_add.Value.ToString();
 	    Plasma_ammo.text = plasma_ammo_add.Value.ToString();
 	    Rocket_launcher_ammo.text = rocket_launcher_ammo_add.Value.ToString();
+	    
+	    
+	   
     }
+    
+    public void SaveData()
+    {
+	    PlayerData data = SaveManager.instance.LoadPlayerData();
+	    data.Ammogun = gun_ammo_add.Value;
+	    data.AmmoShotgun = shotgun_ammo_add.Value;
+	    data.AmmoSuperShotgun = shotgun_ammo_add.Value;
+	    data.Machinegun = rifle_ammo_add.Value;
+	    data.Plasma = plasma_ammo_add.Value;
+	    data.RocketLauncher = rocket_launcher_ammo_add.Value;
+	    SaveManager.instance.SavePlayerData(data);
+	    
+        
+    }
+    
+    public void LoadData()
+    {
+	    PlayerData data = SaveManager.instance.LoadPlayerData();
+	    gun_ammo_add.Value=data.Ammogun;
+	    shotgun_ammo_add.Value = data.AmmoShotgun;
+	    shotgun_ammo_add.Value = data.AmmoSuperShotgun;
+	    rifle_ammo_add.Value = data.Machinegun;
+	    plasma_ammo_add.Value = data.Plasma;
+	    rocket_launcher_ammo_add.Value = data.RocketLauncher;
+      
+    }
+    
 }

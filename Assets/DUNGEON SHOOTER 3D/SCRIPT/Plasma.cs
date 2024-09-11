@@ -14,8 +14,6 @@ public class Plasma : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
-    [SerializeField] private ScriptableEventNoParam SaveEvent;
-    [SerializeField] private ScriptableEventNoParam LoadEvent;
     [SerializeField] private BoolVariable Main_menu;
     public Camera cam;
     public Animator anim;
@@ -30,7 +28,7 @@ public class Plasma : MonoBehaviour
 
     private void Start()
     {
-        LoadData();
+       
     }
 
     private void Update()
@@ -113,33 +111,5 @@ public class Plasma : MonoBehaviour
             rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);
         }
     }
-    private void OnEnable()
-    {
-        SaveEvent.OnRaised += SaveData;
-       
-    }
 
-    private void OnDisable()
-    {
-        SaveEvent.OnRaised -= SaveData;
-        
-    }
-
-    public void SaveData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        data.Plasma = plasma_ammo_add.Value;
-        SaveManager.instance.SavePlayerData(data);
-        
-        
-        
-    }
-
-
-    public void LoadData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        plasma_ammo_add.Value = data.Plasma;
-      
-    }
 }

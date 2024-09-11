@@ -3,7 +3,7 @@ using System.Collections;
 using Obvious.Soap;
 using UnityEngine;
 
-public class GunScript : MonoBehaviour, ISAVEABLE
+public class GunScript : MonoBehaviour
 {
     public float damage = 10f;
     public float range = 100f;
@@ -16,8 +16,6 @@ public class GunScript : MonoBehaviour, ISAVEABLE
     [SerializeField] private BoolVariable Main_menu;
     public Camera cam;
     public Animator anim;
-    [SerializeField] private ScriptableEventNoParam SaveEvent;
-    [SerializeField] private ScriptableEventNoParam LoadEvent;
     public GameObject bulletCasingPrefab;
     public Transform casingEjectionPoint;
     public float casingEjectionForce = 2f;
@@ -33,7 +31,7 @@ public class GunScript : MonoBehaviour, ISAVEABLE
 
     private void Start()
     {
-        LoadData();
+       
     }
 
     public void Use()
@@ -161,34 +159,7 @@ public class GunScript : MonoBehaviour, ISAVEABLE
         anim.SetBool("shoot", false);
     }
 
-    private void OnEnable()
-    {
-        SaveEvent.OnRaised += SaveData;
-       
-    }
-
-    private void OnDisable()
-    {
-        SaveEvent.OnRaised -= SaveData;
-        
-    }
-
-    public void SaveData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        data.Ammogun = gun_ammo_add.Value;
-        SaveManager.instance.SavePlayerData(data);
-
-    }
-
-
-    public void LoadData()
-    {
-        PlayerData data = SaveManager.instance.LoadPlayerData();
-        gun_ammo_add.Value = data.Ammogun;
-        
-     
-    }
+   
 
 
 

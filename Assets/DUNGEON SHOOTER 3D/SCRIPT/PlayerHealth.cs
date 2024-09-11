@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private FloatVariable HealthPlayer; 
     [SerializeField] private BoolVariable Main_menu;// ScriptableObject uchun FloatVariable
     public GameObject diedmenu;
+    public GameObject Weaponoff;
     public Image image; // UI Image komponenti
     public float fadeDuration = 1.0f; // Fade davomiyligi (soniyalarda)
     [SerializeField] private IntVariable gun_ammo_add;
@@ -29,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
     private string unlimitedSymbol = "∞"; // Cheksizlik belgisini qo‘shish
     private void Start()
     {
-        //LoadData();
+        LoadData();
         GetComponent<Animator>().enabled = false;
         UpdateHealthText(); // Health matnini yangilash
         originalLocalPosition = cameraTransform.localPosition;
@@ -52,13 +53,13 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         HealtPacks.PlayerHealth += PlayerHealt_UI;
-        //SaveEvent.OnRaised += SaveData;
+        SaveEvent.OnRaised += SaveData;
     }
 
     private void OnDisable()
     {
         HealtPacks.PlayerHealth -= PlayerHealt_UI;
-       // SaveEvent.OnRaised -= SaveData;
+        SaveEvent.OnRaised -= SaveData;
     }
 
     private void PlayerHealt_UI()
@@ -87,11 +88,24 @@ public class PlayerHealth : MonoBehaviour
         GetComponent<Animator>().enabled = true;
         Debug.Log("Player Died");
         Main_menu.Value = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        Weaponoff.SetActive(false);
+        StartCoroutine(mouseoff());
+      
         // Playerning o'lish logikasini shu yerda amalga oshiring
     }
 
+    IEnumerator mouseoff()
+    {
+        
+     
+        yield return new WaitForSeconds(2.5f);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        
+       
+        
+    }
+    
     public IEnumerator FadeOut()
     {
         float elapsedTime = 0f;
@@ -115,6 +129,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void Continue()
     {
+        Weaponoff.SetActive(true);
         Main_menu.Value = false;
         HealthPlayer.Value = 100f;
         ContinueButton.Value = false;
@@ -159,18 +174,25 @@ public class PlayerHealth : MonoBehaviour
    
    
 
-   /* public void SaveData()
+    public void SaveData()
     {
-        SaveManager.instance.playerHealth = HealthPlayer.Value;
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        data.playerHealth = HealthPlayer.Value;
+        SaveManager.instance.SavePlayerData(data);
+
+      
        
     }
 
 
     public void LoadData()
     {
-        HealthPlayer.Value = SaveManager.instance.playerHealth;
+        PlayerData data = SaveManager.instance.LoadPlayerData();
+        HealthPlayer.Value = data.playerHealth;
+
+       
         
-    }*/
+    }
     
     
 }
