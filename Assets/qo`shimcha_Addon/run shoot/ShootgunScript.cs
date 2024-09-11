@@ -24,6 +24,7 @@ public class ShotgunScript : MonoBehaviour
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable canShoot;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private BoolVariable Main_menu;
     [SerializeField] private ScriptableEventNoParam SaveEvent;
     [SerializeField] private ScriptableEventNoParam LoadEvent;
     public LayerMask enemyLayer;
@@ -77,7 +78,7 @@ public class ShotgunScript : MonoBehaviour
             }
         }
 
-        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value == true && WeaponUI_Open.Value == false)
+        if (shotgun_ammo_add.Value > 0 && Input.GetButtonDown("Fire1") && canShoot.Value == true && WeaponUI_Open.Value == false&& !Main_menu.Value)
         {
             if (Time.time >= nextFireTime)
             {
@@ -96,7 +97,7 @@ public class ShotgunScript : MonoBehaviour
 
     void Shoot()
     {
-        SaveData();
+       
         sound.Play();
         shotgun_ammo_add.Value -= bullets;
         UI_AMMO_UPDATE.Raise(shotgun_ammo_add.Value);

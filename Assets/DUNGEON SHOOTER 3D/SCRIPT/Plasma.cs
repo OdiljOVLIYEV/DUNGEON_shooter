@@ -49,7 +49,7 @@ public class Plasma : MonoBehaviour
         }
 
         // O'q otish amaliyoti
-        if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false&&Main_menu==false)
+        if (plasma_ammo_add.Value > 0 && Input.GetButton("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false&&!Main_menu.Value)
         {
             anim.SetBool("shoot", true);
             nextFireTime = Time.time + fireRate;
@@ -65,7 +65,7 @@ public class Plasma : MonoBehaviour
     {
         // Animatsiyani yoqish
         
-        SaveData();
+       
         // Ovozni va zarracha effektini o'ynatish
         sound.Play();
         bullet.Play();

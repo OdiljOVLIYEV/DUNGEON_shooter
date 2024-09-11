@@ -16,6 +16,7 @@ public class Rifle : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private BoolVariable Main_menu;
     [SerializeField] private ScriptableEventNoParam SaveEvent;
     [SerializeField] private ScriptableEventNoParam LoadEvent;
     public Camera cam;
@@ -64,7 +65,7 @@ public class Rifle : MonoBehaviour
 
         // Handle shooting
         
-            if (rifle_ammo_add.Value > 0&&Input.GetButton("Fire1") && Time.time > nextFireTime && WeaponUI_Open.Value==false)
+            if (rifle_ammo_add.Value > 0&&Input.GetButton("Fire1") && Time.time > nextFireTime && WeaponUI_Open.Value==false&& !Main_menu.Value)
             {
                 anim.SetBool("shoot", true);
                 nextFireTime = Time.time + fireRate;
@@ -85,7 +86,7 @@ public class Rifle : MonoBehaviour
     {
            
             
-            SaveData();
+         
             sound.Play();
             bullet.Play();
             rifle_ammo_add.Value--;

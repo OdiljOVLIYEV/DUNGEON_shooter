@@ -18,7 +18,7 @@ public class PlayerData
     public float EnemyMax;
     public int moneycount = 100000; 
     public List<bool> weaponUnlockStates = new List<bool>(); 
-    
+    public List<string> purchasedWeaponIDs = new List<string>();
     
 }
 

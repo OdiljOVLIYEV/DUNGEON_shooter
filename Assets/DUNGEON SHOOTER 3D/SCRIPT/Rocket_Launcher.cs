@@ -14,6 +14,7 @@ public class Rocket_Launcher : MonoBehaviour
     [SerializeField] private ScriptableEventInt UI_AMMO_UPDATE;
     [SerializeField] private FloatVariable speed;
     [SerializeField] private BoolVariable WeaponUI_Open;
+    [SerializeField] private BoolVariable Main_menu;
     [SerializeField] private ScriptableEventNoParam SaveEvent;
     [SerializeField] private ScriptableEventNoParam LoadEvent;
     public Camera cam;
@@ -67,7 +68,7 @@ public class Rocket_Launcher : MonoBehaviour
 
         if (rocket_launcher_ammo_add.Value > 0)
         {
-            if (Input.GetButtonDown("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false)
+            if (Input.GetButtonDown("Fire1") && Time.time > nextFireTime&&WeaponUI_Open.Value==false&& !Main_menu.Value)
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
@@ -79,7 +80,7 @@ public class Rocket_Launcher : MonoBehaviour
 
     private void Shoot()
     {
-        SaveData();
+       
         anim.SetBool("shoot", true);
         StartCoroutine(GunAnim());
         sound.Play();

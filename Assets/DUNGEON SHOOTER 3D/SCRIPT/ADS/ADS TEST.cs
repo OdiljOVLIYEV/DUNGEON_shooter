@@ -12,7 +12,7 @@ public class ADSTEST : MonoBehaviour
       
           ShowFullscreen();
           
-          ShowSticky();
+         // ShowSticky();
       
     
       
@@ -25,7 +25,7 @@ public class ADSTEST : MonoBehaviour
 // Showing started
     private void OnFullscreenStart()
     {
-        Time.timeScale=0f;
+        
         AudioListener.volume=0f;
         Debug.Log("ON FULLSCREEN START");
     }
@@ -33,7 +33,7 @@ public class ADSTEST : MonoBehaviour
     // Showing ended
     private void OnFullscreenClose(bool success)
     {
-        Time.timeScale=1f;
+     
         AudioListener.volume=1f;
         Debug.Log("ON FULLSCREEN CLOSE");
     }

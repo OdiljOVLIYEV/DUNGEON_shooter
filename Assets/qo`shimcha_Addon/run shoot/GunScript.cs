@@ -81,7 +81,7 @@ public class GunScript : MonoBehaviour, ISAVEABLE
 
     private void Shoot()
     {   
-        SaveData();
+       
         anim.SetBool("shoot", true);
         StartCoroutine(gunanim());
         sound.Play();

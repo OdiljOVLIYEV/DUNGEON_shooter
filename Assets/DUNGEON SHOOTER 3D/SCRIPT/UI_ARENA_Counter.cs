@@ -15,6 +15,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     public TextMeshProUGUI TimeCountText;
     public Image wavebackgroud;
     [SerializeField] private BoolVariable Main_menu;
+    [SerializeField] private ScriptableEventNoParam SaveEvent;
     public GameObject[] gameObjects; 
     public int NextWaveAddEnemyCounter;
     [SerializeField] private IntVariable moneyCount;
@@ -174,27 +175,37 @@ public class UI_ARENA_Counter : MonoBehaviour
         {
             
             MusicManagerPause?.Invoke();
-            WaveWin.SetActive(true);
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-            Time.timeScale=0f;
+            NextUI = false;
             SaveData();
+            SaveEvent.Raise();
+            StartCoroutine(WIN());
+            
         }
        
     }
-    
+    IEnumerator WIN()
+    {
+        yield return new WaitForSeconds(2f);
+        Main_menu.Value = true;
+        WaveWin.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Time.timeScale=0f;
+        
+       
+        
+    }
     
     public void next()
-    {   Time.timeScale=1f;
-        NextUI = false;
+    {  
+        ShowFullscreen();
         WaveWin.SetActive(false);
         Debug.Log("keyingi");
         timewave = Roundtime;
         StartCoroutine(TimeWave());
-        StartCoroutine(ADSCALL());
         Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
         Cursor.visible = false; 
-       
+        Main_menu.Value = false;
     }
 
    
@@ -266,12 +277,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         }
     }
 
-    IEnumerator ADSCALL()
-    {
-        yield return new WaitForSeconds(2f);
-        ShowFullscreen();
-        
-    }
+  
     
     
     public void ShowFullscreen() => GP_Ads.ShowFullscreen(OnFullscreenStart, OnFullscreenClose);
@@ -279,11 +285,8 @@ public class UI_ARENA_Counter : MonoBehaviour
 // Начался показ
     private void OnFullscreenStart()
     {
-       
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
-        Time.timeScale=0f;
-        AudioListener.volume=0f;
+        
+        
         Debug.Log("ON FULLSCREEN START");
     }
 
@@ -306,9 +309,8 @@ public class UI_ARENA_Counter : MonoBehaviour
 
     private void OnRewardedStart()
     {  
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
-        Time.timeScale=0f;
+       
+     
         AudioListener.volume=0f;
         Debug.Log("ON REWARDED: START");
     }
@@ -327,13 +329,14 @@ public class UI_ARENA_Counter : MonoBehaviour
     { 
         Time.timeScale=1f;
         AudioListener.volume=1f;
-        NextUI = false;
         WaveWin.SetActive(false);
+        moneyCount.Value += 150;
         timewave = Roundtime;
         StartCoroutine(TimeWave());
         Cursor.lockState = CursorLockMode.Locked;  // Sichqoncha kursorini markazga qotiradi va uni ekrandan yashiradi
         Cursor.visible = false;
         Debug.Log("ON REWARDED: CLOSE");
+        Main_menu.Value = false;
     }
     
     public void SaveData()
