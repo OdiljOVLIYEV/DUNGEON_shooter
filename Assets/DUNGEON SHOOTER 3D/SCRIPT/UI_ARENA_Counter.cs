@@ -12,6 +12,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     public TextMeshProUGUI EnemyCountText;
     public TextMeshProUGUI MoneyCountText;
     public TextMeshProUGUI WaveCountText;
+    public TextMeshProUGUI WaveUIText;
     public TextMeshProUGUI TimeCountText;
     public Image wavebackgroud;
     [SerializeField] private BoolVariable Main_menu;
@@ -43,6 +44,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         MusicManagerStart?.Invoke();
         MusicManagerPause?.Invoke();   
         WaveCountText.enabled = false;
+        WaveUIText.enabled = false;
         TimeCountText.enabled = true;
         timewave = Roundtime;
         StartCoroutine(TimeWave());
@@ -70,7 +72,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         
         if (MoneyCountText != null)
         {
-            MoneyCountText.text = moneyCount.ToString() + " $";
+            MoneyCountText.text = moneyCount.Value.ToString() + " $";
         }
 
         if (timewave == 0)
@@ -169,13 +171,14 @@ public class UI_ARENA_Counter : MonoBehaviour
     {
         if (EnemyCountText != null)
         {
-            EnemyCountText.text = KillEnemy_UI.ToString();
+            EnemyCountText.text =KillEnemy_UI.Value.ToString();
         }
         if (KillEnemy_UI == 0&& NextUI==true)
         {
              NextUI = false;
              MusicManagerPause?.Invoke();
-           
+             WeaponSwitcher WS = FindObjectOfType<WeaponSwitcher>();
+             WS.enabled = false;
              SaveData();
              SaveEvent.Raise();
              StartCoroutine(WIN());
@@ -195,7 +198,7 @@ public class UI_ARENA_Counter : MonoBehaviour
         Time.timeScale=0f;
         BACKMENU bc = FindObjectOfType<BACKMENU>();
         bc.enabled = false;
-
+       
 
 
     }
@@ -212,6 +215,8 @@ public class UI_ARENA_Counter : MonoBehaviour
         Main_menu.Value = false;
         BACKMENU bc = FindObjectOfType<BACKMENU>();
         bc.enabled = true;
+        WeaponSwitcher WS = FindObjectOfType<WeaponSwitcher>();
+        WS.enabled = true;
     }
 
    
@@ -219,7 +224,7 @@ public class UI_ARENA_Counter : MonoBehaviour
     {
         if (WaveCountText != null)
         {
-            WaveCountText.text = "Wave " + Wave_number.ToString();
+            WaveCountText.text =Wave_number.ToString();
             
         }
     }
@@ -237,12 +242,14 @@ public class UI_ARENA_Counter : MonoBehaviour
             timewave -= 1;
             TimeCountText.text = timewave.ToString();
             WaveCountText.enabled = false;
+            WaveUIText.enabled = false;
             TimeCountText.enabled = true;
 
             if (timewave == 0)
             {
                 NextUI = true;
                 WaveCountText.enabled = true;
+                WaveUIText.enabled = true;
                 TimeCountText.enabled = false;
                 
                 MaxEnemy += NextWaveAddEnemyCounter;
@@ -346,6 +353,8 @@ public class UI_ARENA_Counter : MonoBehaviour
         Main_menu.Value = false;
         BACKMENU bc = FindObjectOfType<BACKMENU>();
         bc.enabled = true;
+        WeaponSwitcher WS = FindObjectOfType<WeaponSwitcher>();
+        WS.enabled = true;
     }
 
     private void OnEnable()

@@ -1,0 +1,25 @@
+{
+    "items": [
+        { "key": "start_button", "value": "PLAY" },
+        { "key": "main_menu", "value": "MAIN MENU" },
+        { "key": "Mouse_sensitive", "value": "MOUSE SENSITIVE" },
+        { "key": "Sound", "value": "SOUND" },
+        { "key": "controll", "value": "CONTROLL" },
+        { "key": "run", "value": "RUN" },
+        { "key": "attack_katana", "value": "ATTACK KATANA" },
+        { "key": "mouse_1", "value": "MOUSE LEFT ATTACK" },
+        { "key": "mouse_2", "value": "MOUSE RIGHT ZOOM" },
+        { "key": "mouse_3", "value": "MOUSE MIDDLE OF THE INVENTAR" },
+        { "key": "resurrection", "value": "RESURRICTION" },
+        { "key": "continue", "value": "CONTINUE" },
+        { "key": "gameover", "value": "GAME OVER" },
+        { "key": "restart", "value": "RESTART" },
+        { "key": "wave", "value": "WAVE" },
+        { "key": "money", "value": "MONEY : " },
+        { "key": "enemy", "value": "ENEMIES : " },
+        { "key": "ads", "value": "+150 BONUS ADS" },
+        { "key": "next", "value": "NEXT" },
+        { "key": "presskey", "value": "PRESS KEY" }
+        
+    ]
+}

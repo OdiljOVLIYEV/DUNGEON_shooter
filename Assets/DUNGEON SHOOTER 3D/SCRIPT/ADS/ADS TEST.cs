@@ -6,16 +6,15 @@ using UnityEngine;
 
 public class ADSTEST : MonoBehaviour
 {
-    
+    private void Awake()
+    {
+        
+    }
+
     private void Start()
     { 
-      
           ShowFullscreen();
-          
-         // ShowSticky();
-      
-    
-      
+ 
     }
 
     
@@ -39,20 +38,5 @@ public class ADSTEST : MonoBehaviour
     }
 
 
-    // Показать sticky баннер, дальше автообновляется сам
-    public void ShowSticky() => GP_Ads.ShowSticky();
-// Обновить sticky баннер, принудительное обновление
-    public void RefreshSticky() => GP_Ads.RefreshSticky();
-// Закрыть sticky баннер
-    public void CloseSticky() => GP_Ads.CloseSticky();
-
-// Открылся баннер
-    private void OnStickyStart() => Debug.Log("ON STICKY: START");
-// Закрылся баннер
-    private void OnStickyClose() => Debug.Log("ON STICKY: CLOSE");
-// Баннер показался на экране
-    private void OnStickyRender() => Debug.Log("ON STICKY: RENDER");
-// Баннер обновился
-    private void OnStickyRefresh() => Debug.Log("ON STICKY: REFRESH");
 
 }

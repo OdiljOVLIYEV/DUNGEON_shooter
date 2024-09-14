@@ -16,7 +16,7 @@ public class PlayerData
     public int RocketLauncher = 15;
     public int currentWave;
     public float EnemyMax;
-    public int moneycount = 100000; 
+    public int moneycount = 0; 
     public List<bool> weaponUnlockStates = new List<bool>(); 
     public List<string> purchasedWeaponIDs = new List<string>();
     

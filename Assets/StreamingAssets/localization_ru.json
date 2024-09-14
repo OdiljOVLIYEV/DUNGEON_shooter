@@ -1,0 +1,24 @@
+{
+    "items": [
+        { "key": "start_button", "value": "ИГРАТЬ" },
+        { "key": "main_menu", "value": "ГЛАВНОЕ МЕНЮ" },
+        { "key": "Mouse_sensitive", "value": "ЧУВСТВИТЕЛЬНОСТЬ МЫШИ" },
+        { "key": "Sound", "value": "ЗВУК" },
+        { "key": "controll", "value": "УПРАВЛЕНИЕ" },
+        { "key": "run", "value": "БЕГ" },
+        { "key": "attack_katana", "value": "АТАКА КАТАНОЙ" },
+        { "key": "mouse_1", "value": "ЛЕВАЯ КНОПКА МЫШИ АТАКА" },
+        { "key": "mouse_2", "value": "ПРАВАЯ КНОПКА МЫШИ ЗУМ" },
+        { "key": "mouse_3", "value": "СРЕДНЯЯ КНОПКА МЫШИ ИНВЕНТАРЬ" },
+        { "key": "resurrection", "value": "ВОСКРЕШЕНИЕ" },
+        { "key": "continue", "value": "ПРОДОЛЖИТЬ" },
+        { "key": "gameover", "value": "КОНЕЦ ИГРЫ" },
+        { "key": "restart", "value": "ПЕРЕЗАПУСТИТЬ" },
+        { "key": "wave", "value": "ВОЛНА" },
+        { "key": "money", "value": "ДЕНЬГИ : " },
+        { "key": "enemy", "value": "ВРАГИ :" },
+        { "key": "ads", "value": "+150 БОНУС РЕКЛАМА" },
+        { "key": "next", "value": "ДАЛЕЕ" },
+        { "key": "presskey", "value": "НАЖМИТЕ КЛАВИШУ" }
+    ]
+}

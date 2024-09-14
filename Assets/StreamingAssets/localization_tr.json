@@ -1,0 +1,24 @@
+{
+    "items": [
+        { "key": "start_button", "value": "OYNA" },
+        { "key": "main_menu", "value": "ANA MENÜ" },
+        { "key": "Mouse_sensitive", "value": "FARE HASSASİYETİ" },
+        { "key": "Sound", "value": "SES" },
+        { "key": "controll", "value": "KONTROL" },
+        { "key": "run", "value": "KOŞ" },
+        { "key": "attack_katana", "value": "KATANA SALDIRISI" },
+        { "key": "mouse_1", "value": "FARE SOL SALDIRISI" },
+        { "key": "mouse_2", "value": "FARE SAĞ YAKINLAŞTIRMA" },
+        { "key": "mouse_3", "value": "FARE ORTASI ENVANTER" },
+        { "key": "resurrection", "value": "DİRİLİŞ" },
+        { "key": "continue", "value": "DEVAM ET" },
+        { "key": "gameover", "value": "OYUN BİTTİ" },
+        { "key": "restart", "value": "YENİDEN BAŞLAT" },
+        { "key": "wave", "value": "DALGA" },
+        { "key": "money", "value": "PARA : " },
+        { "key": "enemy", "value": "DÜŞMANLAR :" },
+        { "key": "ads", "value": "+150 BONUS REKLAM" },
+        { "key": "next", "value": "SONRAKİ" },
+        { "key": "presskey", "value": "TUŞA BASIN" }
+    ]
+}

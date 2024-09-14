@@ -27,7 +27,6 @@ public class GunShop : MonoBehaviour
     private bool canBuy = true; // To handle cooldown
     private Dictionary<string, bool> purchasedItems;
     private ShopItem selectedItem;
-
     private PlayerData playerData; // Player data reference
 
     private void Start()
@@ -83,9 +82,10 @@ public class GunShop : MonoBehaviour
                         {
                             purchasedItems[selectedItem.itemName] = true;
                             playerData.purchasedWeaponIDs.Add(selectedItem.itemName); // Sotib olingan qurol ID sini qo'shish
+                            SaveManager.instance.SavePlayerData(playerData); // Save after purchase
                         }
 
-                        SaveManager.instance.SavePlayerData(playerData); // Save after purchase
+                        
                         StartCoroutine(Cooldown());
                     }
                 }
@@ -129,5 +129,8 @@ public class GunShop : MonoBehaviour
             GunMoneyText.text = selectedItem.price.ToString() + " $";
         }
     }
+
+
+    
 }
 
