@@ -16,10 +16,17 @@
         { "key": "restart", "value": "RESTART" },
         { "key": "wave", "value": "WAVE" },
         { "key": "money", "value": "MONEY : " },
-        { "key": "enemy", "value": "ENEMIES : " },
+        { "key": "enemy", "value": "ENEMIE : " },
         { "key": "ads", "value": "+150 BONUS ADS" },
         { "key": "next", "value": "NEXT" },
-        { "key": "presskey", "value": "PRESS KEY" }
+        { "key": "presskey", "value": "PRESS KEY" },
+        { "key": "healt", "value": "HEALTH PACK" },
+        { "key": "gunammo", "value": "GUN AMMO" },
+        { "key": "shotgunammo", "value": "SHOTGUN AMMO" },
+        { "key": "rifleammo", "value": "MACHINE GUN AMMO" },
+        { "key": "plasmaammo", "value": "PLASMA AMMO" },
+        { "key": "RLammo", "value": "ROCKET LAUNCHER AMMO" },
+        { "key": "keyE", "value": "E PRESS KEY" }
         
     ]
 }

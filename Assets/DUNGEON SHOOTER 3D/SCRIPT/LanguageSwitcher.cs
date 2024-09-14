@@ -17,27 +17,24 @@ public class LanguageSwitcher : MonoBehaviour
 
     public void SetLanguageToEnglish()
     {
+        LocalizationManager.Instance.OnLocalizationLoaded = UpdateAllLocalizedTexts;
         LocalizationManager.Instance.LoadLocalization("en");
-        // Matnlarni yangilash
-        foreach (var localizedText in FindObjectsOfType<LocalizedText>())
-        {
-            localizedText.UpdateText();
-        }
     }
 
     public void SetLanguageToRussian()
     {
+        LocalizationManager.Instance.OnLocalizationLoaded = UpdateAllLocalizedTexts;
         LocalizationManager.Instance.LoadLocalization("ru");
-        // Matnlarni yangilash
-        foreach (var localizedText in FindObjectsOfType<LocalizedText>())
-        {
-            localizedText.UpdateText();
-        }
     }
-    
+
     public void SetLanguageToTurkey()
     {
+        LocalizationManager.Instance.OnLocalizationLoaded = UpdateAllLocalizedTexts;
         LocalizationManager.Instance.LoadLocalization("tr");
+    }
+
+    private void UpdateAllLocalizedTexts()
+    {
         // Matnlarni yangilash
         foreach (var localizedText in FindObjectsOfType<LocalizedText>())
         {

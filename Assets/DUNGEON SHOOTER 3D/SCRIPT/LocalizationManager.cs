@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.IO;
+using System.Collections;
 
 [System.Serializable]
 public class LocalizationData
@@ -15,21 +17,21 @@ public class LocalizationItem
     public string value; // Kalitga mos matn (masalan, "Start" yoki "Начать")
 }
 
-
 public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance;
 
     private Dictionary<string, string> localizedText;
     private string missingTextString = "Localized text not found";
-   
+    public System.Action OnLocalizationLoaded; // Lokalizatsiya yuklanganda chaqiriladigan callback
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadLocalization("tr"); // Boshlanishida rus tilini yuklash
+            LoadLocalization("ru"); // Boshlanishida rus tilini yuklash
         }
         else
         {
@@ -42,27 +44,49 @@ public class LocalizationManager : MonoBehaviour
         localizedText = new Dictionary<string, string>();
         string filePath = Path.Combine(Application.streamingAssetsPath, $"localization_{languageCode}.json");
 
-        if (File.Exists(filePath))
-        {
-            string dataAsJson = File.ReadAllText(filePath);
-            LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
+    #if UNITY_WEBGL && !UNITY_EDITOR
+       filePath = "StreamingAssets/localization_" + languageCode + ".json";
+    #endif
 
-            Debug.Log("Localization data: " + dataAsJson); // JSON ma'lumotlarni konsolda tekshirish
 
-            for (int i = 0; i < loadedData.items.Length; i++)
-            {
-                localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
-            }
+        StartCoroutine(LoadLocalizationFile(filePath));
+    }
 
-            Debug.Log("Localization data loaded for: " + languageCode);
-        }
-        else
+    private IEnumerator LoadLocalizationFile(string filePath)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(filePath);
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("Localization file not found: " + filePath);
         }
+        else
+        {
+            string dataAsJson = request.downloadHandler.text;
+            LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
+
+            for (int i = 0; i < loadedData.items.Length; i++)
+            {
+                string key = loadedData.items[i].key;
+                string value = loadedData.items[i].value;
+
+                if (!localizedText.ContainsKey(key))
+                {
+                    localizedText.Add(key, value);
+                }
+                else
+                {
+                    Debug.LogWarning($"Duplicate key found: {key}. Skipping this entry.");
+                }
+            }
+
+            Debug.Log("Localization data loaded successfully.");
+
+            // Lokalizatsiya yuklangandan keyin callbackni chaqiramiz
+            OnLocalizationLoaded?.Invoke();
+        }
     }
-
-
 
     public string GetLocalizedValue(string key)
     {
@@ -74,3 +98,4 @@ public class LocalizationManager : MonoBehaviour
         return missingTextString;
     }
 }
+

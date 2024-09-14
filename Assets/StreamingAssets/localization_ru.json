@@ -19,6 +19,13 @@
         { "key": "enemy", "value": "ВРАГИ :" },
         { "key": "ads", "value": "+150 БОНУС РЕКЛАМА" },
         { "key": "next", "value": "ДАЛЕЕ" },
-        { "key": "presskey", "value": "НАЖМИТЕ КЛАВИШУ" }
+        { "key": "presskey", "value": "НАЖМИТЕ КЛАВИШУ" },
+        { "key": "healt", "value": "АПТЕЧКА" },
+        { "key": "gunammo", "value": "ПАТРОНЫ ДЛЯ ПИСТОЛЕТА" },
+        { "key": "shotgunammo", "value": "ПАТРОНЫ ДЛЯ ДРОБОВИКА" },
+        { "key": "rifleammo", "value": "ПАТРОНЫ ДЛЯ ПУЛЕМЁТА" },
+        { "key": "plasmaammo", "value": "ПЛАЗМЕННЫЕ ПАТРОНЫ" },
+        { "key": "RLammo", "value": "ПАТРОНЫ ДЛЯ РАКЕТНОГО ПУСКОВОГО УСТРОЙСТВА" },
+        { "key": "keyE", "value": "НАЖМИТЕ КЛАВИШУ E" }
     ]
 }

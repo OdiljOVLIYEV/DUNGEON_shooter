@@ -16,9 +16,17 @@
         { "key": "restart", "value": "YENİDEN BAŞLAT" },
         { "key": "wave", "value": "DALGA" },
         { "key": "money", "value": "PARA : " },
-        { "key": "enemy", "value": "DÜŞMANLAR :" },
+        { "key": "enemy", "value": "DÜŞMAN :" },
         { "key": "ads", "value": "+150 BONUS REKLAM" },
         { "key": "next", "value": "SONRAKİ" },
-        { "key": "presskey", "value": "TUŞA BASIN" }
+        { "key": "presskey", "value": "TUŞA BASIN" },
+        { "key": "healt", "value": "SAĞLIK PAKETİ" },
+        { "key": "gunammo", "value": "TABANCA MERMİSİ" },
+        { "key": "shotgunammo", "value": "POMPALI TÜFEK MERMİSİ" },
+        { "key": "rifleammo", "value": "MAKİNELİ TÜFEK MERMİSİ" },
+        { "key": "plasmaammo", "value": "PLAZMA MERMİSİ" },
+        { "key": "RLammo", "value": "ROKETATAR MERMİSİ" },
+        { "key": "keyE", "value": "E TUŞUNA BASIN" }
+
     ]
 }
