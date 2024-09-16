@@ -1,17 +1,16 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_App : GP_Module
+    public class GP_App : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.App);
-
         public static event UnityAction<int> OnReviewResult;
         public static event UnityAction<string> OnReviewClose;
         public static event UnityAction<bool> OnAddShortcut;
@@ -27,8 +26,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_App_Title();
 #else
-
-            ConsoleLog("TITLE: -> NULL");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: TITLE: ", "-> NULL");
             return null;
 #endif
         }
@@ -41,8 +40,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_App_Description();
 #else
-
-            ConsoleLog("DESCRIPTION: -> NULL");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: DESCRIPTION: ", "-> NULL");
             return null;
 #endif
         }
@@ -51,7 +50,7 @@ namespace GamePush
 
         [DllImport("__Internal")]
         private static extern string GP_App_Image();
-
+        
         public async static void GetImage(Image image)
         {
             string cover = GP_App_Image();
@@ -64,8 +63,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_App_Image();
 #else
-
-            ConsoleLog("IMAGE URL: -> URL");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: IMAGE URL: ", "-> URL");
             return "URL";
 #endif
         }
@@ -77,8 +76,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_App_Url();
 #else
-
-            ConsoleLog("URL: -> URL");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: URL: ", "-> URL");
             return "URL";
 #endif
         }
@@ -89,12 +88,12 @@ namespace GamePush
         {
             _onReviewResult = onReviewResult;
             _onReviewClose = onReviewClose;
-
+            
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_App_ReviewRequest();
 #else
-
-            ConsoleLog("ReviewRequest");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: ReviewRequest");
 #endif
         }
 
@@ -106,9 +105,9 @@ namespace GamePush
             return GP_App_IsAlreadyReviewed() == "true";
 #else
             bool result = GP_Settings.instance.GetPlatformSettings().IsAlreadyReviewed;
-
-            ConsoleLog("IsAlreadyReviewed: " + result.ToString());
-
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: IsAlreadyReviewed: ", result.ToString());
+            
             return result;
 #endif
         }
@@ -121,8 +120,8 @@ namespace GamePush
             return GP_App_CanReview() == "true";
 #else
             bool result = GP_Settings.instance.GetPlatformSettings().CanReview;
-
-            ConsoleLog("CanReview: " + result.ToString());
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: CanReview: ", result.ToString());
 
             return result;
 #endif
@@ -139,8 +138,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_App_AddShortcut();
 #else
-
-            ConsoleLog("AddShortcut");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: AddShortcut");
 #endif
         }
 
@@ -151,8 +150,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_App_CanAddShortcut() == "true";
 #else
-
-            ConsoleLog("CanAddShortcut: TRUE");
+            if (GP_ConsoleController.Instance.AppConsoleLogs)
+                Console.Log("APP: CanAddShortcut: ", "TRUE");
             return true;
 #endif
         }

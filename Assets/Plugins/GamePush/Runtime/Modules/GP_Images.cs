@@ -5,13 +5,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Images : GP_Module
+    public class GP_Images : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Images);
-
         public static event UnityAction<List<ImageData>> OnImagesFetchSuccess;
         public static event UnityAction<string> OnImagesFetchError;
         public static event UnityAction<bool> OnImagesCanLoadMore;
@@ -53,8 +52,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Images_Choose();
 #else
-
-            ConsoleLog("Choose");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "Choose");
 #endif
         }
 
@@ -68,8 +67,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Images_Upload(string.Join(",", tags));
 #else
-
-            ConsoleLog("Upload");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "Upload");
 #endif
         }
 
@@ -83,8 +82,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Images_UploadUrl(url, string.Join(",", tags));
 #else
-
-            ConsoleLog("Upload");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "Upload");
 #endif
         }
 
@@ -102,8 +101,8 @@ namespace GamePush
             else
                 GP_Images_Fetch(JsonUtility.ToJson(filter));
 #else
-
-            ConsoleLog("FETCH");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "FETCH");
 #endif
         }
 
@@ -120,8 +119,8 @@ namespace GamePush
             else
                 GP_Images_FetchMore(JsonUtility.ToJson(filter));
 #else
-
-            ConsoleLog("FETCH MORE");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "FETCH MORE");
 #endif
         }
 
@@ -138,8 +137,8 @@ namespace GamePush
             else
                 GP_Images_Resize(JsonUtility.ToJson(resizeData));
 #else
-
-            ConsoleLog("RESIZE");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Images: ", "RESIZE");
 #endif
         }
 

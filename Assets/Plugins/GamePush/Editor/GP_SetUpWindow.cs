@@ -9,11 +9,11 @@ using GamePush.Data;
 
 namespace GamePushEditor
 {
-    public class GP_Window : EditorWindow
+    public class GP_LoginWindow : EditorWindow
     {
         private const string SITE_URL = "https://gamepush.com";
 
-        private const string VERSION = GP_Data.SDK_VERSION;
+        private const string VERSION = "2.0.1";
 
         private static bool _isDataFetch;
 
@@ -21,7 +21,7 @@ namespace GamePushEditor
         private static string _token;
 
         private static bool _showPreloaderAd;
-        private static bool _gameReadyAuto;
+        private static int _gameReadyDelay;
 
         private static SavedProjectData _projectData;
 
@@ -37,7 +37,7 @@ namespace GamePushEditor
         [MenuItem("Tools/GamePush")]
         private static void ShowWindow()
         {
-            var window = GetWindow<GP_Window>();
+            var window = GetWindow<GP_LoginWindow>();
             window.minSize = new Vector2(300, 350);
             window.titleContent = new GUIContent("GamePush Settings");
             window.Show();
@@ -59,7 +59,7 @@ namespace GamePushEditor
 
             _token = _projectData.token;
             _showPreloaderAd = _projectData.showPreAd;
-            _gameReadyAuto = _projectData.gameReadyAuto;
+            _gameReadyDelay = _projectData.gameReadyDelay;
         }
 
 
@@ -82,7 +82,7 @@ namespace GamePushEditor
 
         private static void SaveProjectData()
         {
-            _projectData = new SavedProjectData(_id, _token, _showPreloaderAd, _gameReadyAuto);
+            _projectData = new SavedProjectData(_id, _token, _showPreloaderAd, _gameReadyDelay);
 
             var path = AssetDatabase.GetAssetPath(DataLinker.saveFile);
             var json = JsonUtility.ToJson(_projectData);
@@ -96,7 +96,7 @@ namespace GamePushEditor
             PlayerSettings.SetTemplateCustomValue("PROJECT_ID", _id.ToString());
             PlayerSettings.SetTemplateCustomValue("TOKEN", _token.ToString());
             PlayerSettings.SetTemplateCustomValue("SHOW_PRELOADER_AD", _showPreloaderAd.ToString());
-            PlayerSettings.SetTemplateCustomValue("GAMEREADY_AUTOCALL", _gameReadyAuto.ToString());
+            PlayerSettings.SetTemplateCustomValue("GAMEREADY_AUTOCALL_DELAY", _gameReadyDelay.ToString());
         }
 
         private static void SaveProjectDataToScript()
@@ -110,16 +110,12 @@ namespace GamePushEditor
             var path = AssetDatabase.GetAssetPath(DataLinker.projectData);
             var file = new System.IO.StreamWriter(path);
 
-            string gameReadyBool = _gameReadyAuto.ToString().ToLower();
-
             file.WriteLine("namespace GamePush.Data");
             file.WriteLine("{");
             file.WriteLine("    public static class ProjectData");
             file.WriteLine("    {");
-            file.WriteLine($"        public static string SDK_VERSION = \"{VERSION}\";");
             file.WriteLine($"        public static string ID = \"{_id}\";");
             file.WriteLine($"        public static string TOKEN = \"{_token}\";");
-            file.WriteLine($"        public static bool GAMEREADY_AUTOCALL = {gameReadyBool};");
             file.WriteLine("    }");
             file.WriteLine("}");
             file.Close();
@@ -137,7 +133,7 @@ namespace GamePushEditor
             file.WriteLine($"const dataProjectId = \'{_id}\';");
             file.WriteLine($"const dataPublicToken = \'{_token}\';");
             file.WriteLine($"const showPreloaderAd = \'{_showPreloaderAd}\';");
-            file.WriteLine($"const autocallGameReady = \'{_gameReadyAuto}\';");
+            file.WriteLine($"const autocallGameReady = \'{_gameReadyDelay}\';");
 
             file.Close();
 
@@ -146,7 +142,7 @@ namespace GamePushEditor
             filePre.WriteLine($"const dataProjectId = \'{_id}\';");
             filePre.WriteLine($"const dataPublicToken = \'{_token}\';");
             filePre.WriteLine($"const showPreloaderAd = \'{_showPreloaderAd}\';");
-            filePre.WriteLine($"const autocallGameReady = \'{_gameReadyAuto}\';");
+            filePre.WriteLine($"const autocallGameReady = \'{_gameReadyDelay}\';");
 
             filePre.Close();
 
@@ -198,7 +194,7 @@ namespace GamePushEditor
 
             _showPreloaderAd = EditorGUILayout.Toggle("Show Preloader Ad", _showPreloaderAd);
             GUILayout.Space(5);
-            _gameReadyAuto = EditorGUILayout.Toggle("GameReady Autocall", _gameReadyAuto);
+            _gameReadyDelay = EditorGUILayout.IntField("Game Ready Delay", _gameReadyDelay);
 
             GUILayout.Space(25);
 
@@ -230,7 +226,7 @@ namespace GamePushEditor
 
         private static void SaveConfig()
         {
-            //Console.Log("Saving data");
+            Console.Log("Saving data");
             if (_id == 0 || string.IsNullOrEmpty(_token))
             {
                 EditorUtility.DisplayDialog("GamePush Error", "Please fill all the fields.", "OK");
@@ -244,7 +240,7 @@ namespace GamePushEditor
             SetProjectDataToWebTemplate();
             SaveProjectDataToScript();
 
-            GP_Logger.SystemLog("Data saved");
+            Console.Log("Data saved");
         }
 
         private static bool ValidateToken(string input)

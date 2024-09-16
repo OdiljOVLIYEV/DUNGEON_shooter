@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
 
+using GP_Utilities.Console;
+
 namespace GamePush
 {
-    public class GP_GamesCollections : GP_Module
+    public class GP_GamesCollections : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.GamesCollections);
-
         public static event UnityAction OnGamesCollectionsOpen;
         public static event UnityAction OnGamesCollectionsClose;
 
@@ -34,8 +34,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_GamesCollections_Open(idOrTag);
 #else
-
-            ConsoleLog("OPEN: " + idOrTag);
+            if (GP_ConsoleController.Instance.GamesCollectionsConsoleLogs)
+                Console.Log("GAMES COLLECTIONS: ", "OPEN: " + idOrTag);
 #endif
         }
 
@@ -49,8 +49,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_GamesCollections_Fetch(idOrTag);
 #else
-
-            ConsoleLog("FETCH: " + idOrTag);
+            if (GP_ConsoleController.Instance.GamesCollectionsConsoleLogs)
+                Console.Log("GAMES COLLECTIONS: ", "FETCH: " + idOrTag);
 #endif
         }
 

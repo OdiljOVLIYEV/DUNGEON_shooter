@@ -5,13 +5,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Players : GP_Module
+    public class GP_Players : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Players);
-
         private static event Action<GP_Data> _onFetchSuccess;
         private static event Action _onFetchError;
 
@@ -29,8 +28,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Players_Fetch(playerId.ToString());
 #else
-
-            ConsoleLog("FETCH");
+            if (GP_ConsoleController.Instance.PlayersConsoleLogs)
+                Console.Log("PLAYERS: ", "FETCH");
 #endif
         }
 
@@ -51,8 +50,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Players_Fetch(JsonUtility.ToJson(ids));
 #else
-
-            ConsoleLog("FETCH");
+            if (GP_ConsoleController.Instance.PlayersConsoleLogs)
+                Console.Log("PLAYERS: ", "FETCH");
 #endif
         }
 
@@ -72,8 +71,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Players_Fetch(JsonUtility.ToJson(ids));
 #else
-
-            ConsoleLog("FETCH");
+            if (GP_ConsoleController.Instance.PlayersConsoleLogs)
+                Console.Log("PLAYERS: ", "FETCH");
 #endif
         }
 

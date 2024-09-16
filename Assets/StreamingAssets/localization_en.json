@@ -26,7 +26,8 @@
         { "key": "rifleammo", "value": "MACHINE GUN AMMO" },
         { "key": "plasmaammo", "value": "PLASMA AMMO" },
         { "key": "RLammo", "value": "ROCKET LAUNCHER AMMO" },
-        { "key": "keyE", "value": "E PRESS KEY" }
+        { "key": "keyE", "value": "E PRESS KEY" },
+        { "key": "buy", "value": "BUY" }
         
     ]
 }

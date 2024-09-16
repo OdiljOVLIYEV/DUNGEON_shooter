@@ -1,14 +1,15 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
+
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Schedulers : GP_Module
+    public class GP_Schedulers : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Schedulers);
-
         public static event UnityAction<SchedulerInfo> OnSchedulerRegister;
         public static event UnityAction<string> OnSchedulerRegisterError;
 
@@ -54,8 +55,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Schedulers_Register(idOrTag);
 #else
-
-            ConsoleLog("Register");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers:", "Register");
 #endif
         }
 
@@ -66,8 +67,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Schedulers_ClaimDay(idOrTag, day);
 #else
-
-            ConsoleLog("ClaimDay");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers:", "ClaimDay");
 #endif
         }
 
@@ -78,8 +79,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Schedulers_ClaimDayAdditional(idOrTag, day, triggerIdOrTag);
 #else
-
-            ConsoleLog("ClaimDayAdditional");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers:", "ClaimDayAdditional");
 #endif
         }
 
@@ -90,8 +91,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Schedulers_ClaimAllDay(idOrTag, day);
 #else
-
-            ConsoleLog("ClaimDay");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers:", "ClaimDay");
 #endif
         }
 
@@ -102,8 +103,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Schedulers_ClaimAllDays(idOrTag);
 #else
-
-            ConsoleLog("ClaimDay");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers:", "ClaimDay");
 #endif
         }
 
@@ -115,8 +116,8 @@ namespace GamePush
             string data = GP_Schedulers_List();
             return UtilityJSON.GetArray<SchedulerData>(data);
 #else
-
-            Console.Log("Schedulers: ", "List");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers: ", "List");
 
             return null;
 #endif
@@ -130,8 +131,8 @@ namespace GamePush
             string data = GP_Schedulers_ActiveList();
             return UtilityJSON.GetArray<PlayerScheduler>(data);
 #else
-
-            Console.Log("Schedulers: ", "List");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers: ", "List");
 
             return null;
 #endif
@@ -145,8 +146,8 @@ namespace GamePush
             string data = GP_Schedulers_GetScheduler(idOrTag);
             return UtilityJSON.Get<SchedulerInfo>(data);
 #else
-
-            Console.Log("Schedulers: ", "Get Scheduler");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers: ", "Get Scheduler");
 
             return null;
 #endif
@@ -160,8 +161,8 @@ namespace GamePush
             string data = GP_Schedulers_GetSchedulerDay(idOrTag, day);
             return UtilityJSON.Get<SchedulerDayInfo>(data);
 #else
-
-            Console.Log("Schedulers: ", "Get Scheduler Day");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers: ", "Get Scheduler Day");
 
             return null;
 #endif
@@ -175,8 +176,8 @@ namespace GamePush
             string data = GP_Schedulers_GetSchedulerCurrentDay(idOrTag);
             return UtilityJSON.Get<SchedulerDayInfo>(data);
 #else
-
-            Console.Log("Schedulers: ", "Get Scheduler");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("Schedulers: ", "Get Scheduler");
 
             return null;
 #endif
@@ -189,8 +190,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Schedulers_IsRegistered(idOrTag) == "true";
 #else
-
-            Console.Log("REWARDS: ", "Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -204,8 +205,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Schedulers_IsTodayRewardClaimed(idOrTag) == "true";
 #else
-
-            Console.Log("REWARDS: ", "Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -219,8 +220,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Schedulers_CanClaimDay(idOrTag, day) == "true";
 #else
-
-            Console.Log("REWARDS: ", "Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -234,8 +235,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Schedulers_CanClaimDayAdditional(idOrTag, day, triggerIdOrTag) == "true";
 #else
-
-            Console.Log("REWARDS: ", "Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -248,8 +249,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Schedulers_CanClaimAllDay(idOrTag, day) == "true";
 #else
-
-            Console.Log("REWARDS: ", "Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -257,11 +258,7 @@ namespace GamePush
 
     }
 
-    public enum SchedulerType
-    {
-        ACTIVE_DAYS,
-        ACTIVE_DAYS_CONSECUTIVE
-    }
+    public enum SchedulerType { ACTIVE_DAYS, ACTIVE_DAYS_CONSECUTIVE}
 
     [System.Serializable]
     public class SchedulerData

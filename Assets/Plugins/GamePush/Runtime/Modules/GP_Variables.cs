@@ -5,13 +5,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Variables : GP_Module
+    public class GP_Variables : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Variables);
-
         public static event UnityAction<List<VariablesData>> OnFetchSuccess;
         public static event UnityAction OnFetchError;
 
@@ -34,8 +33,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Variables_Fetch();
 #else
-
-            ConsoleLog("FETCH");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("VARIABLES: ", "FETCH");
 #endif
         }
 
@@ -46,8 +45,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_Has(key) == "true";
 #else
-
-            ConsoleLog("HAS: " + key + " -> TRUE");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: HAS: ", key + " -> TRUE");
             return true;
 #endif
         }
@@ -59,8 +58,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetNumberInt(key);
 #else
-
-            ConsoleLog("GET INT: " + key + " -> 0");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET INT: ", key + " -> 0");
             return 0;
 #endif
         }
@@ -72,8 +71,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetFloat(key);
 #else
-
-            ConsoleLog("GET FLOAT: " + key + " -> 0f");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET FLOAT: ", key + " -> 0f");
             return 0f;
 #endif
         }
@@ -85,8 +84,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetString(key);
 #else
-
-            ConsoleLog("GET STRING: " + key + " -> NULL");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET STRING: ", key + " -> NULL");
             return null;
 #endif
         }
@@ -98,8 +97,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetBool(key) == "true";
 #else
-
-            ConsoleLog("GET BOOL: " + key + " -> TRUE");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET BOOL: ", key + " -> TRUE");
             return true;
 #endif
         }
@@ -112,8 +111,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetImage(key);
 #else
-
-            ConsoleLog("GET IMAGE: " + key + " -> URL");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET IMAGE: ", key + " -> URL");
             return "URL";
 #endif
         }
@@ -125,8 +124,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_GetFile(key);
 #else
-
-            ConsoleLog("GET FILE: " + key + " -> URL");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("VARIABLES: GET FILE: ", key + " -> URL");
             return "URL";
 #endif
         }
@@ -138,8 +137,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Variables_IsPlatformVariablesAvailable() == "true";
 #else
-
-            Console.Log("Platform Variables: " + "Is Available");
+            if (GP_ConsoleController.Instance.VariablesConsoleLogs)
+                Console.Log("Platform Variables: ", "Is Available");
             return true;
 #endif
         }
@@ -157,8 +156,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Variables_FetchPlatformVariables(options);
 #else
-
-            Console.Log("Platform Variables: " + "Fetch");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Platform Variables: ", "Fetch" );
 #endif
         }
 
@@ -170,8 +169,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Variables_FetchPlatformVariables();
 #else
-
-            Console.Log("Platform Variables: " + "FETCH");
+            if (GP_ConsoleController.Instance.SystemConsoleLogs)
+                Console.Log("Platform Variables: ", "FETCH");
 #endif
         }
 
@@ -179,7 +178,7 @@ namespace GamePush
         {
             string options = "";
 
-            foreach (string key in dict.Keys)
+            foreach(string key in dict.Keys)
             {
                 string value = dict[key];
 
@@ -215,7 +214,7 @@ namespace GamePush
             return clientParams;
         }
 
-
+        
 
         private void CallVariablesFetchSuccess(string data)
         {

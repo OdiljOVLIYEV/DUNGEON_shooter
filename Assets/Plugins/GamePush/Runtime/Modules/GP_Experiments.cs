@@ -4,24 +4,23 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using GamePush.Utilities;
-using GamePush.ConsoleController;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Experiments : GP_Module
+    public class GP_Experiments : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Experiments);
-
         [DllImport("__Internal")]
         private static extern string GP_Experiments_Map();
         public static string Map()
         {
 #if !UNITY_EDITOR && UNITY_WEBGL
             string map = GP_Experiments_Map();
+            Debug.Log(map);
             return map;
 #else
-
-            ConsoleLog("MAP");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("EXPERIMENTS: ", "MAP");
 
             return null;
 #endif
@@ -34,8 +33,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Experiments_Has(tag, cohort) == "true";
 #else
-
-            ConsoleLog(tag + " | " + cohort);
+            if (GP_ConsoleController.Instance.AdsConsoleLogs)
+                Console.Log("EXPERIMENTS: ", tag + " | " + cohort);
             return false;
 #endif
         }

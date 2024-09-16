@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using System;
+
+using GamePush;
+using GamePush.Utilities;
 
 namespace GamePush.Utilities
 {
@@ -138,22 +140,6 @@ namespace GamePush.Utilities
         }
     }
 
-    public class UtilityType
-    {
-        public static T ConvertValue<T>(object value)
-        {
-            try
-            {
-                return (T)Convert.ChangeType(value, typeof(T));
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
-    }
-    
-
     [System.Serializable]
     public class PlayersIdList
     {
@@ -164,5 +150,28 @@ namespace GamePush.Utilities
     public class PlayersIdArray
     {
         public int[] idsArray;
+    }
+}
+
+namespace GamePush
+{
+
+    public class Console
+    {
+        public static void Log(string message)
+        {
+            if(GP_Settings.instance.viewLogs)
+            {
+                Debug.Log("<color=#04bc04> Game Push: </color> " + message);
+            }
+        }
+
+        public static void Log(string message, string colorMessage)
+        {
+            if(GP_Settings.instance.viewLogs)
+            {
+                Debug.Log("<color=#04bc04> Game Push: </color> " + message + $"<color=#04bc04> {colorMessage} </color>");
+            }
+        }
     }
 }

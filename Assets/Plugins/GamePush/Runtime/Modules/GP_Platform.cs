@@ -1,12 +1,12 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
+
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Platform : GP_Module
+    public class GP_Platform : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Platform);
-
         private static string YANDEX = "YANDEX";
         private static string VK = "VK";
         private static string CRAZY_GAMES = "CRAZY_GAMES";
@@ -32,23 +32,9 @@ namespace GamePush
             return ConvertToEnum(GP_Platform_Type());
 #else
             Platform platform = GP_Settings.instance.GetFromPlatformSettings().PlatformToEmulate;
-
-            ConsoleLog("TYPE: " + platform.ToString());
+            if (GP_ConsoleController.Instance.PlatformConsoleLogs)
+                Console.Log("PLATFORM: TYPE: ", platform.ToString());
             return platform;
-#endif
-        }
-
-        [DllImport("__Internal")]
-        private static extern string GP_Platform_Tag();
-        public static string Tag()
-        {
-            if(Type() != Platform.CUSTOM)
-                return "";
-#if !UNITY_EDITOR && UNITY_WEBGL
-            return GP_Platform_Tag();
-#else
-
-            return "Editor";
 #endif
         }
 
@@ -58,8 +44,8 @@ namespace GamePush
             return GP_Platform_Type();
 #else
             Platform platform = GP_Settings.instance.GetFromPlatformSettings().PlatformToEmulate;
-
-            ConsoleLog("TYPE: " + platform.ToString());
+            if (GP_ConsoleController.Instance.PlatformConsoleLogs)
+                Console.Log("PLATFORM: TYPE: ", platform.ToString());
             return platform.ToString();
 #endif
         }
@@ -73,26 +59,12 @@ namespace GamePush
             return GP_Platform_HasIntegratedAuth() == "true";
 #else
             bool auth = GP_Settings.instance.GetFromPlatformSettings().HasIntegratedAuth;
-
-            ConsoleLog("HAS INTEGRATED AUTH: " + auth.ToString());
+            if (GP_ConsoleController.Instance.PlatformConsoleLogs)
+                Console.Log("PLATFORM: HAS INTEGRATED AUTH: ", auth.ToString());
             return auth;
 #endif
         }
-
-        [DllImport("__Internal")]
-        private static extern string GP_Platform_IsLogoutAvailable();
-        public static bool IsLogoutAvailable()
-        {
-#if !UNITY_EDITOR && UNITY_WEBGL
-            return GP_Platform_IsLogoutAvailable() == "true";
-#else
-            bool value = GP_Settings.instance.GetFromPlatformSettings().IsLogoutAvailable;
-
-            ConsoleLog("Is Logout Available: " + value.ToString());
-            return value;
-#endif
-        }
-
+        
 
         [DllImport("__Internal")]
         private static extern string GP_Platform_IsExternalLinksAllowed();
@@ -102,37 +74,9 @@ namespace GamePush
             return GP_Platform_IsExternalLinksAllowed() == "true";
 #else
             bool linkAllow = GP_Settings.instance.GetFromPlatformSettings().IsExternalLinksAllowed;
-
-            ConsoleLog("IS EXTERNAL LINKS ALLOWED: " + linkAllow.ToString());
+            if (GP_ConsoleController.Instance.PlatformConsoleLogs)
+                Console.Log("PLATFORM: IS EXTERNAL LINKS ALLOWED: ", linkAllow.ToString());
             return linkAllow;
-#endif
-        }
-
-        [DllImport("__Internal")]
-        private static extern string GP_Platform_IsSecretCodeAuthAvailable();
-        public static bool IsSecretCodeAuthAvailable()
-        {
-#if !UNITY_EDITOR && UNITY_WEBGL
-            return GP_Platform_IsSecretCodeAuthAvailable() == "true";
-#else
-            bool value = GP_Settings.instance.GetFromPlatformSettings().IsSecretCodeAuthAvailable;
-
-            ConsoleLog("Is SecretCode Auth Available: " + value.ToString());
-            return value;
-#endif
-        }
-
-        [DllImport("__Internal")]
-        private static extern string GP_Platform_IsSupportsCloudSaves();
-        public static bool IsSupportsCloudSaves()
-        {
-#if !UNITY_EDITOR && UNITY_WEBGL
-            return GP_Platform_IsSupportsCloudSaves() == "true";
-#else
-            bool value = GP_Settings.instance.GetFromPlatformSettings().IsSupportsCloudSaves;
-
-            ConsoleLog("Is Supports Cloud Saves: " + value.ToString());
-            return value;
 #endif
         }
 

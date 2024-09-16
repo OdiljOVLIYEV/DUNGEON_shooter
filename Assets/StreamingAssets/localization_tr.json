@@ -26,7 +26,8 @@
         { "key": "rifleammo", "value": "MAKİNELİ TÜFEK MERMİSİ" },
         { "key": "plasmaammo", "value": "PLAZMA MERMİSİ" },
         { "key": "RLammo", "value": "ROKETATAR MERMİSİ" },
-        { "key": "keyE", "value": "E TUŞUNA BASIN" }
+        { "key": "keyE", "value": "E TUŞUNA BASIN" },
+        { "key": "buy", "value": "SATIN ALMAK" }
 
     ]
 }

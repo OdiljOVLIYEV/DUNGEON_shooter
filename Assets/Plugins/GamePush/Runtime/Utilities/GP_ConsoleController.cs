@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GamePush.ConsoleController
+namespace GP_Utilities.Console
 {
     public class GP_ConsoleController : MonoBehaviour
     {
@@ -12,11 +12,9 @@ namespace GamePush.ConsoleController
         [SerializeField] public bool AnalyticsConsoleLogs = true;
         [SerializeField] public bool AppConsoleLogs = true;
         [SerializeField] public bool AvatarGeneratorConsoleLogs = true;
-        [SerializeField] public bool ChannelsConsoleLogs = true;
+        [SerializeField] public bool ChannelConsoleLogs = true;
         [SerializeField] public bool DeviceConsoleLogs = true;
         [SerializeField] public bool DocumentsConsoleLogs = true;
-        [SerializeField] public bool EventsConsoleLogs = true;
-        [SerializeField] public bool ExperimentsConsoleLogs = true;
         [SerializeField] public bool FilesConsoleLogs = true;
         [SerializeField] public bool FullscreenConsoleLogs = true;
         [SerializeField] public bool GameConsoleLogs = true;
@@ -28,17 +26,11 @@ namespace GamePush.ConsoleController
         [SerializeField] public bool PlatformConsoleLogs = true;
         [SerializeField] public bool PlayerConsoleLogs = true;
         [SerializeField] public bool PlayersConsoleLogs = true;
-        [SerializeField] public bool RewardsConsoleLogs = true;
-        [SerializeField] public bool SchedulersConsoleLogs = true;
-        [SerializeField] public bool SegmentsConsoleLogs = true;
         [SerializeField] public bool ServerConsoleLogs = true;
         [SerializeField] public bool SocialsConsoleLogs = true;
         [SerializeField] public bool SystemConsoleLogs = true;
         [SerializeField] public bool VariablesConsoleLogs = true;
 
-        [SerializeField] public bool TriggersConsoleLogs = true;
-        [SerializeField] public bool UniquesConsoleLogs = true;
-        [SerializeField] public bool StorageConsoleLogs = true;
 
         public void SwitchAll(bool value)
         {
@@ -47,11 +39,9 @@ namespace GamePush.ConsoleController
             AnalyticsConsoleLogs = value;
             AppConsoleLogs = value;
             AvatarGeneratorConsoleLogs = value;
-            ChannelsConsoleLogs = value;
+            ChannelConsoleLogs = value;
             DeviceConsoleLogs = value;
             DocumentsConsoleLogs = value;
-            EventsConsoleLogs = value;
-            ExperimentsConsoleLogs = value;
             FilesConsoleLogs = value;
             FullscreenConsoleLogs = value;
             GameConsoleLogs = value;
@@ -63,61 +53,10 @@ namespace GamePush.ConsoleController
             PlatformConsoleLogs = value;
             PlayerConsoleLogs = value;
             PlayersConsoleLogs = value;
-            RewardsConsoleLogs = value;
-            SchedulersConsoleLogs = value;
-            SegmentsConsoleLogs = value;
-
             ServerConsoleLogs = value;
             SocialsConsoleLogs = value;
             SystemConsoleLogs = value;
             VariablesConsoleLogs = value;
-
-            TriggersConsoleLogs = value;
-            UniquesConsoleLogs = value;
-            StorageConsoleLogs = value;
-        }
-
-        public bool IsModuleLogs(ModuleName name)
-        {
-            if (!GP_Settings.instance.viewLogs)
-                return false;
-
-            switch (name)
-            {
-                case ModuleName.Achievements:
-                    return AchievementsConsoleLogs;
-                case ModuleName.Ads:
-                    return AdsConsoleLogs;
-                case ModuleName.Analytics:
-                    return AnalyticsConsoleLogs;
-                case ModuleName.App:
-                    return AppConsoleLogs;
-                case ModuleName.AvatarGenerator:
-                    return AvatarGeneratorConsoleLogs;
-                case ModuleName.Channels:
-                    return ChannelsConsoleLogs;
-                case ModuleName.Device:
-                    return DeviceConsoleLogs;
-                case ModuleName.Documents:
-                    return DocumentsConsoleLogs;
-                case ModuleName.Events:
-                    return EventsConsoleLogs;
-                case ModuleName.Experiments:
-                    return ExperimentsConsoleLogs;
-                case ModuleName.Files:
-                    return FilesConsoleLogs;
-                case ModuleName.Fullscreen:
-                    return FullscreenConsoleLogs;
-                case ModuleName.Game:
-                    return GameConsoleLogs;
-                case ModuleName.Triggers:
-                    return TriggersConsoleLogs;
-                case ModuleName.Uniques:
-                    return UniquesConsoleLogs;
-                case ModuleName.Storage:
-                    return StorageConsoleLogs;
-            }
-            return false;
         }
     }
 

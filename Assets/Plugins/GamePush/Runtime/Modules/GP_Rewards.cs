@@ -2,14 +2,14 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
+
 using GamePush.Utilities;
+using GP_Utilities.Console;
 
 namespace GamePush
 {
-    public class GP_Rewards : GP_Module
+    public class GP_Rewards : MonoBehaviour
     {
-        private static void ConsoleLog(string log) => GP_Logger.ModuleLog(log, ModuleName.Rewards);
-
         public static event UnityAction<AllRewardData> OnRewardsGive;
         public static event UnityAction<string> OnRewardsGiveError;
         public static event UnityAction<AllRewardData> OnRewardsAccept;
@@ -28,8 +28,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Rewards_Give(idOrTag, lazy);
 #else
-
-            ConsoleLog("Give");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Give");
 #endif
         }
 
@@ -40,8 +40,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             GP_Rewards_Accept(idOrTag);
 #else
-
-            ConsoleLog("Accept");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Accept");
 #endif
         }
 
@@ -53,8 +53,8 @@ namespace GamePush
             string data = GP_Rewards_List();
             return UtilityJSON.GetArray<RewardData>(data);
 #else
-
-            ConsoleLog("LIST");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "LIST");
 
             return null;
 #endif
@@ -68,8 +68,8 @@ namespace GamePush
             string data = GP_Rewards_GivenList();
             return UtilityJSON.GetArray<PlayerReward>(data);
 #else
-
-            ConsoleLog("Given List");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Given List");
 
             return null;
 #endif
@@ -83,8 +83,8 @@ namespace GamePush
             string data = GP_Rewards_GetReward(idOrTag);
             return UtilityJSON.Get<AllRewardData>(data);
 #else
-
-            ConsoleLog("Get Reward");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Get Reward");
 
             return null;
 #endif
@@ -97,8 +97,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Rewards_Has(idOrTag) == "true";
 #else
-
-            ConsoleLog("Has");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has");
 
             return true;
 #endif
@@ -111,8 +111,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Rewards_HasAccepted(idOrTag) == "true";
 #else
-
-            ConsoleLog("Has Accepted");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has Accepted");
 
             return true;
 #endif
@@ -125,8 +125,8 @@ namespace GamePush
 #if !UNITY_EDITOR && UNITY_WEBGL
             return GP_Rewards_HasUnaccepted(idOrTag) == "true";
 #else
-
-            ConsoleLog("Has Unaccepted");
+            if (GP_ConsoleController.Instance.ChannelConsoleLogs)
+                Console.Log("REWARDS: ", "Has Unaccepted");
 
             return true;
 #endif
